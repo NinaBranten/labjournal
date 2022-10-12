@@ -1,6 +1,6 @@
 ---
 title: "Lab journal"
-author: "by: Your Name"
+author: "by: Nina Branten"
 bibliography: references.bib
 
  
