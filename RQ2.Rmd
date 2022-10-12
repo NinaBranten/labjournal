@@ -1,0 +1,38 @@
+
+
+# Introduction:
+As in all other spheres of our society, racism and ethnic discrimination are present within academia (Bertolero et al., 2020). This racism presents itself in the hiring and promotion of academics (Abelson et al., 2018), the funding of awards and grants and number of publications and citations (Ginther et al., 2018). 
+
+The exclusion of ethnic minority groups within certain social networks, can be explained by the homophily theory (Lazersfeld & Merton, 1954): individuals tend to associate with others that have similar attributes or values (Horta, Feng & Santos, 2022). Race and ethnicity play a major role in the division of social networks within ethnically diverse societies (McPherson, Smith-Lovin & Cook, 2001). Professional environments that consist mainly of white people, are therefore likely to retain their homogenous characteristics.
+
+Many studies have looked at the effect of gender in the formation of co-authorship networks (Bertolero et al., 2020). However, the role ethnicity plays within co-authorship networks remains understudied. A study on the ethnic imbalance in neuroscience reference lists found many similarities with research on gender inequality within academia (Bertolero et al., 2020). Just like female scholars whose under-citation was mostly driven by men (McLaughlin, Lange & Brus, 2013; ), ethnic minority scholars were cited less and this was largely caused by the ethnic majority. However, studies on the role of ethnicity within co-authorship in the social sciences are scarce (Horta, Feng & Santos, 2022). 
+
+Furthermore, it is not yet known how faculties differ in the ethnic diversity of their co-authorship networks. In this paper we will compare the co-authorship networks of two different faculties of the Radboud University: the faculty of Social Sciences and the faculty of Law. As researchers from the former faculty are mainly focused on issues like social inequality, they might be more open for interethnic or international collaborations than their counterparts from the faculty of Law (SOURCE) (this part I still need to explain into more detail). 
+
+Therefore, I formulate the following research question: *To what extent do co-authorships within the faculty of Social Sciences and the faculty of Law differ in their level of ethnic diversity?*
+
+
+
+## Data
+For this research I will use the list of researchers on the website of each faculty. Furthermore, I have to use google scholar to look into the co-authorships. Then I might have to look up scholars’ nationality by searching for their resume.
+
+
+
+### References
+Abelson, J. S., Wong, N. Z., Symer, M., Eckenrode, G., Watkins, A. & Yeo, H. L. (2018). Racial and ethnic disparities in promotion and retention of academic surgeons. Am J Surg, 216(4), 678–682.
+
+Bertolero, M. A., Dworkin, J. D., David, S. U., Lloreda, C. L., Srivastava, P., Stiso, J. … Basseltt, D. S. (2020). Racial and ethnic imbalance in neuroscience reference lists and intersections with gender.
+
+Ginther, D. K., Basner, J., Jensen, U., Schnell, J., Kington, R. & Schaffer, W. T. (2018). Publications as predictors of racial and ethnic differences in NIH research awards. PLoS One, 13(11), e0205929.
+
+Horta, H. Feng, S. & Santos, J. M. (2022). Homophily in higher education research: a perspective based on co-authorships. Scientometrics, 127, 523-543. https://doi.org/10.1007/s11192-021-04227-z
+
+Lazarsfeld, P. F., & Merton, R. K. (1954). Friendship as a social process: A substantive and methodological analysis. In M. Berger, T. Abel, & C. H. Page (Eds.), Freedom and Control in Modern Society (pp. 18–66). Van Nostrand.
+
+Maliniak, D. Powers, R. & Walter, B. F. (2013). The Gender Citation Gap in International Relations. International Organization, 67(4), 889–922. DOI: 10.1017/S0020818313000209.
+
+McLaughlin, M. S., Lange, S. & Brus, H. (2013). Gendered Citation Patterns in International Relations Journals.  International Studies Perspectives, 14(4), 485–492. DOI: 10.1111/insp.12026.
+
+McPherson, M. Smith-Lovin, L. & Cook, J. M. (2001). Birds of a feather: homophily in social networks. Annual Review Sociology, 27, 415-444. DOI: 0360-0572/01/0811-0415$14.00
+
+

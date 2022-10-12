@@ -1,0 +1,49 @@
+---
+title: "Lab journal"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+
+
+----
+
+
+# research questions  
+
+Question 1: To what extent do the co-authorships  networks of the sociology department of the Radboud University and the sociology department of Utrecht University differ in their level of ethnic diversity?
+
+Question 2: To what extent does the ethnic diversity of co-authorship networks of younger researchers differ from the ethnic diversity of co-authorship networks of older researchers?
+
+Question 3: To what extent does the ethnic diversity of co-authorship networks of researchers with a migration background differ from the ethnic diversity of co-authorship networks of researchers without a migration background?
+
+Question 4: To what extent are researchers influenced by each other in the formation of co-authorships with researchers from a different ethnic background?

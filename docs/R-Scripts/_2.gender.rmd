@@ -1,0 +1,92 @@
+# getting started
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+load("./data/names_df_v20221005.RData")
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(xml2)
+require(rvest)
+require(devtools)
+require(scholar)
+require(stringi)
+
+```
+
+
+
+## adding gender to dataset
+
+
+
+
+### gender to cs_df
+```{r}
+names_df %>% mutate(firstname=first_name) -> names_df
+names_df$gender <- NA
+
+# make links to scrape
+names_df$name_url <- paste0("https://www.meertens.knaw.nl/nvb/naam/is/", names_df[, c("firstname")])
+
+name_list <- list()
+table_list <- list()
+
+for (i in 1:nrow(names_df)) {
+    print(i)
+    if (!(is.na(names_df$gender[i]))) next
+    name_list[[i]] <- read_html(names_df$name_url[i])
+    # extract name frequency table and gender info
+    if (length(name_list[[i]] %>% html_table())>0) {
+      
+      table_list[[i]] <- name_list[[i]] %>% html_table()
+      table_list[[i]][[1]][table_list[[i]][[1]]=="--"] <- "0"
+      if (as.numeric(table_list[[i]][[1]]$X3[2]) > as.numeric(table_list[[i]][[1]]$X3[6])) {
+        names_df$gender[i] <- "male" } else {
+          names_df$gender[i] <- "female"
+        }
+    }
+    save(names_df, file="./data/names_df_temp.RData")
+}
+
+
+```
+
+```{r}
+#devtools::install_github("kalimu/genderizeR")
+require(genderizeR)
+names_df$gender2 <- NA
+
+for (i in 1:nrow(names_df)) {
+    print(i)
+    tryCatch({
+      if (!(is.na(names_df$gender2[i]))) next
+      gender <- genderizeAPI(names_df$first_name[i])
+      gender <- gender[[1]]
+      names_df$gender2[i] <- gender$gender[which.max(gender$probability)]
+    }, 
+    warning = function(w) {
+        cat("WARNING:", conditionMessage(w), "\n") #WARNING message
+    },
+    error=function(e){
+      cat("Error:", conditionMessage(e), "\n") #ERROR message
+    })  
+    save(names_df, file="./data/names_df_temp.RData")
+}
+
+
+
+
+```
+
+
+```{r}
+save(names_df, file="./data/names_df_v20221005.RData")
+```
+

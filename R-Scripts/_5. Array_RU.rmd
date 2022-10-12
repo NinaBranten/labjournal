@@ -1,0 +1,235 @@
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(RSiena)
+
+```
+
+# load data
+
+```{r}
+getwd()
+load("./data/names_df2_v20220106.RData")
+load("./data/names_df_publications_v20221006.RData")
+div <- read.csv2("./data/div_RU.csv")
+
+```
+
+# sample selection
+
+```{r}
+
+#wrong gs_id (just by eye-balling)
+deselect <- c(24,25,34,35)
+
+names_df %>% 
+  filter(affiliation=="Radboud University") %>%
+  filter(field=="sociology") %>% 
+  filter(!(id %in% deselect)) -> soc_df
+
+names_df_publications %>% 
+  filter(gs_id %in% soc_df$gs_id) -> socpub_df
+  
+soc_df %>% 
+  select(c("gs_id", "lastname")) %>%
+  right_join(socpub_df) -> socpub_df
+
+```
+
+
+
+# clean names a bit
+
+```{r}
+soc_df$lastname_pubs <- as.character(str_split(soc_df$lastname, pattern=",", n = 2, simplify = TRUE)[,1]) 
+
+socpub_df$author <- tolower(socpub_df$author)
+
+```
+
+
+# toevoegen etniciteit
+
+```{r}
+soc_df <- cbind(soc_df, div) 
+```
+
+```{r}
+save(soc_df, file="./data/descriptives/RU_df.RData")
+save(socpub_df, file="./data/descriptives/RUpub_df.RData")
+
+```
+
+# network based on publications
+
+NATURALLY, THIS IS JUST AN EXAMPLE. fOR rSIENA, YOU NEED AT LEAST 3 NETWORKS. tHUS YOU HAVE TO TWEAK THE PERIOD AS YOU DEEM FIT. 
+
+```{r}
+network2016_2017 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+network2018_2019 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+network2020_2022 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2016 & year<=2017)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2016_2017[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2018 & year<=2019)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2018_2019[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2020 & year<=2022)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2020_2022[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+
+alle adjacency matrix in een array stoppen. 
+```{r}
+net_soc_array <- array(data = c(network2016_2017, network2018_2019, network2020_2022), dim=c(dim(network2020_2022),3))
+
+```
+
+
+```{r}
+save(network2020_2022, file="./data/descriptives/RU_network2020_2022.RData")
+save(network2018_2019, file="./data/descriptives/RU_network2018_2019.RData")
+save(network2016_2017, file="./data/descriptives/RU_network2016_2017.RData")
+save(net_soc_array, file="./data/descriptives/RU_net_array.RData")
+```
+
+
+
+#RSiena
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+
+#load dataobjects
+load("soc_net_array.RData")
+#load("soc_collabs.RData")
+load("soc_staff_cit.RData")
+load("soc_df_s5.RData")
+
+library(RSiena)
+library(tidyverse)
+```
+
+
+```{r}
+#dependent
+net <- sienaDependent(net_array)
+
+### Step 1: define data
+#gender
+gender <- as.numeric(soc_df$gender=="female")
+gender <- coCovar(gender)
+#ncollabs
+ncollabs <- (soc_df$ncollabs)
+ncollabs <- coCovar(ncollabs)
+
+#pubs: time-varying
+pubsw1 <- pubsw2 <- pubsw3 <- pubsw4 <- NA
+for (i in 1:length(soc_df$gs_id)) {
+  pubsw1[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2010 & soc_staff_cit$year<=2012,])
+  pubsw2[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2013 & soc_staff_cit$year<=2015,])
+  pubsw3[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2016 & soc_staff_cit$year<=2018,])
+  pubsw4[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2019 & soc_staff_cit$year<=2021,])
+}
+
+pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3, pubsw4))
+pubs <- varCovar(pub_df)
+
+#year first pub
+soc_staff_cit %>% group_by(gs_id) %>%
+  mutate(pub_first = min(year)) %>% 
+  select(c("gs_id", "pub_first")) %>%
+  distinct(gs_id, pub_first, .keep_all = TRUE) -> firstpub_df
+
+soc_df <- left_join(soc_df, firstpub_df)
+
+#if no publication yet, set pub_first op 2023
+soc_df %>% mutate(pub_first = replace_na(pub_first, 2023)) -> soc_df
+
+pub_first <-  coCovar(soc_df$pub_first)
+
+mydata <- sienaDataCreate(net, gender, ncollabs, pubs, pub_first)
+```
+
+
+```{r}
+### Step 2: create effects structure
+myeff <- getEffects(mydata)
+#effectsDocumentation(myeff)
+### Step 3: get initial description
+print01Report(mydata, modelname = "soc_init")
+
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus) #some publish a lot, some not. (interpretation: talent/luck? )
+myeff <- includeEffects(myeff, transTriads)
+myeff <- includeEffects(myeff, sameX, interaction1 = "gender")
+#myeff <- includeEffects(myeff, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year? 
+myeff <- includeEffects(myeff, absDiffX, interaction1 = "pub_first") #senior publishes with junior
+
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "soc_init")
+(ans <- siena07(myAlgorithm, data = mydata, effects = myeff))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+
+
+
