@@ -16,6 +16,10 @@ navbar:
         href: lab1.html
       - text: "Week 2"
         href: week-2-plotting.html
+      - text: "Week 3/4 - RU"
+        href: RU_lab.html
+      - text: "Week 4 - RSiena tutorial"
+        href: RSiena_tutorial.html
     - text: "Research Question"
       menu:
       - text: "first attempt"

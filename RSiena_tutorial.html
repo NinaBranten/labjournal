@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Nina Branten" />
+
+
+<title>Tutorial</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_report.html">Intro</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Tutorial</h1>
+<h4 class="author">Nina Branten</h4>
+
+</div>
+
+
+<pre class="r"><code>library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = &quot;#&gt;&quot;, cache=TRUE, class.source=c(&quot;test&quot;), class.output=c(&quot;test2&quot;))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize &lt;- function(x, color) {sprintf(&quot;&lt;span style=&#39;color: %s;&#39;&gt;%s&lt;/span&gt;&quot;, color, x) }</code></pre>
+<pre class="r test"><code>klippy::klippy(position = c(&#39;top&#39;, &#39;right&#39;))</code></pre>
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<pre class="r test"><code>#klippy::klippy(color = &#39;darkred&#39;)
+#klippy::klippy(tooltip_message = &#39;Click to copy&#39;, tooltip_success = &#39;Done&#39;)</code></pre>
+<p>Last compiled on oktober, 2022</p>
+<p><br></p>
+<div id="before-you-start" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Before you start</h1>
+<pre class="r test"><code>### Author: NINA BRANTEN### Lastmod: 28-09-2022###
+
+# cleanup workspace
+rm(list = ls())</code></pre>
+<pre class="r test"><code># install packages
+library(RSiena)</code></pre>
+<pre class="r test"><code># density: observed relations divided by possible relations
+fdensity &lt;- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) &lt;- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] &lt;- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A == 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityinter &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A != 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A != 1, na.rm = T))
+}
+
+# construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat &lt;- function(x) {
+    # x is a vector of node-covariate
+    xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt &lt;- t(xmat)
+    xhomo &lt;- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads &lt;- function(x) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 &lt;- function(x, A) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    (sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+
+fscolnet &lt;- function(network, ccovar) {
+    # Calculate coleman on network level:
+    # https://reader.elsevier.com/reader/sd/pii/S0378873314000239?token=A42F99FF6E2B750436DD2CB0DB7B1F41BDEC16052A45683C02644DAF88215A3379636B2AA197B65941D6373E9E2EE413
+    
+    fhomomat &lt;- function(x) {
+        xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
+        xmatt &lt;- t(xmat)
+        xhomo &lt;- xmat == xmatt
+        return(xhomo)
+    }
+    
+    fsumintra &lt;- function(x, A) {
+        # A is matrix indicating whether nodes constituting dyad have same characteristics
+        diag(x) &lt;- NA
+        x[x == 10] &lt;- NA
+        diag(A) &lt;- NA
+        sum(x == 1 &amp; A == 1, na.rm = T)
+    }
+    
+    # expecation w*=sum_g sum_i (ni((ng-1)/(N-1)))
+    network[network == 10] &lt;- NA
+    ni &lt;- rowSums(network, na.rm = T)
+    ng &lt;- NA
+    for (i in 1:length(ccovar)) {
+        ng[i] &lt;- table(ccovar)[rownames(table(ccovar)) == ccovar[i]]
+    }
+    N &lt;- length(ccovar)
+    wexp &lt;- sum(ni * ((ng - 1)/(N - 1)), na.rm = T)
+    
+    # wgg1 how many intragroup ties
+    w &lt;- fsumintra(network, fhomomat(ccovar))
+    
+    Scol_net &lt;- ifelse(w &gt;= wexp, (w - wexp)/(sum(ni, na.rm = T) - wexp), (w - wexp)/wexp)
+    return(Scol_net)
+}</code></pre>
+</div>
+<div id="data" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data</h1>
+<pre class="r test"><code>getwd()</code></pre>
+<pre class="test2"><code>#&gt; [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<pre class="r test"><code>load(&quot;twitter_20190919.RData&quot;)  #change to your working directory
+str(twitter_20190919, 1)</code></pre>
+<pre class="test2"><code>#&gt; List of 3
+#&gt;  $ keyf  :&#39;data.frame&#39;:  147 obs. of  41 variables:
+#&gt;  $ mydata:List of 8
+#&gt;   ..- attr(*, &quot;higher&quot;)= Named logi [1:9] FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:9] &quot;fnet,fnet&quot; &quot;atmnet,fnet&quot; &quot;rtnet,fnet&quot; &quot;fnet,atmnet&quot; ...
+#&gt;   ..- attr(*, &quot;disjoint&quot;)= Named logi [1:9] FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:9] &quot;fnet,fnet&quot; &quot;atmnet,fnet&quot; &quot;rtnet,fnet&quot; &quot;fnet,atmnet&quot; ...
+#&gt;   ..- attr(*, &quot;atLeastOne&quot;)= Named logi [1:9] FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:9] &quot;fnet,fnet&quot; &quot;atmnet,fnet&quot; &quot;rtnet,fnet&quot; &quot;fnet,atmnet&quot; ...
+#&gt;   ..- attr(*, &quot;class&quot;)= chr &quot;siena&quot;
+#&gt;  $ seats :&#39;data.frame&#39;:  150 obs. of  5 variables:</code></pre>
+<pre class="r test"><code>keyf &lt;- twitter_20190919[[1]]
+#keyf is dataframe on 147 Dutch MPs
+mydata &lt;- twitter_20190919[[2]]
+# mydata is object ready to analyze in RSiena. Nodes are the same as in keyf and seats. Contains twitter data at three timepounts. Three layers: fnet (who follows whom), atmnet (who amentions whom) and rnter (who retweets whom). Also contains timevariant information on nodes.
+seats &lt;- twitter_20190919[[3]]
+#seats is dataset which contains coordinates of seats in House of Parliament in Netherlands</code></pre>
+</div>
+<div id="densities" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Densities</h1>
+<pre class="r test"><code># retrieve nominationdata from rsiena object
+fnet &lt;- mydata$depvars$fnet
+atmnet &lt;- mydata$depvars$atmnet
+rtnet &lt;- mydata$depvars$rtnet
+
+# retrieve node-attributes from rsiena object
+vrouw &lt;- mydata$cCovars$vrouw
+partij &lt;- mydata$cCovars$partij
+ethminz &lt;- mydata$cCovars$ethminz
+lft &lt;- mydata$cCovars$lft
+
+# de-mean-center node attributes
+ethminz &lt;- ethminz + attributes(ethminz)$mean
+partij &lt;- partij + attributes(partij)$mean
+vrouw &lt;- vrouw + attributes(vrouw)$mean
+lft &lt;- lft + attributes(lft)$mean
+
+# construct matrices for similarity for each dimension (dyad characteristics)
+vrouwm &lt;- fhomomat(vrouw)
+partijm &lt;- fhomomat(partij)
+ethminzm &lt;- fhomomat(ethminz)
+
+# just for fun, make dyad characteristic indicating whether both nodes are ethnic minorities
+xmat &lt;- matrix(ethminz, nrow = length(ethminz), ncol = length(ethminz))
+xmatt &lt;- t(xmat)
+minoritym &lt;- xmat == 1 &amp; xmatt == 1
+
+# for age max 5 year difference / for descriptives
+xmat &lt;- matrix(lft, nrow = length(lft), ncol = length(lft))
+xmatt &lt;- t(xmat)
+lftm &lt;- (abs(xmat - xmatt) &lt; 6)
+
+# calculate all possible similar dyads, not the focus of this exercise.  fndyads2(fnet[,,1], vrouwm)
+# fndyads2(fnet[,,3], vrouwm) fndyads2(fnet[,,1], partijm) fndyads2(fnet[,,3], partijm)
+# fndyads2(fnet[,,1], ethminzm) fndyads2(fnet[,,3], ethminzm)
+
+# make a big object to store all results
+desmat &lt;- matrix(NA, nrow = 10, ncol = 9)
+
+# lets start using our functions
+desmat[1, 1] &lt;- fdensity(fnet[, , 1])
+desmat[1, 2] &lt;- fdensity(fnet[, , 2])
+desmat[1, 3] &lt;- fdensity(fnet[, , 3])
+desmat[2, 1] &lt;- fdensityintra(fnet[, , 1], vrouwm)
+desmat[2, 2] &lt;- fdensityintra(fnet[, , 2], vrouwm)
+desmat[2, 3] &lt;- fdensityintra(fnet[, , 3], vrouwm)
+desmat[3, 1] &lt;- fdensityinter(fnet[, , 1], vrouwm)
+desmat[3, 2] &lt;- fdensityinter(fnet[, , 2], vrouwm)
+desmat[3, 3] &lt;- fdensityinter(fnet[, , 3], vrouwm)
+desmat[4, 1] &lt;- fdensityintra(fnet[, , 1], partijm)
+desmat[4, 2] &lt;- fdensityintra(fnet[, , 2], partijm)
+desmat[4, 3] &lt;- fdensityintra(fnet[, , 3], partijm)
+desmat[5, 1] &lt;- fdensityinter(fnet[, , 1], partijm)
+desmat[5, 2] &lt;- fdensityinter(fnet[, , 2], partijm)
+desmat[5, 3] &lt;- fdensityinter(fnet[, , 3], partijm)
+desmat[6, 1] &lt;- fdensityintra(fnet[, , 1], ethminzm)
+desmat[6, 2] &lt;- fdensityintra(fnet[, , 2], ethminzm)
+desmat[6, 3] &lt;- fdensityintra(fnet[, , 3], ethminzm)
+desmat[7, 1] &lt;- fdensityinter(fnet[, , 1], ethminzm)
+desmat[7, 2] &lt;- fdensityinter(fnet[, , 2], ethminzm)
+desmat[7, 3] &lt;- fdensityinter(fnet[, , 3], ethminzm)
+desmat[8, 1] &lt;- fdensityinter(fnet[, , 1], minoritym)
+desmat[8, 2] &lt;- fdensityinter(fnet[, , 2], minoritym)
+desmat[8, 3] &lt;- fdensityinter(fnet[, , 3], minoritym)
+desmat[9, 1] &lt;- fdensityintra(fnet[, , 1], lftm)
+desmat[9, 2] &lt;- fdensityintra(fnet[, , 2], lftm)
+desmat[9, 3] &lt;- fdensityintra(fnet[, , 3], lftm)
+desmat[10, 1] &lt;- fdensityinter(fnet[, , 1], lftm)
+desmat[10, 2] &lt;- fdensityinter(fnet[, , 2], lftm)
+desmat[10, 3] &lt;- fdensityinter(fnet[, , 3], lftm)
+
+desmat[1, 1 + 3] &lt;- fdensity(atmnet[, , 1])
+desmat[1, 2 + 3] &lt;- fdensity(atmnet[, , 2])
+desmat[1, 3 + 3] &lt;- fdensity(atmnet[, , 3])
+desmat[2, 1 + 3] &lt;- fdensityintra(atmnet[, , 1], vrouwm)
+desmat[2, 2 + 3] &lt;- fdensityintra(atmnet[, , 2], vrouwm)
+desmat[2, 3 + 3] &lt;- fdensityintra(atmnet[, , 3], vrouwm)
+desmat[3, 1 + 3] &lt;- fdensityinter(atmnet[, , 1], vrouwm)
+desmat[3, 2 + 3] &lt;- fdensityinter(atmnet[, , 2], vrouwm)
+desmat[3, 3 + 3] &lt;- fdensityinter(atmnet[, , 3], vrouwm)
+desmat[4, 1 + 3] &lt;- fdensityintra(atmnet[, , 1], partijm)
+desmat[4, 2 + 3] &lt;- fdensityintra(atmnet[, , 2], partijm)
+desmat[4, 3 + 3] &lt;- fdensityintra(atmnet[, , 3], partijm)
+desmat[5, 1 + 3] &lt;- fdensityinter(atmnet[, , 1], partijm)
+desmat[5, 2 + 3] &lt;- fdensityinter(atmnet[, , 2], partijm)
+desmat[5, 3 + 3] &lt;- fdensityinter(atmnet[, , 3], partijm)
+desmat[6, 1 + 3] &lt;- fdensityintra(atmnet[, , 1], ethminzm)
+desmat[6, 2 + 3] &lt;- fdensityintra(atmnet[, , 2], ethminzm)
+desmat[6, 3 + 3] &lt;- fdensityintra(atmnet[, , 3], ethminzm)
+desmat[7, 1 + 3] &lt;- fdensityinter(atmnet[, , 1], ethminzm)
+desmat[7, 2 + 3] &lt;- fdensityinter(atmnet[, , 2], ethminzm)
+desmat[7, 3 + 3] &lt;- fdensityinter(atmnet[, , 3], ethminzm)
+desmat[8, 1 + 3] &lt;- fdensityinter(atmnet[, , 1], minoritym)
+desmat[8, 2 + 3] &lt;- fdensityinter(atmnet[, , 2], minoritym)
+desmat[8, 3 + 3] &lt;- fdensityinter(atmnet[, , 3], minoritym)
+desmat[9, 1 + 3] &lt;- fdensityintra(atmnet[, , 1], lftm)
+desmat[9, 2 + 3] &lt;- fdensityintra(atmnet[, , 2], lftm)
+desmat[9, 3 + 3] &lt;- fdensityintra(atmnet[, , 3], lftm)
+desmat[10, 1 + 3] &lt;- fdensityinter(atmnet[, , 1], lftm)
+desmat[10, 2 + 3] &lt;- fdensityinter(atmnet[, , 2], lftm)
+desmat[10, 3 + 3] &lt;- fdensityinter(atmnet[, , 3], lftm)
+
+desmat[1, 1 + 6] &lt;- fdensity(rtnet[, , 1])
+desmat[1, 2 + 6] &lt;- fdensity(rtnet[, , 2])
+desmat[1, 3 + 6] &lt;- fdensity(rtnet[, , 3])
+desmat[2, 1 + 6] &lt;- fdensityintra(rtnet[, , 1], vrouwm)
+desmat[2, 2 + 6] &lt;- fdensityintra(rtnet[, , 2], vrouwm)
+desmat[2, 3 + 6] &lt;- fdensityintra(rtnet[, , 3], vrouwm)
+desmat[3, 1 + 6] &lt;- fdensityinter(rtnet[, , 1], vrouwm)
+desmat[3, 2 + 6] &lt;- fdensityinter(rtnet[, , 2], vrouwm)
+desmat[3, 3 + 6] &lt;- fdensityinter(rtnet[, , 3], vrouwm)
+desmat[4, 1 + 6] &lt;- fdensityintra(rtnet[, , 1], partijm)
+desmat[4, 2 + 6] &lt;- fdensityintra(rtnet[, , 2], partijm)
+desmat[4, 3 + 6] &lt;- fdensityintra(rtnet[, , 3], partijm)
+desmat[5, 1 + 6] &lt;- fdensityinter(rtnet[, , 1], partijm)
+desmat[5, 2 + 6] &lt;- fdensityinter(rtnet[, , 2], partijm)
+desmat[5, 3 + 6] &lt;- fdensityinter(rtnet[, , 3], partijm)
+desmat[6, 1 + 6] &lt;- fdensityintra(rtnet[, , 1], ethminzm)
+desmat[6, 2 + 6] &lt;- fdensityintra(rtnet[, , 2], ethminzm)
+desmat[6, 3 + 6] &lt;- fdensityintra(rtnet[, , 3], ethminzm)
+desmat[7, 1 + 6] &lt;- fdensityinter(rtnet[, , 1], ethminzm)
+desmat[7, 2 + 6] &lt;- fdensityinter(rtnet[, , 2], ethminzm)
+desmat[7, 3 + 6] &lt;- fdensityinter(rtnet[, , 3], ethminzm)
+desmat[8, 1 + 6] &lt;- fdensityinter(rtnet[, , 1], minoritym)
+desmat[8, 2 + 6] &lt;- fdensityinter(rtnet[, , 2], minoritym)
+desmat[8, 3 + 6] &lt;- fdensityinter(rtnet[, , 3], minoritym)
+desmat[9, 1 + 6] &lt;- fdensityintra(rtnet[, , 1], lftm)
+desmat[9, 2 + 6] &lt;- fdensityintra(rtnet[, , 2], lftm)
+desmat[9, 3 + 6] &lt;- fdensityintra(rtnet[, , 3], lftm)
+desmat[10, 1 + 6] &lt;- fdensityinter(rtnet[, , 1], lftm)
+desmat[10, 2 + 6] &lt;- fdensityinter(rtnet[, , 2], lftm)
+desmat[10, 3 + 6] &lt;- fdensityinter(rtnet[, , 3], lftm)
+
+colnames(desmat) &lt;- c(&quot;friends w1&quot;, &quot;friends w2&quot;, &quot;friends w3&quot;, &quot;atmentions w1&quot;, &quot;atmentions w2&quot;, &quot;atmentions w3&quot;, 
+    &quot;retweets w1&quot;, &quot;retweets w2&quot;, &quot;retweets w3&quot;)
+rownames(desmat) &lt;- c(&quot;total&quot;, &quot;same sex&quot;, &quot;different sex&quot;, &quot;same party&quot;, &quot;different party&quot;, &quot;same ethnicity&quot;, 
+    &quot;different ethnicity&quot;, &quot;both minority&quot;, &quot;same age (&lt;6)&quot;, &quot;different age (&gt;5)&quot;)
+desmat</code></pre>
+<pre class="test2"><code>#&gt;                     friends w1 friends w2 friends w3 atmentions w1 atmentions w2 atmentions w3
+#&gt; total                0.2545583  0.2794521  0.2797969    0.04912612    0.03500236   0.013465660
+#&gt; same sex             0.2630408  0.2887662  0.2883167    0.05278618    0.03569521   0.013750219
+#&gt; different sex        0.2449678  0.2689211  0.2701115    0.04498792    0.03421900   0.013142174
+#&gt; same party           0.7091278  0.7334686  0.7415459    0.19918864    0.14239351   0.063607085
+#&gt; different party      0.1946538  0.2196204  0.2193593    0.02935044    0.02085004   0.006902729
+#&gt; same ethnicity       0.2655497  0.2885362  0.2885929    0.04926514    0.03574368   0.013491604
+#&gt; different ethnicity  0.2096154  0.2423077  0.2435592    0.04855769    0.03197115   0.013358779
+#&gt; both minority        0.2537506  0.2786431  0.2790029    0.04859054    0.03497372   0.013570823
+#&gt; same age (&lt;6)        0.2933009  0.3137704  0.3131586    0.05868881    0.03693100   0.014668186
+#&gt; different age (&gt;5)   0.2354766  0.2625494  0.2635734    0.04441624    0.03405245   0.012880886
+#&gt;                     retweets w1 retweets w2 retweets w3
+#&gt; total               0.046008503  0.03401361  0.03373404
+#&gt; same sex            0.045753961  0.03363111  0.03284288
+#&gt; different sex       0.046296296  0.03444843  0.03474711
+#&gt; same party          0.335496957  0.25040258  0.24798712
+#&gt; different party     0.007858861  0.00569080  0.00569080
+#&gt; same ethnicity      0.047971781  0.03491604  0.03381587
+#&gt; different ethnicity 0.037980769  0.03029580  0.03339695
+#&gt; both minority       0.045723841  0.03402130  0.03355009
+#&gt; same age (&lt;6)       0.052247352  0.03716890  0.03702649
+#&gt; different age (&gt;5)  0.042935702  0.03247922  0.03213296</code></pre>
+<pre class="r test"><code># we observe a lot of homophily. Mainly big difference in density between and whithin political parties. Homophily is not that strong across social dimensions.</code></pre>
+</div>
+<div id="coleman-homophily-index" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Coleman homophily
+index</h1>
+<pre class="r test"><code># Because size of different subgroups vary and number of out-degrees differs between MPs, whitin party densities might be higher when MPs randomly select partner/alter. Segregation will partly be structully induced by differences in relative groups sizes and activity on twitter. Coleman&#39;s homophily index: takes relative group sizes and differences into account. 0 -&gt; observed number of within-group ties is the same as would be expected under random choice. 1 -&gt; maximum segregation. -1 -&gt; MPs maximally avoid within group relations.</code></pre>
+<pre class="r test"><code>colmat &lt;- matrix(NA, nrow = 3, ncol = 9)
+
+colmat[1, 1] &lt;- fscolnet(fnet[, , 1], partij)
+colmat[1, 2] &lt;- fscolnet(fnet[, , 2], partij)
+colmat[1, 3] &lt;- fscolnet(fnet[, , 3], partij)
+colmat[1, 4] &lt;- fscolnet(atmnet[, , 1], partij)
+colmat[1, 5] &lt;- fscolnet(atmnet[, , 2], partij)
+colmat[1, 6] &lt;- fscolnet(atmnet[, , 3], partij)
+colmat[1, 7] &lt;- fscolnet(rtnet[, , 1], partij)
+colmat[1, 8] &lt;- fscolnet(rtnet[, , 2], partij)
+colmat[1, 9] &lt;- fscolnet(rtnet[, , 3], partij)
+
+colmat[2, 1] &lt;- fscolnet(fnet[, , 1], vrouw)
+colmat[2, 2] &lt;- fscolnet(fnet[, , 2], vrouw)
+colmat[2, 3] &lt;- fscolnet(fnet[, , 3], vrouw)
+colmat[2, 4] &lt;- fscolnet(atmnet[, , 1], vrouw)
+colmat[2, 5] &lt;- fscolnet(atmnet[, , 2], vrouw)
+colmat[2, 6] &lt;- fscolnet(atmnet[, , 3], vrouw)
+colmat[2, 7] &lt;- fscolnet(rtnet[, , 1], vrouw)
+colmat[2, 8] &lt;- fscolnet(rtnet[, , 2], vrouw)
+colmat[2, 9] &lt;- fscolnet(rtnet[, , 3], vrouw)
+
+colmat[3, 1] &lt;- fscolnet(fnet[, , 1], ethminz)
+colmat[3, 2] &lt;- fscolnet(fnet[, , 2], ethminz)
+colmat[3, 3] &lt;- fscolnet(fnet[, , 3], ethminz)
+colmat[3, 4] &lt;- fscolnet(atmnet[, , 1], ethminz)
+colmat[3, 5] &lt;- fscolnet(atmnet[, , 2], ethminz)
+colmat[3, 6] &lt;- fscolnet(atmnet[, , 3], ethminz)
+colmat[3, 7] &lt;- fscolnet(rtnet[, , 1], ethminz)
+colmat[3, 8] &lt;- fscolnet(rtnet[, , 2], ethminz)
+colmat[3, 9] &lt;- fscolnet(rtnet[, , 3], ethminz)
+
+colnames(colmat) &lt;- c(&quot;friends w1&quot;, &quot;friends w2&quot;, &quot;friends w3&quot;, &quot;atmentions w1&quot;, &quot;atmentions w2&quot;, &quot;atmentions w3&quot;, 
+    &quot;retweets w1&quot;, &quot;retweets w2&quot;, &quot;retweets w3&quot;)
+rownames(colmat) &lt;- c(&quot;party&quot;, &quot;sex&quot;, &quot;ethnicity&quot;)
+colmat</code></pre>
+<pre class="test2"><code>#&gt;           friends w1 friends w2 friends w3 atmentions w1 atmentions w2 atmentions w3  retweets w1
+#&gt; party     0.23290292 0.21197422 0.21310665    0.39147672   0.399713437    0.48111606  0.804211725
+#&gt; sex       0.04624336 0.04080333 0.04272129    0.07421140   0.032149289    0.04699739 -0.005381047
+#&gt; ethnicity 0.12122258 0.09821319 0.09889074   -0.03010028  -0.004564059   -0.02078296  0.051678853
+#&gt;            retweets w2  retweets w3
+#&gt; party      0.803175327  0.802304023
+#&gt; sex       -0.029967472 -0.011929039
+#&gt; ethnicity -0.007183535 -0.006536557</code></pre>
+<pre class="r test"><code># Mostly segregation within retweet network and along parties</code></pre>
+</div>
+<div id="rsiena" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> RSiena</h1>
+<pre class="r test"><code># defining myeff object
+library(RSiena)
+myeff &lt;- getEffects(mydata)
+myeff</code></pre>
+<pre class="test2"><code>#&gt;    name   effectName                      include fix   test  initialValue parm
+#&gt; 1  fnet   constant fnet rate (period 1)   TRUE    FALSE FALSE    7.22021   0   
+#&gt; 2  fnet   constant fnet rate (period 2)   TRUE    FALSE FALSE    3.79571   0   
+#&gt; 3  fnet   fnet: outdegree (density)       TRUE    FALSE FALSE    0.00000   0   
+#&gt; 4  fnet   fnet: reciprocity               TRUE    FALSE FALSE    0.00000   0   
+#&gt; 5  atmnet constant atmnet rate (period 1) TRUE    FALSE FALSE   16.26089   0   
+#&gt; 6  atmnet constant atmnet rate (period 2) TRUE    FALSE FALSE    9.17902   0   
+#&gt; 7  atmnet atmnet: outdegree (density)     TRUE    FALSE FALSE   -1.76137   0   
+#&gt; 8  atmnet atmnet: reciprocity             TRUE    FALSE FALSE    0.00000   0   
+#&gt; 9  rtnet  constant rtnet rate (period 1)  TRUE    FALSE FALSE   10.98716   0   
+#&gt; 10 rtnet  constant rtnet rate (period 2)  TRUE    FALSE FALSE    9.39819   0   
+#&gt; 11 rtnet  rtnet: outdegree (density)      TRUE    FALSE FALSE   -1.61392   0   
+#&gt; 12 rtnet  rtnet: reciprocity              TRUE    FALSE FALSE    0.00000   0</code></pre>
+<pre class="r test"><code>myeff_m1 &lt;- myeff
+myeff_m1 &lt;- includeEffects(myeff_m1, sameX, interaction1 = &quot;partij&quot;, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName         include fix   test  initialValue parm
+#&gt; 1 rtnet: same partij TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code># I used a seed so you will probably see the same results
+myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, seed = 345654)</code></pre>
+<pre class="test2"><code>#&gt; If you use this algorithm object, siena07 will create/use an output file test.txt .</code></pre>
+</div>
+<div id="estimate-models" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> estimate models</h1>
+<pre class="r test"><code># to speed things up a bit, I am using more cores.
+ansM1 &lt;- siena07(myalgorithm, data = mydata, effects = myeff_m1, useCluster = TRUE, nbrNodes = 4, initC = TRUE, 
+    batch = TRUE)
+ansM1b &lt;- siena07(myalgorithm, data = mydata, prevAns = ansM1, effects = myeff_m1, useCluster = TRUE, 
+    nbrNodes = 4, initC = TRUE, batch = TRUE)
+ansM1c &lt;- siena07(myalgorithm, data = mydata, prevAns = ansM1b, effects = myeff_m1, useCluster = TRUE, 
+    nbrNodes = 4, initC = TRUE, batch = TRUE)
+
+save(ansM1, file = &quot;ansM1a.RData&quot;)
+save(ansM1b, file = &quot;ansM1b.RData&quot;)
+save(ansM1c, file = &quot;ansM1c.RData&quot;)</code></pre>
+<pre class="r test"><code>load(&quot;ansM1a.RData&quot;)
+load(&quot;ansM1b.RData&quot;)
+load(&quot;ansM1c.RData&quot;)
+ansM1</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7091  ( 0.1678   )    0.0802   
+#&gt;    2. rate constant fnet rate (period 2)    1.9690  ( 0.1206   )   -0.0329   
+#&gt;    3. eval fnet: outdegree (density)       -0.6588  ( 0.0876   )    0.0250   
+#&gt;    4. eval fnet: reciprocity                0.8762  ( 0.0907   )   -0.0133   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7496  ( 1.8713   )    0.0220   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6467  ( 0.6387   )    0.0098   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3452  ( 0.0321   )   -0.0936   
+#&gt;    8. eval atmnet: reciprocity              1.7004  ( 0.0727   )   -0.0577   
+#&gt;    9. rate constant rtnet rate (period 1)  13.4141  ( 0.8603   )    0.0133   
+#&gt;   10. rate constant rtnet rate (period 2)  12.1080  ( 0.9050   )    0.0024   
+#&gt;   11. eval rtnet: outdegree (density)      -2.8349  ( 0.0465   )   -0.0047   
+#&gt;   12. eval rtnet: reciprocity               0.8781  ( 0.0643   )    0.0307   
+#&gt;   13. eval rtnet: same partij               1.8582  ( 0.0583   )    0.0427   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1963 
+#&gt; 
+#&gt; 
+#&gt; Total of 2158 iteration steps.</code></pre>
+<pre class="r test"><code>ansM1b</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7037  ( 0.1701   )    0.0505   
+#&gt;    2. rate constant fnet rate (period 2)    1.9687  ( 0.1205   )   -0.0350   
+#&gt;    3. eval fnet: outdegree (density)       -0.6541  ( 0.0844   )   -0.0026   
+#&gt;    4. eval fnet: reciprocity                0.8756  ( 0.0841   )    0.0061   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7211  ( 1.8487   )    0.0565   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6449  ( 0.5197   )   -0.0190   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3452  ( 0.0297   )   -0.0472   
+#&gt;    8. eval atmnet: reciprocity              1.7000  ( 0.0703   )   -0.0012   
+#&gt;    9. rate constant rtnet rate (period 1)  13.3847  ( 0.8180   )    0.0404   
+#&gt;   10. rate constant rtnet rate (period 2)  12.0998  ( 0.7632   )    0.0072   
+#&gt;   11. eval rtnet: outdegree (density)      -2.8343  ( 0.0503   )   -0.0190   
+#&gt;   12. eval rtnet: reciprocity               0.8758  ( 0.0614   )   -0.0285   
+#&gt;   13. eval rtnet: same partij               1.8582  ( 0.0601   )    0.0178   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1857 
+#&gt; 
+#&gt; 
+#&gt; Total of 2104 iteration steps.</code></pre>
+<pre class="r test"><code>ansM1c</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7053  ( 0.1674   )   -0.0270   
+#&gt;    2. rate constant fnet rate (period 2)    1.9683  ( 0.1254   )    0.0579   
+#&gt;    3. eval fnet: outdegree (density)       -0.6570  ( 0.0852   )   -0.0352   
+#&gt;    4. eval fnet: reciprocity                0.8753  ( 0.0933   )   -0.0508   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7437  ( 1.4522   )   -0.0013   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6502  ( 0.5618   )    0.0395   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3453  ( 0.0304   )   -0.0235   
+#&gt;    8. eval atmnet: reciprocity              1.7011  ( 0.0645   )    0.0050   
+#&gt;    9. rate constant rtnet rate (period 1)  13.3964  ( 0.8279   )    0.0523   
+#&gt;   10. rate constant rtnet rate (period 2)  12.0945  ( 0.8603   )   -0.0005   
+#&gt;   11. eval rtnet: outdegree (density)      -2.8322  ( 0.0500   )   -0.0197   
+#&gt;   12. eval rtnet: reciprocity               0.8779  ( 0.0625   )    0.0133   
+#&gt;   13. eval rtnet: same partij               1.8551  ( 0.0569   )    0.0097   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1471 
+#&gt; 
+#&gt; 
+#&gt; Total of 2078 iteration steps.</code></pre>
+</div>
+<div id="research-question-1" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> research question
+1</h1>
+<pre class="r test"><code>#To what extent do we observe segregation along party affiliation in the retweet network among Dutch MPs?
+
+# Answer: the eval same partij is 1.8551. This means that we observe strong segregation along pary affiliation: people are more likely to have ties with people from the same party.</code></pre>
+</div>
+<div id="research-question-2-3-and-4" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> research question 2, 3
+and 4</h1>
+<pre class="r test"><code>#research question 1
+myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, sameX, interaction1 = &quot;partij&quot;, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName         include fix   test  initialValue parm
+#&gt; 1 rtnet: same partij TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code>#research question 2
+
+myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, sameX, interaction1 = &quot;vrouw&quot;, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName        include fix   test  initialValue parm
+#&gt; 1 rtnet: same vrouw TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code>myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, sameX, interaction1 = &quot;lft&quot;, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName      include fix   test  initialValue parm
+#&gt; 1 rtnet: same lft TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code>#research question 3: propinquity -&gt; not sure if I am doing this the right way?
+
+myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, X, interaction1 = &quot;afstand&quot;, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName     include fix   test  initialValue parm
+#&gt; 1 rtnet: afstand TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code># research question 4: structural effects are reciprocity and transitivity. Effects depending on network only.
+
+myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, recip, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName         include fix   test  initialValue parm
+#&gt; 1 rtnet: reciprocity TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code>myeff_m2 &lt;- myeff
+myeff_m2 &lt;- includeEffects(myeff_m2, transTrip, name = &quot;rtnet&quot;)</code></pre>
+<pre class="test2"><code>#&gt;   effectName                 include fix   test  initialValue parm
+#&gt; 1 rtnet: transitive triplets TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r test"><code># I used a seed so you will probably see the same results
+myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, seed = 345654)</code></pre>
+<pre class="test2"><code>#&gt; If you use this algorithm object, siena07 will create/use an output file test.txt .</code></pre>
+<pre class="r test"><code>load(&quot;ansM2a.RData&quot;)
+load(&quot;ansM2b.RData&quot;)
+load(&quot;ansM2c.RData&quot;)
+ansM2</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7085  ( 0.1714   )    0.0372   
+#&gt;    2. rate constant fnet rate (period 2)    1.9696  ( 0.1230   )    0.0724   
+#&gt;    3. eval fnet: outdegree (density)       -0.6582  ( 0.0816   )   -0.0148   
+#&gt;    4. eval fnet: reciprocity                0.8765  ( 0.0913   )   -0.0204   
+#&gt;    5. rate constant atmnet rate (period 1) 25.8514  ( 2.1960   )    0.1187   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6315  ( 0.5393   )   -0.0152   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3436  ( 0.0295   )   -0.0701   
+#&gt;    8. eval atmnet: reciprocity              1.7015  ( 0.0702   )   -0.0815   
+#&gt;    9. rate constant rtnet rate (period 1)  12.8580  ( 0.8342   )   -0.0031   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3612  ( 0.9477   )   -0.0006   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3176  ( 0.0269   )    0.0051   
+#&gt;   12. eval rtnet: reciprocity               0.9706  ( 0.0814   )    0.0236   
+#&gt;   13. eval rtnet: transitive triplets       0.1672  ( 0.0079   )    0.0284   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1962 
+#&gt; 
+#&gt; 
+#&gt; Total of 2258 iteration steps.</code></pre>
+<pre class="r test"><code>summary(ansM2)</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7085  ( 0.1714   )    0.0372   
+#&gt;    2. rate constant fnet rate (period 2)    1.9696  ( 0.1230   )    0.0724   
+#&gt;    3. eval fnet: outdegree (density)       -0.6582  ( 0.0816   )   -0.0148   
+#&gt;    4. eval fnet: reciprocity                0.8765  ( 0.0913   )   -0.0204   
+#&gt;    5. rate constant atmnet rate (period 1) 25.8514  ( 2.1960   )    0.1187   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6315  ( 0.5393   )   -0.0152   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3436  ( 0.0295   )   -0.0701   
+#&gt;    8. eval atmnet: reciprocity              1.7015  ( 0.0702   )   -0.0815   
+#&gt;    9. rate constant rtnet rate (period 1)  12.8580  ( 0.8342   )   -0.0031   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3612  ( 0.9477   )   -0.0006   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3176  ( 0.0269   )    0.0051   
+#&gt;   12. eval rtnet: reciprocity               0.9706  ( 0.0814   )    0.0236   
+#&gt;   13. eval rtnet: transitive triplets       0.1672  ( 0.0079   )    0.0284   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1962 
+#&gt; 
+#&gt; 
+#&gt; Total of 2258 iteration steps.
+#&gt; 
+#&gt; Covariance matrix of estimates (correlations below diagonal)
+#&gt; 
+#&gt;        0.029        0.001        0.000        0.000       -0.044        0.004        0.000        0.000        0.002        0.001        0.000        0.001        0.000
+#&gt;        0.032        0.015        0.000        0.000        0.003        0.010        0.000        0.000       -0.001       -0.010        0.000        0.000        0.000
+#&gt;       -0.020       -0.028        0.007       -0.002        0.001       -0.004        0.000        0.000        0.002       -0.005        0.000        0.000        0.000
+#&gt;       -0.018       -0.030       -0.334        0.008       -0.022       -0.002        0.000        0.000        0.002        0.007        0.000        0.000        0.000
+#&gt;       -0.117        0.012        0.003       -0.108        4.822       -0.218        0.016        0.010        0.043       -0.065        0.008        0.006       -0.002
+#&gt;        0.043        0.155       -0.081       -0.037       -0.184        0.291        0.002        0.000       -0.015        0.032        0.000       -0.002        0.000
+#&gt;       -0.044        0.021       -0.019       -0.032        0.246        0.098        0.001       -0.001        0.000        0.003        0.000        0.000        0.000
+#&gt;       -0.037        0.010       -0.033        0.013        0.063        0.006       -0.503        0.005        0.006       -0.009        0.000        0.000        0.000
+#&gt;        0.013       -0.008        0.031        0.030        0.023       -0.033        0.001        0.101        0.696       -0.094        0.003       -0.006        0.001
+#&gt;        0.006       -0.090       -0.065        0.080       -0.031        0.063        0.096       -0.134       -0.118        0.898        0.002       -0.001        0.001
+#&gt;        0.034        0.023       -0.057        0.033        0.131        0.011        0.016        0.036        0.135        0.076        0.001        0.000        0.000
+#&gt;        0.043        0.031       -0.011        0.000        0.031       -0.036        0.028       -0.010       -0.085       -0.017       -0.183        0.007        0.000
+#&gt;       -0.045       -0.049        0.051        0.056       -0.107       -0.015       -0.028       -0.015        0.117        0.132       -0.273       -0.590        0.000
+#&gt; 
+#&gt; Derivative matrix of expected statistics X by parameters:
+#&gt; 
+#&gt;      128.526        0.000      128.526       79.417        0.771        0.000        0.903        1.418       -8.237        0.000       -1.305        4.061       71.700
+#&gt;        0.000      136.933       25.571        9.374        0.000      -10.480        0.984        1.342        0.000       -0.999       -2.402        4.962       55.345
+#&gt;        6.860        6.533      216.498      142.640        3.748       17.440      -14.008       -0.899       -1.969        6.017        8.885        4.009      -60.461
+#&gt;        9.702        1.068       74.618      328.887       -0.507        8.232       -8.793      -10.173       -3.871        1.331      -23.701      -19.827     -312.993
+#&gt;        1.409        0.000        1.409        2.492        8.184        0.000       -7.990       -4.026       -0.264        0.000       -1.084        0.481       15.640
+#&gt;        0.000       -4.716        0.928        1.635        0.000       39.729      -21.548      -11.125        0.000       -1.696        4.048        5.126       54.897
+#&gt;       16.269        0.090       18.652       -9.026      317.445      123.500     1312.693      597.160      -23.900      -12.684       98.144       13.643      647.445
+#&gt;       17.517        1.608       20.846       -5.928       14.491       -7.402      318.589      399.385       -6.070       -3.638       13.546       -2.805       -3.067
+#&gt;       -0.609        0.000       -0.609       -1.188       -1.317        0.000       -1.530       -2.475       27.643        0.000      -15.207       -6.516      -39.421
+#&gt;        0.000        1.790        0.380       -1.176        0.000       -0.959        0.013        1.345        0.000       21.210      -13.597       -7.663      -59.768
+#&gt;      -41.340       -8.811      -24.646      -83.592      -16.243       40.849        3.948       10.778       33.946      166.028     1789.982      853.548     7874.136
+#&gt;       -1.235        4.262       10.291       -9.092        0.641       17.783      -15.141       -8.385      -59.466      -15.642      484.615      612.355     4992.638
+#&gt;       33.511       84.710       76.193     -157.316       26.113       75.523     -128.954       -2.728     -927.912     -456.791     6178.390     6374.010    85199.442
+#&gt; 
+#&gt; Covariance matrix of X (correlations below diagonal):
+#&gt; 
+#&gt;      475.173       10.433      475.436      293.147        6.688        5.887      -18.736       -0.951      -32.431       -0.030        0.596       33.001      235.554
+#&gt;        0.029      273.831       63.018       18.980       11.561      -17.447       -1.491        1.260       -8.541       -1.994       18.751       40.483      377.441
+#&gt;        0.802        0.140      740.467      467.588       -3.261       10.606      -42.778      -10.862      -26.648       -7.528       40.267       89.046      741.055
+#&gt;        0.440        0.038        0.562      933.831        0.354      -11.716      -38.631      -35.566      -30.390        4.351      -18.637       31.195      108.255
+#&gt;        0.014        0.032       -0.005        0.001      484.576       -1.106      129.741       -3.350      -17.403       18.322       20.507       12.364      338.723
+#&gt;        0.012       -0.048        0.018       -0.018       -0.002      475.215      -11.696      -53.909       -7.009        6.698       62.855       38.371      274.767
+#&gt;       -0.027       -0.003       -0.049       -0.040        0.185       -0.017     1017.535      496.515        6.810        4.082       30.662      -18.737       63.310
+#&gt;       -0.002        0.003       -0.017       -0.050       -0.006       -0.105        0.662      552.029        9.782      -16.411       30.278      -10.367      -20.366
+#&gt;       -0.063       -0.022       -0.042       -0.042       -0.034       -0.014        0.009        0.018      555.151      -31.120     -116.888     -174.349    -1485.992
+#&gt;        0.000       -0.006       -0.013        0.007        0.040        0.015        0.006       -0.033       -0.063      436.871       35.945      -52.564     -549.689
+#&gt;        0.001        0.027        0.035       -0.014        0.022        0.068        0.023        0.030       -0.117        0.040     1807.012     1205.748    12783.390
+#&gt;        0.040        0.065        0.087        0.027        0.015        0.047       -0.016       -0.012       -0.196       -0.067        0.750     1429.426    14884.154
+#&gt;        0.023        0.049        0.059        0.008        0.033        0.027        0.004       -0.002       -0.137       -0.057        0.652        0.853   213035.965</code></pre>
+<pre class="r test"><code>ansM2b</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7045  ( 0.1685   )    0.0021   
+#&gt;    2. rate constant fnet rate (period 2)    1.9699  ( 0.1174   )    0.0444   
+#&gt;    3. eval fnet: outdegree (density)       -0.6560  ( 0.0859   )   -0.0133   
+#&gt;    4. eval fnet: reciprocity                0.8762  ( 0.0873   )   -0.0010   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7332  ( 1.8144   )    0.0375   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6330  ( 0.5367   )    0.0383   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3455  ( 0.0307   )   -0.0167   
+#&gt;    8. eval atmnet: reciprocity              1.7010  ( 0.0697   )   -0.0210   
+#&gt;    9. rate constant rtnet rate (period 1)  12.8752  ( 0.7444   )   -0.0419   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3581  ( 0.7501   )    0.0830   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3177  ( 0.0258   )   -0.0406   
+#&gt;   12. eval rtnet: reciprocity               0.9709  ( 0.0785   )   -0.0114   
+#&gt;   13. eval rtnet: transitive triplets       0.1674  ( 0.0077   )   -0.0234   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1393 
+#&gt; 
+#&gt; 
+#&gt; Total of 2106 iteration steps.</code></pre>
+<pre class="r test"><code>summary(ansM2b)</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7045  ( 0.1685   )    0.0021   
+#&gt;    2. rate constant fnet rate (period 2)    1.9699  ( 0.1174   )    0.0444   
+#&gt;    3. eval fnet: outdegree (density)       -0.6560  ( 0.0859   )   -0.0133   
+#&gt;    4. eval fnet: reciprocity                0.8762  ( 0.0873   )   -0.0010   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7332  ( 1.8144   )    0.0375   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6330  ( 0.5367   )    0.0383   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3455  ( 0.0307   )   -0.0167   
+#&gt;    8. eval atmnet: reciprocity              1.7010  ( 0.0697   )   -0.0210   
+#&gt;    9. rate constant rtnet rate (period 1)  12.8752  ( 0.7444   )   -0.0419   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3581  ( 0.7501   )    0.0830   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3177  ( 0.0258   )   -0.0406   
+#&gt;   12. eval rtnet: reciprocity               0.9709  ( 0.0785   )   -0.0114   
+#&gt;   13. eval rtnet: transitive triplets       0.1674  ( 0.0077   )   -0.0234   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1393 
+#&gt; 
+#&gt; 
+#&gt; Total of 2106 iteration steps.
+#&gt; 
+#&gt; Covariance matrix of estimates (correlations below diagonal)
+#&gt; 
+#&gt;        0.028        0.000        0.000        0.000       -0.005        0.003        0.000        0.000        0.002       -0.001        0.000       -0.001        0.000
+#&gt;       -0.008        0.014        0.000        0.000        0.004        0.002        0.000        0.000       -0.001       -0.003        0.000        0.000        0.000
+#&gt;       -0.006        0.026        0.007       -0.003        0.002       -0.001        0.000        0.000        0.004        0.002        0.000        0.000        0.000
+#&gt;        0.028       -0.012       -0.349        0.008        0.005        0.002        0.000        0.000       -0.001        0.005        0.000        0.000        0.000
+#&gt;       -0.015        0.020        0.010        0.033        3.292       -0.105        0.005        0.015       -0.070       -0.046        0.002       -0.007        0.001
+#&gt;        0.029        0.038       -0.020        0.040       -0.107        0.288        0.002       -0.002        0.002       -0.013        0.000        0.001        0.000
+#&gt;       -0.036        0.024        0.030       -0.009        0.095        0.101        0.001       -0.001       -0.003        0.000        0.000        0.000        0.000
+#&gt;        0.009       -0.046       -0.044        0.051        0.115       -0.046       -0.566        0.005        0.003        0.002        0.000        0.000        0.000
+#&gt;        0.015       -0.012        0.056       -0.018       -0.052        0.005       -0.120        0.060        0.554       -0.014       -0.002        0.000        0.001
+#&gt;       -0.008       -0.031        0.033        0.082       -0.034       -0.031       -0.015        0.031       -0.026        0.563        0.002        0.002        0.000
+#&gt;        0.088        0.028        0.030       -0.010        0.050       -0.024        0.003        0.023       -0.119        0.087        0.001        0.000        0.000
+#&gt;       -0.042       -0.053       -0.042        0.035       -0.052        0.034       -0.104        0.039        0.008        0.036       -0.150        0.006        0.000
+#&gt;        0.031        0.054        0.044        0.002        0.084       -0.024       -0.016        0.015        0.144       -0.019       -0.316       -0.554        0.000
+#&gt; 
+#&gt; Derivative matrix of expected statistics X by parameters:
+#&gt; 
+#&gt;      132.001        0.000      132.001       78.205       -0.419        0.000        0.560       -0.578       -5.624        0.000       -9.433       -3.588      -63.363
+#&gt;        0.000      143.336       24.312       13.868        0.000       -0.988       11.436        8.494        0.000       -7.624        5.001        8.654       70.425
+#&gt;        9.438       -3.822      201.911      132.867        1.188      -12.446       -5.682        4.620       -2.073      -16.442      -19.819      -11.035     -265.084
+#&gt;        2.207        0.834       68.064      340.935       -2.288       -4.661        4.824       -6.466       -3.449      -12.837       -1.627      -13.191     -170.777
+#&gt;        0.120        0.000        0.120       -0.704       10.466        0.000       -7.654       -4.442        0.826        0.000       -2.414       -1.520      -24.818
+#&gt;        0.000       -1.465        0.648       -2.979        0.000       36.535      -18.254       -8.021        0.000        1.537        0.475       -0.197        3.198
+#&gt;       44.234       16.597       45.186       51.372      308.854      170.580     1285.889      599.944       23.361       14.580      141.005      165.064     1982.835
+#&gt;        2.527        5.228       11.673       -8.134       37.355        0.214      359.140      422.776        3.847        9.716        8.437       12.457      310.101
+#&gt;       -0.503        0.000       -0.503       -0.226        1.316        0.000        0.422       -0.339       32.618        0.000       -5.896       -5.867      -26.454
+#&gt;        0.000        0.828       -0.785       -1.300        0.000        0.708       -0.980       -0.542        0.000       27.420       -9.793       -5.010      -10.257
+#&gt;      -76.865       -5.255      -97.882      -29.379      -13.612       -5.313       -6.050       12.425      105.152      138.410     1792.920      828.454     7755.612
+#&gt;       -2.782        9.654       -2.815       -0.662       14.960        8.059        9.636       10.521      -48.117      -32.742      448.229      573.386     4535.969
+#&gt;     -124.877        5.079     -193.397     -147.635       43.954       76.330      115.137      150.319     -697.006     -360.832     5974.511     6157.446    84409.823
+#&gt; 
+#&gt; Covariance matrix of X (correlations below diagonal):
+#&gt; 
+#&gt;      489.098       -4.965      500.211      311.469        0.082       17.648        6.032       -8.461      -22.243       -5.477       -9.174       -2.913      -25.911
+#&gt;       -0.013      281.345       43.506       26.596       11.703       -0.915       22.848        6.135       -6.707      -12.531       42.876       43.643      499.696
+#&gt;        0.821        0.094      759.369      478.845       12.199       10.450        3.728        0.311       -5.621      -22.478      -17.695       -1.563      -66.404
+#&gt;        0.453        0.051        0.559      966.493        1.830       -0.227       51.104       -5.494      -22.969        5.158       21.673        1.973     -124.580
+#&gt;        0.000        0.032        0.020        0.003      469.194       26.148       98.612        6.617       12.258      -14.610       11.759       35.318      364.504
+#&gt;        0.038       -0.003        0.018        0.000        0.058      432.763       12.927      -54.485      -12.887        9.209        8.718       27.098      277.994
+#&gt;        0.008        0.042        0.004        0.050        0.139        0.019     1076.000      536.826      -31.760       16.589        4.462       -2.975      422.848
+#&gt;       -0.016        0.015        0.000       -0.007        0.013       -0.109        0.681      577.934        0.092       24.325       26.711       19.619      563.570
+#&gt;       -0.042       -0.017       -0.009       -0.031        0.024       -0.026       -0.041        0.000      570.745        0.793      -74.531     -138.124     -877.109
+#&gt;       -0.012       -0.035       -0.038        0.008       -0.031        0.021        0.024        0.047        0.002      461.019       -3.672     -106.269     -991.484
+#&gt;       -0.010        0.060       -0.015        0.016        0.013        0.010        0.003        0.026       -0.073       -0.004     1803.940     1192.547    13034.998
+#&gt;       -0.004        0.070       -0.002        0.002        0.044        0.035       -0.002        0.022       -0.156       -0.134        0.760     1366.422    14767.366
+#&gt;       -0.003        0.064       -0.005       -0.009        0.036        0.029        0.028        0.050       -0.078       -0.099        0.655        0.853   219594.082</code></pre>
+<pre class="r test"><code>ansM2c</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7037  ( 0.1684   )    0.0450   
+#&gt;    2. rate constant fnet rate (period 2)    1.9693  ( 0.1238   )    0.0014   
+#&gt;    3. eval fnet: outdegree (density)       -0.6518  ( 0.0835   )    0.0549   
+#&gt;    4. eval fnet: reciprocity                0.8754  ( 0.0939   )    0.0205   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7350  ( 1.3232   )    0.0001   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6373  ( 0.5570   )   -0.0062   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3441  ( 0.0327   )   -0.0171   
+#&gt;    8. eval atmnet: reciprocity              1.6996  ( 0.0679   )   -0.0428   
+#&gt;    9. rate constant rtnet rate (period 1)  12.9186  ( 0.6778   )   -0.0010   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3854  ( 0.7948   )    0.0633   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3177  ( 0.0272   )   -0.0316   
+#&gt;   12. eval rtnet: reciprocity               0.9705  ( 0.0762   )   -0.0090   
+#&gt;   13. eval rtnet: transitive triplets       0.1674  ( 0.0076   )   -0.0353   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1232 
+#&gt; 
+#&gt; 
+#&gt; Total of 2014 iteration steps.</code></pre>
+<pre class="r test"><code>summary(ansM2c)</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                            Estimate   Standard   Convergence 
+#&gt;                                                         Error      t-ratio   
+#&gt;    1. rate constant fnet rate (period 1)    3.7037  ( 0.1684   )    0.0450   
+#&gt;    2. rate constant fnet rate (period 2)    1.9693  ( 0.1238   )    0.0014   
+#&gt;    3. eval fnet: outdegree (density)       -0.6518  ( 0.0835   )    0.0549   
+#&gt;    4. eval fnet: reciprocity                0.8754  ( 0.0939   )    0.0205   
+#&gt;    5. rate constant atmnet rate (period 1) 25.7350  ( 1.3232   )    0.0001   
+#&gt;    6. rate constant atmnet rate (period 2)  9.6373  ( 0.5570   )   -0.0062   
+#&gt;    7. eval atmnet: outdegree (density)     -2.3441  ( 0.0327   )   -0.0171   
+#&gt;    8. eval atmnet: reciprocity              1.6996  ( 0.0679   )   -0.0428   
+#&gt;    9. rate constant rtnet rate (period 1)  12.9186  ( 0.6778   )   -0.0010   
+#&gt;   10. rate constant rtnet rate (period 2)  11.3854  ( 0.7948   )    0.0633   
+#&gt;   11. eval rtnet: outdegree (density)      -2.3177  ( 0.0272   )   -0.0316   
+#&gt;   12. eval rtnet: reciprocity               0.9705  ( 0.0762   )   -0.0090   
+#&gt;   13. eval rtnet: transitive triplets       0.1674  ( 0.0076   )   -0.0353   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1232 
+#&gt; 
+#&gt; 
+#&gt; Total of 2014 iteration steps.
+#&gt; 
+#&gt; Covariance matrix of estimates (correlations below diagonal)
+#&gt; 
+#&gt;        0.028        0.000       -0.001        0.000       -0.010        0.007        0.000        0.000        0.003        0.000        0.000        0.000        0.000
+#&gt;        0.014        0.015        0.000        0.000        0.000        0.000        0.000        0.000        0.001       -0.009        0.000        0.000        0.000
+#&gt;       -0.086        0.005        0.007       -0.004        0.003        0.001        0.000        0.000       -0.002       -0.001        0.000        0.000        0.000
+#&gt;        0.014       -0.018       -0.481        0.009       -0.013        0.002        0.000        0.000        0.006       -0.003        0.000        0.000        0.000
+#&gt;       -0.044       -0.002        0.031       -0.101        1.751       -0.079        0.002        0.020       -0.102       -0.014        0.002       -0.005        0.001
+#&gt;        0.071        0.000        0.019        0.045       -0.107        0.310        0.004       -0.002        0.008        0.006        0.001       -0.001        0.000
+#&gt;        0.011        0.033       -0.002       -0.011        0.053        0.194        0.001       -0.001       -0.001        0.002        0.000        0.000        0.000
+#&gt;        0.003       -0.029       -0.014       -0.030        0.224       -0.058       -0.549        0.005        0.001       -0.002        0.000        0.000        0.000
+#&gt;        0.025        0.007       -0.032        0.095       -0.114        0.022       -0.050        0.019        0.459       -0.033        0.001       -0.002        0.000
+#&gt;       -0.002       -0.090       -0.013       -0.041       -0.013        0.012        0.074       -0.033       -0.062        0.632        0.004        0.004        0.000
+#&gt;        0.016       -0.015       -0.043        0.039        0.053        0.047        0.068       -0.032        0.063        0.163        0.001        0.000        0.000
+#&gt;       -0.039       -0.045       -0.007       -0.044       -0.054       -0.021       -0.038       -0.015       -0.041        0.069       -0.204        0.006        0.000
+#&gt;        0.008        0.012        0.032       -0.023        0.080       -0.005       -0.019        0.074        0.066       -0.078       -0.307       -0.510        0.000
+#&gt; 
+#&gt; Derivative matrix of expected statistics X by parameters:
+#&gt; 
+#&gt;      132.941        0.000      132.941       74.533        8.556        0.000        1.202        0.112        1.988        0.000        6.913        6.781       30.527
+#&gt;        0.000      131.107       24.343        5.964        0.000       -4.994       -4.798        1.158        0.000        4.241        7.737        2.612       -0.629
+#&gt;       13.273        1.010      239.217      179.315        2.385        0.642       12.087       13.805        2.966        1.527       -3.053       -9.861     -190.410
+#&gt;       -2.673       -3.952       78.722      324.716        0.159       -0.581        6.893       12.416       -3.480       -7.993       -1.468        2.382      -13.218
+#&gt;        0.833        0.000        0.833        1.522       15.093        0.000      -10.838       -7.113        0.583        0.000       -4.681       -2.521      -38.144
+#&gt;        0.000        0.020       -0.730       -3.100        0.000       35.546      -22.704      -11.606        0.000        1.040       -0.219        1.126       11.227
+#&gt;      -16.014      -12.629      -18.632       31.995      233.982      111.217     1198.180      585.864       30.629       -5.641      -23.434        3.218     -257.176
+#&gt;       -6.814       -0.760        0.818       24.243      -17.422      -10.640      337.481      427.452        7.243        3.119      -39.031      -22.970     -395.754
+#&gt;       -0.566        0.000       -0.566       -4.057        1.927        0.000        1.630       -0.902       35.176        0.000      -15.960       -7.706      -28.232
+#&gt;        0.000        1.516        0.494        1.300        0.000       -2.423       -1.553       -0.547        0.000       24.568      -10.358       -3.517       32.539
+#&gt;       30.438        7.969       29.723        7.063      -15.764       12.843       23.465       28.321       72.829      129.622     1825.646      893.247     8291.916
+#&gt;       19.415        6.735       24.296       31.853        4.112       21.385       15.481        9.718      -34.339      -32.576      458.377      589.002     4563.053
+#&gt;       54.716      -20.418      -61.003       17.543       38.025      141.614       39.641       37.866     -544.479     -288.619     5969.852     6118.327    83996.091
+#&gt; 
+#&gt; Covariance matrix of X (correlations below diagonal):
+#&gt; 
+#&gt;      497.015        4.557      479.707      247.205       33.372       27.958      -10.932       -6.326       10.358        6.643       51.561       37.327      154.597
+#&gt;        0.013      261.195       53.199       -4.938        0.942      -10.017       -6.143       -2.699        2.250        6.459        2.683      -12.052     -239.677
+#&gt;        0.788        0.121      745.986      409.270       28.333       30.891      -18.142       -1.051       15.429        3.343       17.686        1.186     -448.007
+#&gt;        0.386       -0.011        0.522      825.249        6.730        9.724       16.526       34.661      -10.065      -16.674       -4.076       -7.664     -505.453
+#&gt;        0.069        0.003        0.048        0.011      467.748       24.730       60.917      -32.060       -8.961        6.235      -21.400       -4.606      -99.846
+#&gt;        0.060       -0.030        0.054        0.016        0.055      439.810      -11.807      -72.686       13.563      -14.382       65.693       62.558      522.842
+#&gt;       -0.015       -0.012       -0.021        0.018        0.088       -0.018     1029.845      500.205       46.258       16.642       18.497        9.530       -6.607
+#&gt;       -0.012       -0.007       -0.002        0.052       -0.063       -0.148        0.667      546.274        6.958        3.525      -11.461        3.445        7.978
+#&gt;        0.019        0.006        0.023       -0.014       -0.017        0.027        0.060        0.012      584.649        8.055     -117.792     -151.288     -952.159
+#&gt;        0.014        0.019        0.006       -0.028        0.014       -0.033        0.025        0.007        0.016      429.464       52.034      -53.334     -151.620
+#&gt;        0.052        0.004        0.015       -0.003       -0.022        0.071        0.013       -0.011       -0.110        0.057     1960.422     1292.018    14059.103
+#&gt;        0.044       -0.019        0.001       -0.007       -0.006        0.078        0.008        0.004       -0.163       -0.067        0.762     1465.197    15656.572
+#&gt;        0.015       -0.031       -0.034       -0.037       -0.010        0.052        0.000        0.001       -0.083       -0.015        0.666        0.857   227629.972</code></pre>
+<pre class="r test"><code># Research question 2: To what extent is the presumed segregation along party affiliation in the retweet network among Dutch MPs the byproduct of segregation along other social dimensions such as sex, age?
+
+# Answer:</code></pre>
+<pre class="r test"><code># Research question 3: To what extent is the presumed segregation along party affiliation in the retweet network among Dutch MPs the result of propinquity?
+
+# Answer:
+
+# Research question 4: To what extent is the presumed segregation along party affiliation in the retweet network among Dutch MPs the result of structural (network) effects?
+
+# Answer:</code></pre>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlR1dG9yaWFsIg0KI2JpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCmF1dGhvcjogIk5pbmEgQnJhbnRlbiINCi0tLQ0KDQoNCmBgYHtyLCBlY2hvPVRSVUUsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89VFJVRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQpMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgDQoNCjxicj4NCg0KDQoNCiMgQmVmb3JlIHlvdSBzdGFydA0KDQpgYGB7cn0NCiMjIyBBdXRob3I6IE5JTkEgQlJBTlRFTiMjIyBMYXN0bW9kOiAyOC0wOS0yMDIyIyMjDQoNCiMgY2xlYW51cCB3b3Jrc3BhY2UNCnJtKGxpc3QgPSBscygpKQ0KYGBgDQoNCmBgYHtyfQ0KIyBpbnN0YWxsIHBhY2thZ2VzDQpsaWJyYXJ5KFJTaWVuYSkNCmBgYA0KDQpgYGB7cn0NCiMgZGVuc2l0eTogb2JzZXJ2ZWQgcmVsYXRpb25zIGRpdmlkZWQgYnkgcG9zc2libGUgcmVsYXRpb25zDQpmZGVuc2l0eSA8LSBmdW5jdGlvbih4KSB7DQogICAgIyB4IGlzIHlvdXIgbm9taW5hdGlvbiBuZXR3b3JrIG1ha2Ugc3VyZSBkaWFnb25hbCBjZWxscyBhcmUgTkENCiAgICBkaWFnKHgpIDwtIE5BDQogICAgIyB0YWtlIGNhcmUgb2YgUlNpZW5hIHN0cnVjdHVyYWwgemVyb3MsIHNldCBhcyBtaXNzaW5nLg0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBzdW0oeCA9PSAxLCBuYS5ybSA9IFQpLyhzdW0oeCA9PSAxIHwgeCA9PSAwLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGNhbGN1bGF0ZSBpbnRyYWdyb3VwIGRlbnNpdHkNCmZkZW5zaXR5aW50cmEgPC0gZnVuY3Rpb24oeCwgQSkgew0KICAgICMgQSBpcyBtYXRyaXggaW5kaWNhdGluZyB3aGV0aGVyIG5vZGVzIGluIGR5YWQgaGF2ZSBzYW1lIG5vZGUgYXR0cmlidXRlcw0KICAgIGRpYWcoeCkgPC0gTkENCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgZGlhZyhBKSA8LSBOQQ0KICAgIHN1bSh4ID09IDEgJiBBID09IDEsIG5hLnJtID0gVCkvKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSAmIEEgPT0gMSwgbmEucm0gPSBUKSkNCn0NCg0KIyBjYWxjdWxhdGUgaW50cmFncm91cCBkZW5zaXR5DQpmZGVuc2l0eWludGVyIDwtIGZ1bmN0aW9uKHgsIEEpIHsNCiAgICAjIEEgaXMgbWF0cml4IGluZGljYXRpbmcgd2hldGhlciBub2RlcyBpbiBkeWFkIGhhdmUgc2FtZSBub2RlIGF0dHJpYnV0ZXMNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIGRpYWcoQSkgPC0gTkENCiAgICBzdW0oeCA9PSAxICYgQSAhPSAxLCBuYS5ybSA9IFQpLyhzdW0oKHggPT0gMSB8IHggPT0gMCkgJiBBICE9IDEsIG5hLnJtID0gVCkpDQp9DQoNCiMgY29uc3RydWN0IGR5YWRjaGFyYWN0ZXJpc3RpYyB3aGV0aGVyIG5vZGVzIGFyZSBzaW1pbGFyL2hvbW9nZW5vdXMNCmZob21vbWF0IDwtIGZ1bmN0aW9uKHgpIHsNCiAgICAjIHggaXMgYSB2ZWN0b3Igb2Ygbm9kZS1jb3ZhcmlhdGUNCiAgICB4bWF0IDwtIG1hdHJpeCh4LCBucm93ID0gbGVuZ3RoKHgpLCBuY29sID0gbGVuZ3RoKHgpKQ0KICAgIHhtYXR0IDwtIHQoeG1hdCkNCiAgICB4aG9tbyA8LSB4bWF0ID09IHhtYXR0DQogICAgcmV0dXJuKHhob21vKQ0KfQ0KDQojIGEgZnVuY3Rpb24gdG8gY2FsY3VsYXRlIGFsbCB2YWxpZCBkeWFkcy4NCmZuZHlhZHMgPC0gZnVuY3Rpb24oeCkgew0KICAgIGRpYWcoeCkgPC0gTkENCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSwgbmEucm0gPSBUKSkNCn0NCg0KIyBhIGZ1bmN0aW9uIHRvIGNhbGN1bGF0ZSBhbGwgdmFsaWQgaW50cmFncm91cGR5YWRzLg0KZm5keWFkczIgPC0gZnVuY3Rpb24oeCwgQSkgew0KICAgIGRpYWcoeCkgPC0gTkENCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgZGlhZyhBKSA8LSBOQQ0KICAgIChzdW0oKHggPT0gMSB8IHggPT0gMCkgJiBBID09IDEsIG5hLnJtID0gVCkpDQp9DQoNCg0KZnNjb2xuZXQgPC0gZnVuY3Rpb24obmV0d29yaywgY2NvdmFyKSB7DQogICAgIyBDYWxjdWxhdGUgY29sZW1hbiBvbiBuZXR3b3JrIGxldmVsOg0KICAgICMgaHR0cHM6Ly9yZWFkZXIuZWxzZXZpZXIuY29tL3JlYWRlci9zZC9waWkvUzAzNzg4NzMzMTQwMDAyMzk/dG9rZW49QTQyRjk5RkY2RTJCNzUwNDM2REQyQ0IwREI3QjFGNDFCREVDMTYwNTJBNDU2ODNDMDI2NDREQUY4ODIxNUEzMzc5NjM2QjJBQTE5N0I2NTk0MUQ2MzczRTlFMkVFNDEzDQogICAgDQogICAgZmhvbW9tYXQgPC0gZnVuY3Rpb24oeCkgew0KICAgICAgICB4bWF0IDwtIG1hdHJpeCh4LCBucm93ID0gbGVuZ3RoKHgpLCBuY29sID0gbGVuZ3RoKHgpKQ0KICAgICAgICB4bWF0dCA8LSB0KHhtYXQpDQogICAgICAgIHhob21vIDwtIHhtYXQgPT0geG1hdHQNCiAgICAgICAgcmV0dXJuKHhob21vKQ0KICAgIH0NCiAgICANCiAgICBmc3VtaW50cmEgPC0gZnVuY3Rpb24oeCwgQSkgew0KICAgICAgICAjIEEgaXMgbWF0cml4IGluZGljYXRpbmcgd2hldGhlciBub2RlcyBjb25zdGl0dXRpbmcgZHlhZCBoYXZlIHNhbWUgY2hhcmFjdGVyaXN0aWNzDQogICAgICAgIGRpYWcoeCkgPC0gTkENCiAgICAgICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgICAgICBkaWFnKEEpIDwtIE5BDQogICAgICAgIHN1bSh4ID09IDEgJiBBID09IDEsIG5hLnJtID0gVCkNCiAgICB9DQogICAgDQogICAgIyBleHBlY2F0aW9uIHcqPXN1bV9nIHN1bV9pIChuaSgobmctMSkvKE4tMSkpKQ0KICAgIG5ldHdvcmtbbmV0d29yayA9PSAxMF0gPC0gTkENCiAgICBuaSA8LSByb3dTdW1zKG5ldHdvcmssIG5hLnJtID0gVCkNCiAgICBuZyA8LSBOQQ0KICAgIGZvciAoaSBpbiAxOmxlbmd0aChjY292YXIpKSB7DQogICAgICAgIG5nW2ldIDwtIHRhYmxlKGNjb3Zhcilbcm93bmFtZXModGFibGUoY2NvdmFyKSkgPT0gY2NvdmFyW2ldXQ0KICAgIH0NCiAgICBOIDwtIGxlbmd0aChjY292YXIpDQogICAgd2V4cCA8LSBzdW0obmkgKiAoKG5nIC0gMSkvKE4gLSAxKSksIG5hLnJtID0gVCkNCiAgICANCiAgICAjIHdnZzEgaG93IG1hbnkgaW50cmFncm91cCB0aWVzDQogICAgdyA8LSBmc3VtaW50cmEobmV0d29yaywgZmhvbW9tYXQoY2NvdmFyKSkNCiAgICANCiAgICBTY29sX25ldCA8LSBpZmVsc2UodyA+PSB3ZXhwLCAodyAtIHdleHApLyhzdW0obmksIG5hLnJtID0gVCkgLSB3ZXhwKSwgKHcgLSB3ZXhwKS93ZXhwKQ0KICAgIHJldHVybihTY29sX25ldCkNCn0NCmBgYA0KDQoNCiMgRGF0YQ0KDQpgYGB7cn0NCmdldHdkKCkNCmxvYWQoInR3aXR0ZXJfMjAxOTA5MTkuUkRhdGEiKSAgI2NoYW5nZSB0byB5b3VyIHdvcmtpbmcgZGlyZWN0b3J5DQpzdHIodHdpdHRlcl8yMDE5MDkxOSwgMSkNCmtleWYgPC0gdHdpdHRlcl8yMDE5MDkxOVtbMV1dDQoja2V5ZiBpcyBkYXRhZnJhbWUgb24gMTQ3IER1dGNoIE1Qcw0KbXlkYXRhIDwtIHR3aXR0ZXJfMjAxOTA5MTlbWzJdXQ0KIyBteWRhdGEgaXMgb2JqZWN0IHJlYWR5IHRvIGFuYWx5emUgaW4gUlNpZW5hLiBOb2RlcyBhcmUgdGhlIHNhbWUgYXMgaW4ga2V5ZiBhbmQgc2VhdHMuIENvbnRhaW5zIHR3aXR0ZXIgZGF0YSBhdCB0aHJlZSB0aW1lcG91bnRzLiBUaHJlZSBsYXllcnM6IGZuZXQgKHdobyBmb2xsb3dzIHdob20pLCBhdG1uZXQgKHdobyBhbWVudGlvbnMgd2hvbSkgYW5kIHJudGVyICh3aG8gcmV0d2VldHMgd2hvbSkuIEFsc28gY29udGFpbnMgdGltZXZhcmlhbnQgaW5mb3JtYXRpb24gb24gbm9kZXMuDQpzZWF0cyA8LSB0d2l0dGVyXzIwMTkwOTE5W1szXV0NCiNzZWF0cyBpcyBkYXRhc2V0IHdoaWNoIGNvbnRhaW5zIGNvb3JkaW5hdGVzIG9mIHNlYXRzIGluIEhvdXNlIG9mIFBhcmxpYW1lbnQgaW4gTmV0aGVybGFuZHMNCmBgYA0KDQojIERlbnNpdGllcw0KDQpgYGB7cn0NCiMgcmV0cmlldmUgbm9taW5hdGlvbmRhdGEgZnJvbSByc2llbmEgb2JqZWN0DQpmbmV0IDwtIG15ZGF0YSRkZXB2YXJzJGZuZXQNCmF0bW5ldCA8LSBteWRhdGEkZGVwdmFycyRhdG1uZXQNCnJ0bmV0IDwtIG15ZGF0YSRkZXB2YXJzJHJ0bmV0DQoNCiMgcmV0cmlldmUgbm9kZS1hdHRyaWJ1dGVzIGZyb20gcnNpZW5hIG9iamVjdA0KdnJvdXcgPC0gbXlkYXRhJGNDb3ZhcnMkdnJvdXcNCnBhcnRpaiA8LSBteWRhdGEkY0NvdmFycyRwYXJ0aWoNCmV0aG1pbnogPC0gbXlkYXRhJGNDb3ZhcnMkZXRobWlueg0KbGZ0IDwtIG15ZGF0YSRjQ292YXJzJGxmdA0KDQojIGRlLW1lYW4tY2VudGVyIG5vZGUgYXR0cmlidXRlcw0KZXRobWlueiA8LSBldGhtaW56ICsgYXR0cmlidXRlcyhldGhtaW56KSRtZWFuDQpwYXJ0aWogPC0gcGFydGlqICsgYXR0cmlidXRlcyhwYXJ0aWopJG1lYW4NCnZyb3V3IDwtIHZyb3V3ICsgYXR0cmlidXRlcyh2cm91dykkbWVhbg0KbGZ0IDwtIGxmdCArIGF0dHJpYnV0ZXMobGZ0KSRtZWFuDQoNCiMgY29uc3RydWN0IG1hdHJpY2VzIGZvciBzaW1pbGFyaXR5IGZvciBlYWNoIGRpbWVuc2lvbiAoZHlhZCBjaGFyYWN0ZXJpc3RpY3MpDQp2cm91d20gPC0gZmhvbW9tYXQodnJvdXcpDQpwYXJ0aWptIDwtIGZob21vbWF0KHBhcnRpaikNCmV0aG1pbnptIDwtIGZob21vbWF0KGV0aG1pbnopDQoNCiMganVzdCBmb3IgZnVuLCBtYWtlIGR5YWQgY2hhcmFjdGVyaXN0aWMgaW5kaWNhdGluZyB3aGV0aGVyIGJvdGggbm9kZXMgYXJlIGV0aG5pYyBtaW5vcml0aWVzDQp4bWF0IDwtIG1hdHJpeChldGhtaW56LCBucm93ID0gbGVuZ3RoKGV0aG1pbnopLCBuY29sID0gbGVuZ3RoKGV0aG1pbnopKQ0KeG1hdHQgPC0gdCh4bWF0KQ0KbWlub3JpdHltIDwtIHhtYXQgPT0gMSAmIHhtYXR0ID09IDENCg0KIyBmb3IgYWdlIG1heCA1IHllYXIgZGlmZmVyZW5jZSAvIGZvciBkZXNjcmlwdGl2ZXMNCnhtYXQgPC0gbWF0cml4KGxmdCwgbnJvdyA9IGxlbmd0aChsZnQpLCBuY29sID0gbGVuZ3RoKGxmdCkpDQp4bWF0dCA8LSB0KHhtYXQpDQpsZnRtIDwtIChhYnMoeG1hdCAtIHhtYXR0KSA8IDYpDQoNCiMgY2FsY3VsYXRlIGFsbCBwb3NzaWJsZSBzaW1pbGFyIGR5YWRzLCBub3QgdGhlIGZvY3VzIG9mIHRoaXMgZXhlcmNpc2UuICBmbmR5YWRzMihmbmV0WywsMV0sIHZyb3V3bSkNCiMgZm5keWFkczIoZm5ldFssLDNdLCB2cm91d20pIGZuZHlhZHMyKGZuZXRbLCwxXSwgcGFydGlqbSkgZm5keWFkczIoZm5ldFssLDNdLCBwYXJ0aWptKQ0KIyBmbmR5YWRzMihmbmV0WywsMV0sIGV0aG1pbnptKSBmbmR5YWRzMihmbmV0WywsM10sIGV0aG1pbnptKQ0KDQojIG1ha2UgYSBiaWcgb2JqZWN0IHRvIHN0b3JlIGFsbCByZXN1bHRzDQpkZXNtYXQgPC0gbWF0cml4KE5BLCBucm93ID0gMTAsIG5jb2wgPSA5KQ0KDQojIGxldHMgc3RhcnQgdXNpbmcgb3VyIGZ1bmN0aW9ucw0KZGVzbWF0WzEsIDFdIDwtIGZkZW5zaXR5KGZuZXRbLCAsIDFdKQ0KZGVzbWF0WzEsIDJdIDwtIGZkZW5zaXR5KGZuZXRbLCAsIDJdKQ0KZGVzbWF0WzEsIDNdIDwtIGZkZW5zaXR5KGZuZXRbLCAsIDNdKQ0KZGVzbWF0WzIsIDFdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgMV0sIHZyb3V3bSkNCmRlc21hdFsyLCAyXSA8LSBmZGVuc2l0eWludHJhKGZuZXRbLCAsIDJdLCB2cm91d20pDQpkZXNtYXRbMiwgM10gPC0gZmRlbnNpdHlpbnRyYShmbmV0WywgLCAzXSwgdnJvdXdtKQ0KZGVzbWF0WzMsIDFdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgMV0sIHZyb3V3bSkNCmRlc21hdFszLCAyXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDJdLCB2cm91d20pDQpkZXNtYXRbMywgM10gPC0gZmRlbnNpdHlpbnRlcihmbmV0WywgLCAzXSwgdnJvdXdtKQ0KZGVzbWF0WzQsIDFdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgMV0sIHBhcnRpam0pDQpkZXNtYXRbNCwgMl0gPC0gZmRlbnNpdHlpbnRyYShmbmV0WywgLCAyXSwgcGFydGlqbSkNCmRlc21hdFs0LCAzXSA8LSBmZGVuc2l0eWludHJhKGZuZXRbLCAsIDNdLCBwYXJ0aWptKQ0KZGVzbWF0WzUsIDFdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgMV0sIHBhcnRpam0pDQpkZXNtYXRbNSwgMl0gPC0gZmRlbnNpdHlpbnRlcihmbmV0WywgLCAyXSwgcGFydGlqbSkNCmRlc21hdFs1LCAzXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDNdLCBwYXJ0aWptKQ0KZGVzbWF0WzYsIDFdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgMV0sIGV0aG1pbnptKQ0KZGVzbWF0WzYsIDJdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgMl0sIGV0aG1pbnptKQ0KZGVzbWF0WzYsIDNdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgM10sIGV0aG1pbnptKQ0KZGVzbWF0WzcsIDFdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgMV0sIGV0aG1pbnptKQ0KZGVzbWF0WzcsIDJdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgMl0sIGV0aG1pbnptKQ0KZGVzbWF0WzcsIDNdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgM10sIGV0aG1pbnptKQ0KZGVzbWF0WzgsIDFdIDwtIGZkZW5zaXR5aW50ZXIoZm5ldFssICwgMV0sIG1pbm9yaXR5bSkNCmRlc21hdFs4LCAyXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDJdLCBtaW5vcml0eW0pDQpkZXNtYXRbOCwgM10gPC0gZmRlbnNpdHlpbnRlcihmbmV0WywgLCAzXSwgbWlub3JpdHltKQ0KZGVzbWF0WzksIDFdIDwtIGZkZW5zaXR5aW50cmEoZm5ldFssICwgMV0sIGxmdG0pDQpkZXNtYXRbOSwgMl0gPC0gZmRlbnNpdHlpbnRyYShmbmV0WywgLCAyXSwgbGZ0bSkNCmRlc21hdFs5LCAzXSA8LSBmZGVuc2l0eWludHJhKGZuZXRbLCAsIDNdLCBsZnRtKQ0KZGVzbWF0WzEwLCAxXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDFdLCBsZnRtKQ0KZGVzbWF0WzEwLCAyXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDJdLCBsZnRtKQ0KZGVzbWF0WzEwLCAzXSA8LSBmZGVuc2l0eWludGVyKGZuZXRbLCAsIDNdLCBsZnRtKQ0KDQpkZXNtYXRbMSwgMSArIDNdIDwtIGZkZW5zaXR5KGF0bW5ldFssICwgMV0pDQpkZXNtYXRbMSwgMiArIDNdIDwtIGZkZW5zaXR5KGF0bW5ldFssICwgMl0pDQpkZXNtYXRbMSwgMyArIDNdIDwtIGZkZW5zaXR5KGF0bW5ldFssICwgM10pDQpkZXNtYXRbMiwgMSArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAxXSwgdnJvdXdtKQ0KZGVzbWF0WzIsIDIgKyAzXSA8LSBmZGVuc2l0eWludHJhKGF0bW5ldFssICwgMl0sIHZyb3V3bSkNCmRlc21hdFsyLCAzICsgM10gPC0gZmRlbnNpdHlpbnRyYShhdG1uZXRbLCAsIDNdLCB2cm91d20pDQpkZXNtYXRbMywgMSArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAxXSwgdnJvdXdtKQ0KZGVzbWF0WzMsIDIgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgMl0sIHZyb3V3bSkNCmRlc21hdFszLCAzICsgM10gPC0gZmRlbnNpdHlpbnRlcihhdG1uZXRbLCAsIDNdLCB2cm91d20pDQpkZXNtYXRbNCwgMSArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAxXSwgcGFydGlqbSkNCmRlc21hdFs0LCAyICsgM10gPC0gZmRlbnNpdHlpbnRyYShhdG1uZXRbLCAsIDJdLCBwYXJ0aWptKQ0KZGVzbWF0WzQsIDMgKyAzXSA8LSBmZGVuc2l0eWludHJhKGF0bW5ldFssICwgM10sIHBhcnRpam0pDQpkZXNtYXRbNSwgMSArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAxXSwgcGFydGlqbSkNCmRlc21hdFs1LCAyICsgM10gPC0gZmRlbnNpdHlpbnRlcihhdG1uZXRbLCAsIDJdLCBwYXJ0aWptKQ0KZGVzbWF0WzUsIDMgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgM10sIHBhcnRpam0pDQpkZXNtYXRbNiwgMSArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAxXSwgZXRobWluem0pDQpkZXNtYXRbNiwgMiArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAyXSwgZXRobWluem0pDQpkZXNtYXRbNiwgMyArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAzXSwgZXRobWluem0pDQpkZXNtYXRbNywgMSArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAxXSwgZXRobWluem0pDQpkZXNtYXRbNywgMiArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAyXSwgZXRobWluem0pDQpkZXNtYXRbNywgMyArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAzXSwgZXRobWluem0pDQpkZXNtYXRbOCwgMSArIDNdIDwtIGZkZW5zaXR5aW50ZXIoYXRtbmV0WywgLCAxXSwgbWlub3JpdHltKQ0KZGVzbWF0WzgsIDIgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgMl0sIG1pbm9yaXR5bSkNCmRlc21hdFs4LCAzICsgM10gPC0gZmRlbnNpdHlpbnRlcihhdG1uZXRbLCAsIDNdLCBtaW5vcml0eW0pDQpkZXNtYXRbOSwgMSArIDNdIDwtIGZkZW5zaXR5aW50cmEoYXRtbmV0WywgLCAxXSwgbGZ0bSkNCmRlc21hdFs5LCAyICsgM10gPC0gZmRlbnNpdHlpbnRyYShhdG1uZXRbLCAsIDJdLCBsZnRtKQ0KZGVzbWF0WzksIDMgKyAzXSA8LSBmZGVuc2l0eWludHJhKGF0bW5ldFssICwgM10sIGxmdG0pDQpkZXNtYXRbMTAsIDEgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgMV0sIGxmdG0pDQpkZXNtYXRbMTAsIDIgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgMl0sIGxmdG0pDQpkZXNtYXRbMTAsIDMgKyAzXSA8LSBmZGVuc2l0eWludGVyKGF0bW5ldFssICwgM10sIGxmdG0pDQoNCmRlc21hdFsxLCAxICsgNl0gPC0gZmRlbnNpdHkocnRuZXRbLCAsIDFdKQ0KZGVzbWF0WzEsIDIgKyA2XSA8LSBmZGVuc2l0eShydG5ldFssICwgMl0pDQpkZXNtYXRbMSwgMyArIDZdIDwtIGZkZW5zaXR5KHJ0bmV0WywgLCAzXSkNCmRlc21hdFsyLCAxICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgMV0sIHZyb3V3bSkNCmRlc21hdFsyLCAyICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgMl0sIHZyb3V3bSkNCmRlc21hdFsyLCAzICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgM10sIHZyb3V3bSkNCmRlc21hdFszLCAxICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMV0sIHZyb3V3bSkNCmRlc21hdFszLCAyICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMl0sIHZyb3V3bSkNCmRlc21hdFszLCAzICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgM10sIHZyb3V3bSkNCmRlc21hdFs0LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgMV0sIHBhcnRpam0pDQpkZXNtYXRbNCwgMiArIDZdIDwtIGZkZW5zaXR5aW50cmEocnRuZXRbLCAsIDJdLCBwYXJ0aWptKQ0KZGVzbWF0WzQsIDMgKyA2XSA8LSBmZGVuc2l0eWludHJhKHJ0bmV0WywgLCAzXSwgcGFydGlqbSkNCmRlc21hdFs1LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMV0sIHBhcnRpam0pDQpkZXNtYXRbNSwgMiArIDZdIDwtIGZkZW5zaXR5aW50ZXIocnRuZXRbLCAsIDJdLCBwYXJ0aWptKQ0KZGVzbWF0WzUsIDMgKyA2XSA8LSBmZGVuc2l0eWludGVyKHJ0bmV0WywgLCAzXSwgcGFydGlqbSkNCmRlc21hdFs2LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgMV0sIGV0aG1pbnptKQ0KZGVzbWF0WzYsIDIgKyA2XSA8LSBmZGVuc2l0eWludHJhKHJ0bmV0WywgLCAyXSwgZXRobWluem0pDQpkZXNtYXRbNiwgMyArIDZdIDwtIGZkZW5zaXR5aW50cmEocnRuZXRbLCAsIDNdLCBldGhtaW56bSkNCmRlc21hdFs3LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMV0sIGV0aG1pbnptKQ0KZGVzbWF0WzcsIDIgKyA2XSA8LSBmZGVuc2l0eWludGVyKHJ0bmV0WywgLCAyXSwgZXRobWluem0pDQpkZXNtYXRbNywgMyArIDZdIDwtIGZkZW5zaXR5aW50ZXIocnRuZXRbLCAsIDNdLCBldGhtaW56bSkNCmRlc21hdFs4LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMV0sIG1pbm9yaXR5bSkNCmRlc21hdFs4LCAyICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMl0sIG1pbm9yaXR5bSkNCmRlc21hdFs4LCAzICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgM10sIG1pbm9yaXR5bSkNCmRlc21hdFs5LCAxICsgNl0gPC0gZmRlbnNpdHlpbnRyYShydG5ldFssICwgMV0sIGxmdG0pDQpkZXNtYXRbOSwgMiArIDZdIDwtIGZkZW5zaXR5aW50cmEocnRuZXRbLCAsIDJdLCBsZnRtKQ0KZGVzbWF0WzksIDMgKyA2XSA8LSBmZGVuc2l0eWludHJhKHJ0bmV0WywgLCAzXSwgbGZ0bSkNCmRlc21hdFsxMCwgMSArIDZdIDwtIGZkZW5zaXR5aW50ZXIocnRuZXRbLCAsIDFdLCBsZnRtKQ0KZGVzbWF0WzEwLCAyICsgNl0gPC0gZmRlbnNpdHlpbnRlcihydG5ldFssICwgMl0sIGxmdG0pDQpkZXNtYXRbMTAsIDMgKyA2XSA8LSBmZGVuc2l0eWludGVyKHJ0bmV0WywgLCAzXSwgbGZ0bSkNCg0KY29sbmFtZXMoZGVzbWF0KSA8LSBjKCJmcmllbmRzIHcxIiwgImZyaWVuZHMgdzIiLCAiZnJpZW5kcyB3MyIsICJhdG1lbnRpb25zIHcxIiwgImF0bWVudGlvbnMgdzIiLCAiYXRtZW50aW9ucyB3MyIsIA0KICAgICJyZXR3ZWV0cyB3MSIsICJyZXR3ZWV0cyB3MiIsICJyZXR3ZWV0cyB3MyIpDQpyb3duYW1lcyhkZXNtYXQpIDwtIGMoInRvdGFsIiwgInNhbWUgc2V4IiwgImRpZmZlcmVudCBzZXgiLCAic2FtZSBwYXJ0eSIsICJkaWZmZXJlbnQgcGFydHkiLCAic2FtZSBldGhuaWNpdHkiLCANCiAgICAiZGlmZmVyZW50IGV0aG5pY2l0eSIsICJib3RoIG1pbm9yaXR5IiwgInNhbWUgYWdlICg8NikiLCAiZGlmZmVyZW50IGFnZSAoPjUpIikNCmRlc21hdA0KYGBgDQoNCg0KYGBge3J9DQojIHdlIG9ic2VydmUgYSBsb3Qgb2YgaG9tb3BoaWx5LiBNYWlubHkgYmlnIGRpZmZlcmVuY2UgaW4gZGVuc2l0eSBiZXR3ZWVuIGFuZCB3aGl0aGluIHBvbGl0aWNhbCBwYXJ0aWVzLiBIb21vcGhpbHkgaXMgbm90IHRoYXQgc3Ryb25nIGFjcm9zcyBzb2NpYWwgZGltZW5zaW9ucy4NCmBgYA0KDQojIENvbGVtYW4gaG9tb3BoaWx5IGluZGV4DQpgYGB7cn0NCiMgQmVjYXVzZSBzaXplIG9mIGRpZmZlcmVudCBzdWJncm91cHMgdmFyeSBhbmQgbnVtYmVyIG9mIG91dC1kZWdyZWVzIGRpZmZlcnMgYmV0d2VlbiBNUHMsIHdoaXRpbiBwYXJ0eSBkZW5zaXRpZXMgbWlnaHQgYmUgaGlnaGVyIHdoZW4gTVBzIHJhbmRvbWx5IHNlbGVjdCBwYXJ0bmVyL2FsdGVyLiBTZWdyZWdhdGlvbiB3aWxsIHBhcnRseSBiZSBzdHJ1Y3R1bGx5IGluZHVjZWQgYnkgZGlmZmVyZW5jZXMgaW4gcmVsYXRpdmUgZ3JvdXBzIHNpemVzIGFuZCBhY3Rpdml0eSBvbiB0d2l0dGVyLiBDb2xlbWFuJ3MgaG9tb3BoaWx5IGluZGV4OiB0YWtlcyByZWxhdGl2ZSBncm91cCBzaXplcyBhbmQgZGlmZmVyZW5jZXMgaW50byBhY2NvdW50LiAwIC0+IG9ic2VydmVkIG51bWJlciBvZiB3aXRoaW4tZ3JvdXAgdGllcyBpcyB0aGUgc2FtZSBhcyB3b3VsZCBiZSBleHBlY3RlZCB1bmRlciByYW5kb20gY2hvaWNlLiAxIC0+IG1heGltdW0gc2VncmVnYXRpb24uIC0xIC0+IE1QcyBtYXhpbWFsbHkgYXZvaWQgd2l0aGluIGdyb3VwIHJlbGF0aW9ucy4NCmBgYA0KDQpgYGB7cn0NCmNvbG1hdCA8LSBtYXRyaXgoTkEsIG5yb3cgPSAzLCBuY29sID0gOSkNCg0KY29sbWF0WzEsIDFdIDwtIGZzY29sbmV0KGZuZXRbLCAsIDFdLCBwYXJ0aWopDQpjb2xtYXRbMSwgMl0gPC0gZnNjb2xuZXQoZm5ldFssICwgMl0sIHBhcnRpaikNCmNvbG1hdFsxLCAzXSA8LSBmc2NvbG5ldChmbmV0WywgLCAzXSwgcGFydGlqKQ0KY29sbWF0WzEsIDRdIDwtIGZzY29sbmV0KGF0bW5ldFssICwgMV0sIHBhcnRpaikNCmNvbG1hdFsxLCA1XSA8LSBmc2NvbG5ldChhdG1uZXRbLCAsIDJdLCBwYXJ0aWopDQpjb2xtYXRbMSwgNl0gPC0gZnNjb2xuZXQoYXRtbmV0WywgLCAzXSwgcGFydGlqKQ0KY29sbWF0WzEsIDddIDwtIGZzY29sbmV0KHJ0bmV0WywgLCAxXSwgcGFydGlqKQ0KY29sbWF0WzEsIDhdIDwtIGZzY29sbmV0KHJ0bmV0WywgLCAyXSwgcGFydGlqKQ0KY29sbWF0WzEsIDldIDwtIGZzY29sbmV0KHJ0bmV0WywgLCAzXSwgcGFydGlqKQ0KDQpjb2xtYXRbMiwgMV0gPC0gZnNjb2xuZXQoZm5ldFssICwgMV0sIHZyb3V3KQ0KY29sbWF0WzIsIDJdIDwtIGZzY29sbmV0KGZuZXRbLCAsIDJdLCB2cm91dykNCmNvbG1hdFsyLCAzXSA8LSBmc2NvbG5ldChmbmV0WywgLCAzXSwgdnJvdXcpDQpjb2xtYXRbMiwgNF0gPC0gZnNjb2xuZXQoYXRtbmV0WywgLCAxXSwgdnJvdXcpDQpjb2xtYXRbMiwgNV0gPC0gZnNjb2xuZXQoYXRtbmV0WywgLCAyXSwgdnJvdXcpDQpjb2xtYXRbMiwgNl0gPC0gZnNjb2xuZXQoYXRtbmV0WywgLCAzXSwgdnJvdXcpDQpjb2xtYXRbMiwgN10gPC0gZnNjb2xuZXQocnRuZXRbLCAsIDFdLCB2cm91dykNCmNvbG1hdFsyLCA4XSA8LSBmc2NvbG5ldChydG5ldFssICwgMl0sIHZyb3V3KQ0KY29sbWF0WzIsIDldIDwtIGZzY29sbmV0KHJ0bmV0WywgLCAzXSwgdnJvdXcpDQoNCmNvbG1hdFszLCAxXSA8LSBmc2NvbG5ldChmbmV0WywgLCAxXSwgZXRobWlueikNCmNvbG1hdFszLCAyXSA8LSBmc2NvbG5ldChmbmV0WywgLCAyXSwgZXRobWlueikNCmNvbG1hdFszLCAzXSA8LSBmc2NvbG5ldChmbmV0WywgLCAzXSwgZXRobWlueikNCmNvbG1hdFszLCA0XSA8LSBmc2NvbG5ldChhdG1uZXRbLCAsIDFdLCBldGhtaW56KQ0KY29sbWF0WzMsIDVdIDwtIGZzY29sbmV0KGF0bW5ldFssICwgMl0sIGV0aG1pbnopDQpjb2xtYXRbMywgNl0gPC0gZnNjb2xuZXQoYXRtbmV0WywgLCAzXSwgZXRobWlueikNCmNvbG1hdFszLCA3XSA8LSBmc2NvbG5ldChydG5ldFssICwgMV0sIGV0aG1pbnopDQpjb2xtYXRbMywgOF0gPC0gZnNjb2xuZXQocnRuZXRbLCAsIDJdLCBldGhtaW56KQ0KY29sbWF0WzMsIDldIDwtIGZzY29sbmV0KHJ0bmV0WywgLCAzXSwgZXRobWlueikNCg0KY29sbmFtZXMoY29sbWF0KSA8LSBjKCJmcmllbmRzIHcxIiwgImZyaWVuZHMgdzIiLCAiZnJpZW5kcyB3MyIsICJhdG1lbnRpb25zIHcxIiwgImF0bWVudGlvbnMgdzIiLCAiYXRtZW50aW9ucyB3MyIsIA0KICAgICJyZXR3ZWV0cyB3MSIsICJyZXR3ZWV0cyB3MiIsICJyZXR3ZWV0cyB3MyIpDQpyb3duYW1lcyhjb2xtYXQpIDwtIGMoInBhcnR5IiwgInNleCIsICJldGhuaWNpdHkiKQ0KY29sbWF0DQpgYGANCmBgYHtyfQ0KIyBNb3N0bHkgc2VncmVnYXRpb24gd2l0aGluIHJldHdlZXQgbmV0d29yayBhbmQgYWxvbmcgcGFydGllcw0KYGBgDQoNCiMgUlNpZW5hDQoNCmBgYHtyfQ0KIyBkZWZpbmluZyBteWVmZiBvYmplY3QNCmxpYnJhcnkoUlNpZW5hKQ0KbXllZmYgPC0gZ2V0RWZmZWN0cyhteWRhdGEpDQpteWVmZg0KYGBgDQoNCg0KYGBge3J9DQpteWVmZl9tMSA8LSBteWVmZg0KbXllZmZfbTEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmZfbTEsIHNhbWVYLCBpbnRlcmFjdGlvbjEgPSAicGFydGlqIiwgbmFtZSA9ICJydG5ldCIpDQpgYGANCg0KYGBge3J9DQojIEkgdXNlZCBhIHNlZWQgc28geW91IHdpbGwgcHJvYmFibHkgc2VlIHRoZSBzYW1lIHJlc3VsdHMNCm15YWxnb3JpdGhtIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gInRlc3QiLCBzZWVkID0gMzQ1NjU0KQ0KYGBgDQojIGVzdGltYXRlIG1vZGVscw0KDQpgYGB7ciwgZWNobz1UUlVFLCB3YXJuaW5nPUZBTFNFLCBldmFsPUZBTFNFfQ0KIyB0byBzcGVlZCB0aGluZ3MgdXAgYSBiaXQsIEkgYW0gdXNpbmcgbW9yZSBjb3Jlcy4NCmFuc00xIDwtIHNpZW5hMDcobXlhbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIGVmZmVjdHMgPSBteWVmZl9tMSwgdXNlQ2x1c3RlciA9IFRSVUUsIG5ick5vZGVzID0gNCwgaW5pdEMgPSBUUlVFLCANCiAgICBiYXRjaCA9IFRSVUUpDQphbnNNMWIgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgcHJldkFucyA9IGFuc00xLCBlZmZlY3RzID0gbXllZmZfbTEsIHVzZUNsdXN0ZXIgPSBUUlVFLCANCiAgICBuYnJOb2RlcyA9IDQsIGluaXRDID0gVFJVRSwgYmF0Y2ggPSBUUlVFKQ0KYW5zTTFjIDwtIHNpZW5hMDcobXlhbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIHByZXZBbnMgPSBhbnNNMWIsIGVmZmVjdHMgPSBteWVmZl9tMSwgdXNlQ2x1c3RlciA9IFRSVUUsIA0KICAgIG5ick5vZGVzID0gNCwgaW5pdEMgPSBUUlVFLCBiYXRjaCA9IFRSVUUpDQoNCnNhdmUoYW5zTTEsIGZpbGUgPSAiYW5zTTFhLlJEYXRhIikNCnNhdmUoYW5zTTFiLCBmaWxlID0gImFuc00xYi5SRGF0YSIpDQpzYXZlKGFuc00xYywgZmlsZSA9ICJhbnNNMWMuUkRhdGEiKQ0KYGBgDQpgYGB7cn0NCmxvYWQoImFuc00xYS5SRGF0YSIpDQpsb2FkKCJhbnNNMWIuUkRhdGEiKQ0KbG9hZCgiYW5zTTFjLlJEYXRhIikNCmFuc00xDQpgYGANCg0KYGBge3J9DQphbnNNMWINCmBgYA0KDQpgYGB7cn0NCmFuc00xYw0KYGBgDQoNCiMgcmVzZWFyY2ggcXVlc3Rpb24gMQ0KYGBge3J9DQojVG8gd2hhdCBleHRlbnQgZG8gd2Ugb2JzZXJ2ZSBzZWdyZWdhdGlvbiBhbG9uZyBwYXJ0eSBhZmZpbGlhdGlvbiBpbiB0aGUgcmV0d2VldCBuZXR3b3JrIGFtb25nIER1dGNoIE1Qcz8NCg0KIyBBbnN3ZXI6IHRoZSBldmFsIHNhbWUgcGFydGlqIGlzIDEuODU1MS4gVGhpcyBtZWFucyB0aGF0IHdlIG9ic2VydmUgc3Ryb25nIHNlZ3JlZ2F0aW9uIGFsb25nIHBhcnkgYWZmaWxpYXRpb246IHBlb3BsZSBhcmUgbW9yZSBsaWtlbHkgdG8gaGF2ZSB0aWVzIHdpdGggcGVvcGxlIGZyb20gdGhlIHNhbWUgcGFydHkuDQpgYGANCg0KIyByZXNlYXJjaCBxdWVzdGlvbiAyLCAzIGFuZCA0DQoNCmBgYHtyfQ0KI3Jlc2VhcmNoIHF1ZXN0aW9uIDENCm15ZWZmX20yIDwtIG15ZWZmDQpteWVmZl9tMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZl9tMiwgc2FtZVgsIGludGVyYWN0aW9uMSA9ICJwYXJ0aWoiLCBuYW1lID0gInJ0bmV0IikNCg0KI3Jlc2VhcmNoIHF1ZXN0aW9uIDINCg0KbXllZmZfbTIgPC0gbXllZmYNCm15ZWZmX20yIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmX20yLCBzYW1lWCwgaW50ZXJhY3Rpb24xID0gInZyb3V3IiwgbmFtZSA9ICJydG5ldCIpDQpteWVmZl9tMiA8LSBteWVmZg0KbXllZmZfbTIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmZfbTIsIHNhbWVYLCBpbnRlcmFjdGlvbjEgPSAibGZ0IiwgbmFtZSA9ICJydG5ldCIpDQoNCiNyZXNlYXJjaCBxdWVzdGlvbiAzOiBwcm9waW5xdWl0eSAtPiBub3Qgc3VyZSBpZiBJIGFtIGRvaW5nIHRoaXMgdGhlIHJpZ2h0IHdheT8NCg0KbXllZmZfbTIgPC0gbXllZmYNCm15ZWZmX20yIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmX20yLCBYLCBpbnRlcmFjdGlvbjEgPSAiYWZzdGFuZCIsIG5hbWUgPSAicnRuZXQiKQ0KDQojIHJlc2VhcmNoIHF1ZXN0aW9uIDQ6IHN0cnVjdHVyYWwgZWZmZWN0cyBhcmUgcmVjaXByb2NpdHkgYW5kIHRyYW5zaXRpdml0eS4gRWZmZWN0cyBkZXBlbmRpbmcgb24gbmV0d29yayBvbmx5Lg0KDQpteWVmZl9tMiA8LSBteWVmZg0KbXllZmZfbTIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmZfbTIsIHJlY2lwLCBuYW1lID0gInJ0bmV0IikNCg0KbXllZmZfbTIgPC0gbXllZmYNCm15ZWZmX20yIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmX20yLCB0cmFuc1RyaXAsIG5hbWUgPSAicnRuZXQiKQ0KDQoNCmBgYA0KDQpgYGB7cn0NCiMgSSB1c2VkIGEgc2VlZCBzbyB5b3Ugd2lsbCBwcm9iYWJseSBzZWUgdGhlIHNhbWUgcmVzdWx0cw0KbXlhbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAidGVzdCIsIHNlZWQgPSAzNDU2NTQpDQpgYGANCg0KYGBge3IsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIGV2YWw9RkFMU0V9DQojIHRvIHNwZWVkIHRoaW5ncyB1cCBhIGJpdCwgSSBhbSB1c2luZyBtb3JlIGNvcmVzLg0KYW5zTTIgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmX20yLCB1c2VDbHVzdGVyID0gVFJVRSwgbmJyTm9kZXMgPSA0LCBpbml0QyA9IFRSVUUsIA0KICAgIGJhdGNoID0gVFJVRSkNCmFuc00yYiA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBwcmV2QW5zID0gYW5zTTIsIGVmZmVjdHMgPSBteWVmZl9tMiwgdXNlQ2x1c3RlciA9IFRSVUUsIA0KICAgIG5ick5vZGVzID0gNCwgaW5pdEMgPSBUUlVFLCBiYXRjaCA9IFRSVUUpDQphbnNNMmMgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgcHJldkFucyA9IGFuc00yYiwgZWZmZWN0cyA9IG15ZWZmX20yLCB1c2VDbHVzdGVyID0gVFJVRSwgDQogICAgbmJyTm9kZXMgPSA0LCBpbml0QyA9IFRSVUUsIGJhdGNoID0gVFJVRSkNCg0Kc2F2ZShhbnNNMiwgZmlsZSA9ICJhbnNNMmEuUkRhdGEiKQ0Kc2F2ZShhbnNNMmIsIGZpbGUgPSAiYW5zTTJiLlJEYXRhIikNCnNhdmUoYW5zTTJjLCBmaWxlID0gImFuc00yYy5SRGF0YSIpDQpgYGANCmBgYHtyfQ0KbG9hZCgiYW5zTTJhLlJEYXRhIikNCmxvYWQoImFuc00yYi5SRGF0YSIpDQpsb2FkKCJhbnNNMmMuUkRhdGEiKQ0KYW5zTTINCnN1bW1hcnkoYW5zTTIpDQpgYGANCg0KYGBge3J9DQphbnNNMmINCnN1bW1hcnkoYW5zTTJiKQ0KYGBgDQoNCmBgYHtyfQ0KYW5zTTJjDQpzdW1tYXJ5KGFuc00yYykNCmBgYA0KDQpgYGB7cn0NCiMgUmVzZWFyY2ggcXVlc3Rpb24gMjogVG8gd2hhdCBleHRlbnQgaXMgdGhlIHByZXN1bWVkIHNlZ3JlZ2F0aW9uIGFsb25nIHBhcnR5IGFmZmlsaWF0aW9uIGluIHRoZSByZXR3ZWV0IG5ldHdvcmsgYW1vbmcgRHV0Y2ggTVBzIHRoZSBieXByb2R1Y3Qgb2Ygc2VncmVnYXRpb24gYWxvbmcgb3RoZXIgc29jaWFsIGRpbWVuc2lvbnMgc3VjaCBhcyBzZXgsIGFnZT8NCg0KIyBBbnN3ZXI6DQpgYGANCg0KDQpgYGB7cn0NCiMgUmVzZWFyY2ggcXVlc3Rpb24gMzogVG8gd2hhdCBleHRlbnQgaXMgdGhlIHByZXN1bWVkIHNlZ3JlZ2F0aW9uIGFsb25nIHBhcnR5IGFmZmlsaWF0aW9uIGluIHRoZSByZXR3ZWV0IG5ldHdvcmsgYW1vbmcgRHV0Y2ggTVBzIHRoZSByZXN1bHQgb2YgcHJvcGlucXVpdHk/DQoNCiMgQW5zd2VyOg0KDQojIFJlc2VhcmNoIHF1ZXN0aW9uIDQ6IFRvIHdoYXQgZXh0ZW50IGlzIHRoZSBwcmVzdW1lZCBzZWdyZWdhdGlvbiBhbG9uZyBwYXJ0eSBhZmZpbGlhdGlvbiBpbiB0aGUgcmV0d2VldCBuZXR3b3JrIGFtb25nIER1dGNoIE1QcyB0aGUgcmVzdWx0IG9mIHN0cnVjdHVyYWwgKG5ldHdvcmspIGVmZmVjdHM/DQoNCiMgQW5zd2VyOg0KYGBgDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("RSiena_tutorial.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
