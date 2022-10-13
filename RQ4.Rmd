@@ -32,17 +32,10 @@ klippy::klippy(position = c('top', 'right'))
 #klippy::klippy(color = 'darkred')
 #klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
 ```
-
-
-
-
-----
-
-
-# research questions  
+---
+# Research questions
 
 **Question 1:** *To what exent do the collaborator egonets of sociology staff members from Radboud University and Utrecht University differ in their level of ethnic diversity?*
-
 
 **Question 2:** *To what extent can we explain these differences in the ethnic diversity of the collaborator egonets by age and ethnic background of these faculty members?*
 

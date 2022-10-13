@@ -1,4 +1,37 @@
+---
+title: "Research questions attempt 2"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
 
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+---
 
 # Introduction:
 As in all other spheres of our society, racism and ethnic discrimination are present within academia (Bertolero et al., 2020). This racism presents itself in the hiring and promotion of academics (Abelson et al., 2018), the funding of awards and grants and number of publications and citations (Ginther et al., 2018). 
@@ -11,14 +44,15 @@ Furthermore, it is not yet known how faculties differ in the ethnic diversity of
 
 Therefore, I formulate the following research question: *To what extent do co-authorships within the faculty of Social Sciences and the faculty of Law differ in their level of ethnic diversity?*
 
-
-
-## Data
+---
+---
+# Data
 For this research I will use the list of researchers on the website of each faculty. Furthermore, I have to use google scholar to look into the co-authorships. Then I might have to look up scholars’ nationality by searching for their resume.
 
 
-
-### References
+---
+---
+# References
 Abelson, J. S., Wong, N. Z., Symer, M., Eckenrode, G., Watkins, A. & Yeo, H. L. (2018). Racial and ethnic disparities in promotion and retention of academic surgeons. Am J Surg, 216(4), 678–682.
 
 Bertolero, M. A., Dworkin, J. D., David, S. U., Lloreda, C. L., Srivastava, P., Stiso, J. … Basseltt, D. S. (2020). Racial and ethnic imbalance in neuroscience reference lists and intersections with gender.

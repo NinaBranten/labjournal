@@ -1,9 +1,8 @@
 ---
-title: "Lab journal"
+title: "Research questions attempt 3"
 author: "by: Nina Branten"
 bibliography: references.bib
 ---
-
 
 
 ```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -38,12 +37,12 @@ klippy::klippy(position = c('top', 'right'))
 ----
 
 
-# research questions  
+# Research questions
 
-Question 1: To what extent do the co-authorships  networks of the sociology department of the Radboud University and the sociology department of Utrecht University differ in their level of ethnic diversity?
+**Question 1:** *To what extent do the co-authorships  networks of the sociology department of the Radboud University and the sociology department of Utrecht University differ in their level of ethnic diversity?*
 
-Question 2: To what extent does the ethnic diversity of co-authorship networks of younger researchers differ from the ethnic diversity of co-authorship networks of older researchers?
+**Question 2:** *To what extent does the ethnic diversity of co-authorship networks of younger researchers differ from the ethnic diversity of co-authorship networks of older researchers?*
 
-Question 3: To what extent does the ethnic diversity of co-authorship networks of researchers with a migration background differ from the ethnic diversity of co-authorship networks of researchers without a migration background?
+**Question 3:** *To what extent does the ethnic diversity of co-authorship networks of researchers with a migration background differ from the ethnic diversity of co-authorship networks of researchers without a migration background?*
 
-Question 4: To what extent are researchers influenced by each other in the formation of co-authorships with researchers from a different ethnic background?
+**Question 4:** *To what extent are researchers influenced by each other in the formation of co-authorships with researchers from a different ethnic background?*
