@@ -45,10 +45,9 @@ klippy::klippy(position = c('top', 'right'))
 # My Lab Journal
 Last compiled on `r format(Sys.time(), '%B, %Y')`  
 
-*Describe lab journal here.*
+*Lab Journal Social Network Analysis 2022.*
 <br>
 
-testestestes
 
 
 ----
@@ -66,7 +65,7 @@ We, Jochem Tolsma and Bas Hofstra, use this repository for our Social Network An
 
 
 
-![](images/cover.jpg)
+![](images/network.png)
 
 
 :::
