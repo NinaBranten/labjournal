@@ -1,0 +1,80 @@
+---
+title: "UU regression analysis"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(Rsiena)
+require(igraph)
+
+```
+```{r}
+#load dataobjects
+load("./data/descriptives/UU_dfv2.RData")
+```
+
+# Model 1: ethnicity ego
+
+```{r}
+divego.divnet.lm<-lm(soc_df$div.net ~ soc_df$div.ego)
+summary(divego.divnet.lm)
+```
+# Model 2: year first publication
+
+```{r}
+pubfirst.divnet.lm<-lm(soc_df$div.net ~ soc_df$pub_first)
+summary(pubfirst.divnet.lm)
+```
+
+# Model 3: gender
+```{r}
+gender.divnet.lm<-lm(soc_df$div.net ~ soc_df$gender4)
+summary(gender.divnet.lm)
+```
+# Model 4: ethnicity ego + year first publication + gender
+
+```{r}
+final.divnet.lm<-lm(soc_df$div.net ~ soc_df$div.ego + soc_df$pub_first + soc_df$gender4)
+summary(final.divnet.lm)
+```
+

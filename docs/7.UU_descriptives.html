@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>7.UU_descriptives.knit</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
+    </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+    <li>
+      <a href="RQ4.html">fourth attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_report.html">Intro</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<pre class="r"><code>#start with clean workspace 
+rm(list=ls())
+getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<div id="packages" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> packages</h1>
+<pre class="r"><code>library(data.table) 
+library(tidyverse) </code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+## ✔ readr   2.1.2      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::between()   masks data.table::between()
+## ✖ dplyr::filter()    masks stats::filter()
+## ✖ dplyr::first()     masks data.table::first()
+## ✖ dplyr::lag()       masks stats::lag()
+## ✖ dplyr::last()      masks data.table::last()
+## ✖ purrr::transpose() masks data.table::transpose()</code></pre>
+<pre class="r"><code>require(stringi)</code></pre>
+<pre><code>## Loading required package: stringi</code></pre>
+<pre class="r"><code>require(Rsiena)</code></pre>
+<pre><code>## Loading required package: Rsiena</code></pre>
+<pre><code>## Warning in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE, : there
+## is no package called &#39;Rsiena&#39;</code></pre>
+<pre class="r"><code>require(igraph)</code></pre>
+<pre><code>## Loading required package: igraph
+## 
+## Attaching package: &#39;igraph&#39;
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     as_data_frame, groups, union
+## 
+## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     compose, simplify
+## 
+## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     crossing
+## 
+## The following object is masked from &#39;package:tibble&#39;:
+## 
+##     as_data_frame
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+</div>
+<div id="data" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data</h1>
+<pre class="r"><code>#load dataobjects
+load(&quot;./data/descriptives/UU_net_array_sym.RData&quot;)
+load(&quot;./data/descriptives/UU_dfv2.RData&quot;)</code></pre>
+</div>
+<div id="custum-functions" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> custum functions</h1>
+<pre class="r"><code># density: observed relations divided by possible relations
+fdensity &lt;- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) &lt;- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] &lt;- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A == 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityinter &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A != 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A != 1, na.rm = T))
+}
+
+# construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat &lt;- function(x) {
+    # x is a vector of node-covariate
+    xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt &lt;- t(xmat)
+    xhomo &lt;- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads &lt;- function(x) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 &lt;- function(x, A) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    (sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}</code></pre>
+</div>
+<div id="descriptives" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> descriptives</h1>
+<pre class="r"><code>soc_df$div.net &lt;- as.numeric(soc_df$div)
+
+summary(soc_df$div.net)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   25.00   32.26   35.99   44.00  100.00</code></pre>
+<pre class="r"><code>sd(soc_df$div.net, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 26.25446</code></pre>
+<pre class="r"><code>table(soc_df$div.net)</code></pre>
+<pre><code>## 
+##     0    10 17.86 20.83    25 26.19 28.57    30 31.43 32.26 32.35 33.33 36.36  37.7 38.46 42.86 
+##     5     1     1     1     3     1     2     1     1     1     1     2     1     1     1     1 
+##    44 44.44 57.14  62.5 76.92 78.05    80 89.47   100 
+##     1     1     1     1     1     1     1     1     1</code></pre>
+<pre class="r"><code>hist(soc_df$div.net, col=&quot;lightblue&quot;)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>summary(soc_df$div.ego)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   0.697   1.000   1.000</code></pre>
+<pre class="r"><code>table(soc_df$div.ego)</code></pre>
+<pre><code>## 
+##  0  1 
+## 10 23</code></pre>
+<pre class="r"><code>hist(soc_df$div.ego, col=&quot;lightblue&quot;)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>summary(soc_df$nauthors)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    6.00   13.00   16.64   25.00   61.00</code></pre>
+<pre class="r"><code>sd(soc_df$nauthors, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 14.41531</code></pre>
+<pre class="r"><code>hist(soc_df$nauthors, col=&quot;lightblue&quot;)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>summary(soc_df$pub_first)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1976    1996    2010    2005    2016    2022</code></pre>
+<pre class="r"><code>sd(soc_df$pub_first, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 13.55027</code></pre>
+<pre class="r"><code>hist(soc_df$pub_first, col=&quot;lightblue&quot;)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>table(soc_df$gender4)</code></pre>
+<pre><code>## 
+##  0  1 
+## 13 20</code></pre>
+<pre class="r"><code>hist(soc_df$gender4, col=&quot;lightblue&quot;)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="degree" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> degree</h1>
+<div id="net-1" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> net 1</h2>
+<pre class="r"><code>net1 &lt;- net_soc_array[ ,, 1]
+diag(net1) &lt;- 0
+degree &lt;- rowSums(net1)
+hist(degree)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>summary(degree)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   1.758   2.000  20.000</code></pre>
+<pre class="r"><code>sd(degree)</code></pre>
+<pre><code>## [1] 3.500271</code></pre>
+</div>
+<div id="net-2" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> net 2</h2>
+<pre class="r"><code>net2 &lt;- net_soc_array[ ,, 2]
+diag(net2) &lt;- 0
+degree &lt;- rowSums(net2)
+hist(degree)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>summary(degree)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0       0       1       2       2      23</code></pre>
+<pre class="r"><code>sd(degree)</code></pre>
+<pre><code>## [1] 3.976493</code></pre>
+</div>
+<div id="net-3" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> net 3</h2>
+<pre class="r"><code>net3 &lt;- net_soc_array[ ,, 3]
+diag(net3) &lt;- 0
+degree &lt;- rowSums(net3)
+hist(degree)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>summary(degree)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    1.00    2.00    2.97    3.00   30.00</code></pre>
+<pre class="r"><code>sd(degree)</code></pre>
+<pre><code>## [1] 5.034164</code></pre>
+</div>
+</div>
+<div id="igraph-object" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> igraph object</h1>
+<div id="net-1-1" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> net 1</h2>
+<pre class="r"><code>net1_g &lt;- igraph::graph_from_adjacency_matrix(net1, mode = c(&quot;undirected&quot;))
+plot(net1_g)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>igraph::degree(net1_g)</code></pre>
+<pre><code>##  [1]  2  0  0  3  0  3  1  0  3  1  0  4  4  0  1  0  1  0  2  1  2  1  0  2  1  1  1  0  3  0 20  1
+## [33]  0</code></pre>
+<pre class="r"><code>igraph::dyad.census(net1_g)</code></pre>
+<pre><code>## $mut
+## [1] 29
+## 
+## $asym
+## [1] 0
+## 
+## $null
+## [1] 499</code></pre>
+<pre class="r"><code>igraph::triad.census(net1_g)</code></pre>
+<pre><code>## Warning in igraph::triad.census(net1_g): At core/misc/motifs.c:1165 : Triad census called on an
+## undirected graph.</code></pre>
+<pre><code>##  [1] 4765    0  493    0    0    0    0    0    0    0  188    0    0    0    0   10</code></pre>
+<pre class="r"><code>igraph::edge_density(net1_g)</code></pre>
+<pre><code>## [1] 0.05492424</code></pre>
+<pre class="r"><code>sum(igraph::degree(net1_g))</code></pre>
+<pre><code>## [1] 58</code></pre>
+</div>
+<div id="net-2-1" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> net 2</h2>
+<pre class="r"><code>net2_g &lt;- igraph::graph_from_adjacency_matrix(net2, mode = c(&quot;undirected&quot;))
+plot(net2_g)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>igraph::degree(net2_g)</code></pre>
+<pre><code>##  [1]  2  1  0  4  0  2  1  2  3  0  1  4  4  0  1  0  1  0  4  2  2  1  1  2  1  1  0  0  1  1 23  1
+## [33]  0</code></pre>
+<pre class="r"><code>igraph::dyad.census(net2_g)</code></pre>
+<pre><code>## $mut
+## [1] 33
+## 
+## $asym
+## [1] 0
+## 
+## $null
+## [1] 495</code></pre>
+<pre class="r"><code>igraph::triad.census(net2_g)</code></pre>
+<pre><code>## Warning in igraph::triad.census(net2_g): At core/misc/motifs.c:1165 : Triad census called on an
+## undirected graph.</code></pre>
+<pre><code>##  [1] 4708    0  484    0    0    0    0    0    0    0  253    0    0    0    0   11</code></pre>
+<pre class="r"><code>igraph::edge_density(net2_g)</code></pre>
+<pre><code>## [1] 0.0625</code></pre>
+<pre class="r"><code>sum(igraph::degree(net2_g))</code></pre>
+<pre><code>## [1] 66</code></pre>
+</div>
+<div id="net-3-1" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> net 3</h2>
+<pre class="r"><code>net3_g &lt;- igraph::graph_from_adjacency_matrix(net3, mode = c(&quot;undirected&quot;))
+plot(net3_g)</code></pre>
+<p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>igraph::degree(net3_g)</code></pre>
+<pre><code>##  [1]  3  0  1  5  1  4  1  2  3  3  2  5  4  1  1  2  2  3  4  2  2  4  2  1  2  1  1  3  1  1 30  0
+## [33]  1</code></pre>
+<pre class="r"><code>igraph::dyad.census(net3_g)</code></pre>
+<pre><code>## $mut
+## [1] 49
+## 
+## $asym
+## [1] 0
+## 
+## $null
+## [1] 479</code></pre>
+<pre class="r"><code>igraph::triad.census(net3_g)</code></pre>
+<pre><code>## Warning in igraph::triad.census(net3_g): At core/misc/motifs.c:1165 : Triad census called on an
+## undirected graph.</code></pre>
+<pre><code>##  [1] 4417    0  581    0    0    0    0    0    0    0  436    0    0    0    0   22</code></pre>
+<pre class="r"><code>igraph::edge_density(net3_g)</code></pre>
+<pre><code>## [1] 0.09280303</code></pre>
+<pre class="r"><code>sum(igraph::degree(net3_g))</code></pre>
+<pre><code>## [1] 98</code></pre>
+</div>
+</div>
+<div id="density" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> density</h1>
+<div id="net-1-2" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> net 1</h2>
+<pre class="r"><code>net_und &lt;- net1 + t(net1)
+net_und[net_und==2] &lt;- 1
+
+sum(net_und, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 58</code></pre>
+<pre class="r"><code>fdensity(net1)</code></pre>
+<pre><code>## [1] 0.05492424</code></pre>
+</div>
+<div id="net-2-2" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> net 2</h2>
+<pre class="r"><code>net_und &lt;- net2 + t(net2)
+net_und[net_und==2] &lt;- 1
+
+sum(net_und, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 66</code></pre>
+<pre class="r"><code>fdensity(net2)</code></pre>
+<pre><code>## [1] 0.0625</code></pre>
+</div>
+<div id="net-3-2" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> net 3</h2>
+<pre class="r"><code>net_und &lt;- net3 + t(net3)
+net_und[net_und==2] &lt;- 1
+
+sum(net_und, na.rm=TRUE)</code></pre>
+<pre><code>## [1] 98</code></pre>
+<pre class="r"><code>fdensity(net3)</code></pre>
+<pre><code>## [1] 0.09280303</code></pre>
+</div>
+</div>
+<div id="inter-intragroup-density" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> inter-/intragroup
+density</h1>
+<pre class="r"><code>div_m &lt;-  fhomomat(soc_df$div.ego)</code></pre>
+<pre class="r"><code># calculate intra-/intergroup density diversity ego
+fdensityintra(x=net_und, A=div_m) </code></pre>
+<pre><code>## [1] 0.1174497</code></pre>
+<pre class="r"><code>fdensityinter(x=net_und, A=div_m)</code></pre>
+<pre><code>## [1] 0.06086957</code></pre>
+<pre class="r"><code># calculate intra-/intergroup density gender
+gender_m &lt;-  fhomomat(soc_df$gender4)
+fdensityintra(x=net_und, A=gender_m) </code></pre>
+<pre><code>## [1] 0.1044776</code></pre>
+<pre class="r"><code>fdensityinter(x=net_und, A=gender_m)</code></pre>
+<pre><code>## [1] 0.08076923</code></pre>
+</div>
+
+<div id="rmd-source-code">DQpgYGB7cn0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCmBgYA0KDQojIHBhY2thZ2VzDQoNCmBgYHtyfQ0KbGlicmFyeShkYXRhLnRhYmxlKSANCmxpYnJhcnkodGlkeXZlcnNlKSANCnJlcXVpcmUoc3RyaW5naSkNCnJlcXVpcmUoUnNpZW5hKQ0KcmVxdWlyZShpZ3JhcGgpDQoNCmBgYA0KIyBEYXRhDQoNCmBgYHtyfQ0KI2xvYWQgZGF0YW9iamVjdHMNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfbmV0X2FycmF5X3N5bS5SRGF0YSIpDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1VVX2RmdjIuUkRhdGEiKQ0KYGBgDQoNCg0KIyBjdXN0dW0gZnVuY3Rpb25zDQoNCmBgYHtyfQ0KIyBkZW5zaXR5OiBvYnNlcnZlZCByZWxhdGlvbnMgZGl2aWRlZCBieSBwb3NzaWJsZSByZWxhdGlvbnMNCmZkZW5zaXR5IDwtIGZ1bmN0aW9uKHgpIHsNCiAgICAjIHggaXMgeW91ciBub21pbmF0aW9uIG5ldHdvcmsgbWFrZSBzdXJlIGRpYWdvbmFsIGNlbGxzIGFyZSBOQQ0KICAgIGRpYWcoeCkgPC0gTkENCiAgICAjIHRha2UgY2FyZSBvZiBSU2llbmEgc3RydWN0dXJhbCB6ZXJvcywgc2V0IGFzIG1pc3NpbmcuDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIHN1bSh4ID09IDEsIG5hLnJtID0gVCkvKHN1bSh4ID09IDEgfCB4ID09IDAsIG5hLnJtID0gVCkpDQp9DQoNCiMgY2FsY3VsYXRlIGludHJhZ3JvdXAgZGVuc2l0eQ0KZmRlbnNpdHlpbnRyYSA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgIyBBIGlzIG1hdHJpeCBpbmRpY2F0aW5nIHdoZXRoZXIgbm9kZXMgaW4gZHlhZCBoYXZlIHNhbWUgbm9kZSBhdHRyaWJ1dGVzDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgc3VtKHggPT0gMSAmIEEgPT0gMSwgbmEucm0gPSBUKS8oc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSA9PSAxLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGNhbGN1bGF0ZSBpbnRyYWdyb3VwIGRlbnNpdHkNCmZkZW5zaXR5aW50ZXIgPC0gZnVuY3Rpb24oeCwgQSkgew0KICAgICMgQSBpcyBtYXRyaXggaW5kaWNhdGluZyB3aGV0aGVyIG5vZGVzIGluIGR5YWQgaGF2ZSBzYW1lIG5vZGUgYXR0cmlidXRlcw0KICAgIGRpYWcoeCkgPC0gTkENCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgZGlhZyhBKSA8LSBOQQ0KICAgIHN1bSh4ID09IDEgJiBBICE9IDEsIG5hLnJtID0gVCkvKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSAmIEEgIT0gMSwgbmEucm0gPSBUKSkNCn0NCg0KIyBjb25zdHJ1Y3QgZHlhZGNoYXJhY3RlcmlzdGljIHdoZXRoZXIgbm9kZXMgYXJlIHNpbWlsYXIvaG9tb2dlbm91cw0KZmhvbW9tYXQgPC0gZnVuY3Rpb24oeCkgew0KICAgICMgeCBpcyBhIHZlY3RvciBvZiBub2RlLWNvdmFyaWF0ZQ0KICAgIHhtYXQgPC0gbWF0cml4KHgsIG5yb3cgPSBsZW5ndGgoeCksIG5jb2wgPSBsZW5ndGgoeCkpDQogICAgeG1hdHQgPC0gdCh4bWF0KQ0KICAgIHhob21vIDwtIHhtYXQgPT0geG1hdHQNCiAgICByZXR1cm4oeGhvbW8pDQp9DQoNCiMgYSBmdW5jdGlvbiB0byBjYWxjdWxhdGUgYWxsIHZhbGlkIGR5YWRzLg0KZm5keWFkcyA8LSBmdW5jdGlvbih4KSB7DQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICAoc3VtKCh4ID09IDEgfCB4ID09IDApLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGEgZnVuY3Rpb24gdG8gY2FsY3VsYXRlIGFsbCB2YWxpZCBpbnRyYWdyb3VwZHlhZHMuDQpmbmR5YWRzMiA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSAmIEEgPT0gMSwgbmEucm0gPSBUKSkNCn0NCg0KDQoNCmBgYA0KDQoNCiMgZGVzY3JpcHRpdmVzDQoNCmBgYHtyfQ0KDQoNCnNvY19kZiRkaXYubmV0IDwtIGFzLm51bWVyaWMoc29jX2RmJGRpdikNCg0Kc3VtbWFyeShzb2NfZGYkZGl2Lm5ldCkNCnNkKHNvY19kZiRkaXYubmV0LCBuYS5ybT1UUlVFKQ0KdGFibGUoc29jX2RmJGRpdi5uZXQpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIpDQpgYGANCg0KYGBge3J9DQpzdW1tYXJ5KHNvY19kZiRkaXYuZWdvKQ0KdGFibGUoc29jX2RmJGRpdi5lZ28pDQpoaXN0KHNvY19kZiRkaXYuZWdvLCBjb2w9ImxpZ2h0Ymx1ZSIpDQoNCmBgYA0KDQpgYGB7cn0NCnN1bW1hcnkoc29jX2RmJG5hdXRob3JzKQ0Kc2Qoc29jX2RmJG5hdXRob3JzLCBuYS5ybT1UUlVFKQ0KaGlzdChzb2NfZGYkbmF1dGhvcnMsIGNvbD0ibGlnaHRibHVlIikNCg0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShzb2NfZGYkcHViX2ZpcnN0KQ0Kc2Qoc29jX2RmJHB1Yl9maXJzdCwgbmEucm09VFJVRSkNCmhpc3Qoc29jX2RmJHB1Yl9maXJzdCwgY29sPSJsaWdodGJsdWUiKQ0KDQpgYGANCg0KYGBge3J9DQoNCnRhYmxlKHNvY19kZiRnZW5kZXI0KQ0KaGlzdChzb2NfZGYkZ2VuZGVyNCwgY29sPSJsaWdodGJsdWUiKQ0KDQpgYGANCg0KIyBkZWdyZWUNCiMjIG5ldCAxDQoNCg0KYGBge3J9DQpuZXQxIDwtIG5ldF9zb2NfYXJyYXlbICwsIDFdDQpkaWFnKG5ldDEpIDwtIDANCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDEpDQpoaXN0KGRlZ3JlZSkNCnN1bW1hcnkoZGVncmVlKQ0Kc2QoZGVncmVlKQ0KDQpgYGANCg0KIyMgbmV0IDINCmBgYHtyfQ0KbmV0MiA8LSBuZXRfc29jX2FycmF5WyAsLCAyXQ0KZGlhZyhuZXQyKSA8LSAwDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQyKQ0KaGlzdChkZWdyZWUpDQpzdW1tYXJ5KGRlZ3JlZSkNCnNkKGRlZ3JlZSkNCg0KYGBgDQoNCg0KIyMgbmV0IDMNCg0KYGBge3J9DQpuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKG5ldDMpIDwtIDANCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDMpDQpoaXN0KGRlZ3JlZSkNCnN1bW1hcnkoZGVncmVlKQ0Kc2QoZGVncmVlKQ0KDQpgYGANCg0KDQojIGlncmFwaCBvYmplY3QgDQojIyBuZXQgMQ0KDQpgYGB7cn0NCm5ldDFfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChuZXQxLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdChuZXQxX2cpDQoNCmlncmFwaDo6ZGVncmVlKG5ldDFfZykNCmlncmFwaDo6ZHlhZC5jZW5zdXMobmV0MV9nKQ0KaWdyYXBoOjp0cmlhZC5jZW5zdXMobmV0MV9nKQ0KaWdyYXBoOjplZGdlX2RlbnNpdHkobmV0MV9nKQ0KDQpzdW0oaWdyYXBoOjpkZWdyZWUobmV0MV9nKSkNCg0KYGBgDQoNCiMjIG5ldCAyDQoNCmBgYHtyfQ0KbmV0Ml9nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDIsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDJfZykNCg0KaWdyYXBoOjpkZWdyZWUobmV0Ml9nKQ0KaWdyYXBoOjpkeWFkLmNlbnN1cyhuZXQyX2cpDQppZ3JhcGg6OnRyaWFkLmNlbnN1cyhuZXQyX2cpDQppZ3JhcGg6OmVkZ2VfZGVuc2l0eShuZXQyX2cpDQoNCnN1bShpZ3JhcGg6OmRlZ3JlZShuZXQyX2cpKQ0KDQpgYGANCg0KIyMgbmV0IDMNCmBgYHtyfQ0KbmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDNfZykNCg0KaWdyYXBoOjpkZWdyZWUobmV0M19nKQ0KaWdyYXBoOjpkeWFkLmNlbnN1cyhuZXQzX2cpDQppZ3JhcGg6OnRyaWFkLmNlbnN1cyhuZXQzX2cpDQppZ3JhcGg6OmVkZ2VfZGVuc2l0eShuZXQzX2cpDQoNCnN1bShpZ3JhcGg6OmRlZ3JlZShuZXQzX2cpKQ0KDQpgYGANCiMgZGVuc2l0eQ0KIyMgbmV0IDENCmBgYHtyfQ0KDQpuZXRfdW5kIDwtIG5ldDEgKyB0KG5ldDEpDQpuZXRfdW5kW25ldF91bmQ9PTJdIDwtIDENCg0Kc3VtKG5ldF91bmQsIG5hLnJtPVRSVUUpDQpmZGVuc2l0eShuZXQxKQ0KYGBgDQojIyBuZXQgMg0KYGBge3J9DQoNCm5ldF91bmQgPC0gbmV0MiArIHQobmV0MikNCm5ldF91bmRbbmV0X3VuZD09Ml0gPC0gMQ0KDQpzdW0obmV0X3VuZCwgbmEucm09VFJVRSkNCmZkZW5zaXR5KG5ldDIpDQpgYGANCiMjIG5ldCAzDQpgYGB7cn0NCg0KbmV0X3VuZCA8LSBuZXQzICsgdChuZXQzKQ0KbmV0X3VuZFtuZXRfdW5kPT0yXSA8LSAxDQoNCnN1bShuZXRfdW5kLCBuYS5ybT1UUlVFKQ0KZmRlbnNpdHkobmV0MykNCmBgYA0KDQojIGludGVyLS9pbnRyYWdyb3VwIGRlbnNpdHkNCg0KYGBge3J9DQpkaXZfbSA8LSAgZmhvbW9tYXQoc29jX2RmJGRpdi5lZ28pDQpgYGANCg0KDQpgYGB7cn0NCiMgY2FsY3VsYXRlIGludHJhLS9pbnRlcmdyb3VwIGRlbnNpdHkgZGl2ZXJzaXR5IGVnbw0KZmRlbnNpdHlpbnRyYSh4PW5ldF91bmQsIEE9ZGl2X20pIA0KZmRlbnNpdHlpbnRlcih4PW5ldF91bmQsIEE9ZGl2X20pDQogICAgDQpgYGANCg0KYGBge3J9DQojIGNhbGN1bGF0ZSBpbnRyYS0vaW50ZXJncm91cCBkZW5zaXR5IGdlbmRlcg0KZ2VuZGVyX20gPC0gIGZob21vbWF0KHNvY19kZiRnZW5kZXI0KQ0KZmRlbnNpdHlpbnRyYSh4PW5ldF91bmQsIEE9Z2VuZGVyX20pIA0KZmRlbnNpdHlpbnRlcih4PW5ldF91bmQsIEE9Z2VuZGVyX20pDQogICAgDQpgYGANCg0KDQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("7.UU_descriptives.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

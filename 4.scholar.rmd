@@ -1,6 +1,41 @@
+---
+title: "4. Scholar"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
 # getting started
 
-```{r}
+```{r, eval=FALSE}
 #start with clean workspace 
 rm(list=ls())
 getwd()
@@ -8,7 +43,7 @@ getwd()
 
 # packages
 
-```{r}
+```{r, eval=FALSE}
 library(data.table) 
 library(tidyverse) 
 require(xml2)
@@ -31,7 +66,7 @@ get_scholar_resp("https://scholar.google.nl/citations?view_op=search_authors&mau
 
 ## fixing a bug in the get_scholar_id function. 
 
-```{r}
+```{r, eval=FALSE}
 
 get_scholar_id_fix <- function (last_name = "", first_name = "", affiliation = NA)
 {
@@ -94,7 +129,7 @@ Don't forget to check manually if everything is okay.
 We make an important decisson here. we remove staff members without scholar ids. perhaps a bit strange for our RSiena analysis later. I mean, we can include isolates
 
 YOU MAY NEED TO ADD AN TRYCATCH TO THIS LOOP AS WELL TO AVOID TIME OUT ERRORS, SEE THE NEXT LOOP BELOW
-```{r}
+```{r, eval=FALSE}
 load("names_df_v20221006.RData") 
 cs_df <- names_df
 cs_df$gs_id <- "" #don't make it empty everytime you run scrape! 
@@ -105,13 +140,13 @@ cs_df$last_name3 <- str_replace_all(cs_df$last_name, " ", "+")
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 time <- .1 # I placed the waiting time outside the loop
 i <- 1 # Our loop iterator is now a variable. This means I can change it within a while loop. Using a for loop you cant change your iterator in the loop itself.
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 while (i <= nrow(cs_df)) {
   print(i)
   Sys.sleep(time)
@@ -151,7 +186,7 @@ while (i <= nrow(cs_df)) {
 let us repeat without affiliation. 
 
 
-```{r}
+```{r, eval=FALSE}
 scholartemp <- cs_df
 save(scholartemp, file="./data/scholartemp_v20221006.RData")
 rm(scholartemp)
@@ -164,7 +199,7 @@ rm(names_df)
 
 # publications and profiles
 
-```{r}
+```{r, eval=FALSE}
 cs_df <- cs_df[!cs_df$gs_id == "", ] 
 cs_df <- cs_df[!is.na(cs_df$gs_id), ] 
 
@@ -172,19 +207,19 @@ cs_df <- cs_df[!is.na(cs_df$gs_id), ]
 
 
 
-```{r}
+```{r, eval=FALSE}
 soc_list_profiles <- list()  # first we create an empty list that we then fill up with the for loop
 soc_list_publications <- list()
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 time <- .1 # I placed the waiting time outside the loop
 i <- 1 # Our loop iterator is now a variable. This means I can change it within a while loop. Using a for loop you cant change your iterator in the loop itself.
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 while (i <= nrow(cs_df)) {
     print(i)
     Sys.sleep(time)
@@ -212,13 +247,13 @@ while (i <= nrow(cs_df)) {
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 cs_df_publications <- names_df_publications <- bind_rows(soc_list_publications)
 cs_list_profiles <- names_list_profiles <- soc_list_profiles
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save(names_df_publications, file="./data/names_df_publications_v20221006.RData")
 save(names_list_profiles, file= "./data/names_list_profiles_v20221006.RData")
 
@@ -229,7 +264,7 @@ save(names_list_profiles, file= "./data/names_list_profiles_v20221006.RData")
 ## put the info of the profiles in our data set of staff members cs_df
 
 
-```{r}
+```{r, eval=FALSE}
 cs_profiles_df <- list()
 
 
@@ -247,7 +282,7 @@ for (i in 1:length(cs_list_profiles)) {
 ```
 
 let op we hebben dus duplicates. mensen staan zowel bij computer science als bij data science. 
-```{r}
+```{r, eval=FALSE}
 cs_profiles_df2 <- bind_rows(cs_profiles_df)
 
 names(cs_profiles_df2)[1] <- "gs_id"
@@ -261,7 +296,7 @@ names_df <- cs_df2
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 
 save(names_df, file="./data/names_df2_v20220106.RData")
 
@@ -270,24 +305,24 @@ save(names_df, file="./data/names_df2_v20220106.RData")
 
 # citation history
 
-```{r}
+```{r, eval=FALSE}
 cs_df <- cs_df2
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 # get citation history of a scholar
 cs_staff_cit <- list()
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 time <- .1 # I placed the waiting time outside the loop
 i <- 1 # Our loop iterator is now a variable. This means I can change it within a while loop. Using a for loop you cant change your iterator in the loop itself.
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 while (i <= nrow(cs_df)) {
     print(i)
     Sys.sleep(time)
@@ -318,14 +353,8 @@ names_staff_cit <- bind_rows(cs_staff_cit)
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save(names_staff_cit, file="./data/names_staff_cit_v20221006.RData")
 
 ```
-
-
-Hoe zou je nu etniciteit van samenwerkingsnetwerk kunnen bepalen. 
-Optie 1: via collaborator netwerken via google scholar zoals in tutorial. Echter, lang niet iedereen vult hier coauteurs in. 
-Optie 2: we hebben van iedereen de papers. van deze papers weten we de co-auteurs. dus via deze route zou je dan de weer etni kunnen bepalen. das best nog veel data-manipulatie. 
-Optie 3: handmatig. kijk voor elke auteur naar de laatste 3 publicaties. en codeer dan zelf. 
 

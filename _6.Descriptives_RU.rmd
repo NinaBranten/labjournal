@@ -1,0 +1,79 @@
+---
+title: "RU descriptive statistics"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(Rsiena)
+require(igraph)
+
+```
+# Data
+
+```{r}
+#load dataobjects
+load("./data/soc_net_array.RData")
+```
+
+# degrees 
+
+```{r}
+net3 <- net_soc_array[ ,, 3]
+diag(net3) <- 0
+degree <- rowSums(net3)
+hist(degree)
+
+```
+
+
+# igraph object 
+```{r}
+net3_g <- igraph::graph_from_adjacency_matrix(net3, mode = c("undirected"))
+plot(net3_g)
+
+igraph::degree(net3_g)
+igraph::dyad.census(net3_g)
+igraph::triad.census(net3_g)
+igraph::edge_density(net3_g)
+```
+

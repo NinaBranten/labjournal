@@ -1,0 +1,162 @@
+---
+title: "RU Array"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(RSiena)
+
+```
+
+# load data
+
+```{r}
+getwd()
+load("./data/descriptives/RU_dfv2.RData")
+load("./data/descriptives/RUpub_dfv2.RData")
+```
+
+# network based on publications
+
+Constructing three networks: (1) pubs from the years 2016, 2017, (2) pubs from the years 2018, 2019 and (3) pubs from the years 2020, 2021 and 2022.
+
+```{r}
+network2016_2017 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+network2018_2019 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+network2020_2022 <- matrix(NA, nrow=nrow(soc_df), ncol=nrow(soc_df))
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2016 & year<=2017)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2016_2017[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2018 & year<=2019)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2018_2019[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+```{r}
+#select publications of the corresponding time era
+pubs_sel <- socpub_df %>%
+    filter(year>=2020 & year<=2022)
+
+# to do: we gebruiken nu str_detect, maar wrs moeten we een exact match gebruiken. 
+
+#fill the matrix
+for (ego in 1: nrow(soc_df)) {
+  name_ego <- soc_df$lastname_pubs[ego] #which ego? 
+  pubs_sel2 <- pubs_sel[pubs_sel$gs_id==soc_df$gs_id[ego],] #selecteer de publicaties van ego
+  for (alter in 1:nrow(soc_df)){
+    name_alter <- soc_df$last_name[alter] #which alter? 
+    network2020_2022[ego,alter] <- as.numeric(sum(str_detect(pubs_sel2$author, name_alter)) > 1)  #did alter publish with ego
+  }
+}
+```
+
+
+alle adjacency matrix in een array stoppen. 
+```{r}
+net_soc_array <- array(data = c(network2016_2017, network2018_2019, network2020_2022), dim=c(dim(network2020_2022),3))
+
+```
+
+
+```{r}
+save(network2020_2022, file="./data/descriptives/RU_network2020_2022.RData")
+save(network2018_2019, file="./data/descriptives/RU_network2018_2019.RData")
+save(network2016_2017, file="./data/descriptives/RU_network2016_2017.RData")
+save(net_soc_array, file="./data/descriptives/RU_net_array.RData")
+```
+
+making the array symmetrical 
+```{r}
+
+net1 <- net_soc_array[,,1]
+net1 <- net1 + t(net1)
+net1[net1==2] <- 1
+
+net2 <- net_soc_array[,,2]
+net2 <- net2 + t(net2)
+net2[net2==2] <- 1
+
+net3 <- net_soc_array[,,3]
+net3 <- net3 + t(net3)
+net3[net3==2] <- 1
+
+
+net_soc_array <- array(data = c(net1, net2, net3), dim=c(dim(net1),3))
+
+```
+
+```{r}
+save(net_soc_array, file = "./data/descriptives/RU_net_array_sym.RData")
+```
+
+

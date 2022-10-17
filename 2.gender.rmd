@@ -1,10 +1,45 @@
+---
+title: "2. Gender"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
 # getting started
 
-```{r}
+```{r, eval=FALSE}
 #start with clean workspace 
 rm(list=ls())
 getwd()
-load("./data/names_df_v20221005.RData")
+load("./data/names_df_v20220106.RData")
 ```
 
 # packages
@@ -28,7 +63,7 @@ require(stringi)
 
 
 ### gender to cs_df
-```{r}
+```{r, eval=FALSE}
 names_df %>% mutate(firstname=first_name) -> names_df
 names_df$gender <- NA
 
@@ -58,7 +93,7 @@ for (i in 1:nrow(names_df)) {
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 #devtools::install_github("kalimu/genderizeR")
 require(genderizeR)
 names_df$gender2 <- NA
@@ -86,7 +121,7 @@ for (i in 1:nrow(names_df)) {
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save(names_df, file="./data/names_df_v20221005.RData")
 ```
 

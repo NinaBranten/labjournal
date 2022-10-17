@@ -1,0 +1,185 @@
+---
+title: "UU constructing ethnicity and age"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(RSiena)
+
+```
+
+# load data
+
+```{r}
+getwd()
+load("./data/names_df2_v20220106.RData")
+load("./data/names_df_publications_v20221006.RData")
+
+```
+
+# selecting only the staff members from RU sociology
+
+```{r}
+
+#wrong gs_id (just by eye-balling)
+deselect <- c(312,325,329,332,335,341,344,355,371)
+
+#selecting only the names of RU sociology staff members
+
+names_df %>% 
+  filter(affiliation=="Utrecht University") %>%
+  filter(field=="sociology") %>% 
+  filter(!(id %in% deselect)) -> soc_df
+
+# Selecting only the publications of RU sociology staff members
+
+names_df_publications %>% 
+  filter(gs_id %in% soc_df$gs_id) -> socpub_df
+  
+#attaching the gs id and lasname of staff member to their publications in socpub_df
+
+soc_df %>% 
+  select(c("gs_id", "lastname")) %>%
+  right_join(socpub_df) -> socpub_df
+
+```
+
+
+# cleaning names
+
+```{r}
+soc_df$lastname_pubs <- as.character(str_split(soc_df$lastname, pattern=",", n = 2, simplify = TRUE)[,1]) 
+
+socpub_df$author <- tolower(socpub_df$author)
+
+```
+
+# adding ethnicity
+Ethnicity of the ego was conducted by hand, by looking at the last name of the ego and their appearance. Everyone with a Dutch name got the score "1" and everyone with a Dutch name got the score "0".
+The ethnic diversity of the egonet was caculated by looking at the collaborators of the papers in the period 2019-2022. Ethnicity of the alters was also decided by looking at the last name and appearance of the unique collaborators. Ethnicity of the egonet is operationalized as the percentage of people within the network with a non-Dutch name.
+
+```{r}
+#select the publication of these staff members you want
+socpub_df %>% filter(year>2019) %>%
+  select(c("author", "gs_id")) -> soc_pubs_etni
+```
+
+```{r}
+#adding collaborators ego to the soc_df dataframe
+gs_id <- soc_pubs_etni$gs_id
+soc_pubs_etni <- stats::aggregate(x=soc_pubs_etni$author, by=list(gs_id), FUN=toString, na.rm=TRUE)
+names(soc_pubs_etni) <- c("gs_id", "author")
+
+soc_df <- left_join(soc_df, soc_pubs_etni)
+
+author2 <- list()
+for (i in 1: nrow(soc_df)) {
+  author2[[i]] <- unique(unlist(str_split(soc_df$author[i], ",") ))
+  author2[[i]] <- sub(author2[[i]], pattern="([A-Z]+ )", replacement=" ")
+  author2[[i]] <- sub(author2[[i]], pattern="([A-Z]\\.)", replacement=" ")
+  author2[[i]] <- trimws(author2[[i]])
+  author2[[i]] <- unique(author2[[i]])
+}
+```
+
+```{r}
+#loading excel file with data with the information of diversity of the egonet, constructed by hand
+div <- read.csv2("./data/div_UU.csv")
+```
+In this excel file: nauthors = number of alters in the egonetwork. Nnl = number of alters with a non-Dutch name. Div = ethnic diversity of egonet in percentage. Div.ego = diversity of the ego, with 1 is Dutch and 0 is non-Dutch
+
+```{r}
+#adding ethnicity to soc_df
+soc_df <- cbind(soc_df, div) 
+```
+
+```{r}
+soc_df$div.net <- as.numeric(soc_df$div)
+```
+
+
+```{r}
+save(soc_df, file="./data/descriptives/UU_dfv1.RData")
+save(socpub_df, file="./data/descriptives/UUpub_dfv1.RData")
+
+```
+
+# adding age
+Age of the ego is operationalized as the year of their first publication.
+```{r}
+#year first pub
+socpub_df %>% group_by(gs_id) %>%
+  mutate(pub_first = min(year, na.rm=TRUE)) %>% 
+  select(c("gs_id", "pub_first")) %>%
+  distinct(gs_id, pub_first, .keep_all = TRUE) -> firstpub_df
+```
+
+
+```{r}
+soc_df <- cbind(soc_df, firstpub_df) 
+```
+
+# gender missing
+Changing the NA on the gender of Vrooman
+```{r}
+soc_df$gender<- replace(soc_df$gender, is.na(soc_df$gender), "male")
+
+soc_df$gender
+```
+# making gender numeric
+
+```{r}
+soc_df$gender3 <- recode(soc_df$gender, "female" = "0", "male" = "1")
+soc_df$gender4 <- as.numeric(soc_df$gender3)
+```
+
+# deleting scholars with missing value on dependent variable
+```{r}
+soc_df <- soc_df[!(is.na(soc_df$div.net)), ]
+```
+
+```{r}
+save(soc_df, file="./data/descriptives/UU_dfv2.RData")
+save(socpub_df, file="./data/descriptives/UUpub_dfv2.RData")
+```

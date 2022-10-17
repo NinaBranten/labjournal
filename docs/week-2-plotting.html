@@ -363,6 +363,42 @@ div.tocify {
     <li>
       <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
     </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -431,17 +467,8 @@ div.tocify {
 
 <pre class="r"><code>#install.packages(&quot;igraph&quot;)
 
-require(igraph)</code></pre>
-<pre><code>## Loading required package: igraph</code></pre>
-<pre><code>## 
-## Attaching package: &#39;igraph&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     decompose, spectrum</code></pre>
-<pre><code>## The following object is masked from &#39;package:base&#39;:
-## 
-##     union</code></pre>
-<pre class="r"><code>g &lt;- make_graph(&quot;Zachary&quot;)
+require(igraph)
+g &lt;- make_graph(&quot;Zachary&quot;)
 plot(g)</code></pre>
 <p><img src="week-2-plotting_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <pre class="r"><code>gmat &lt;- as_adjacency_matrix(g, type = &quot;both&quot;, sparse = FALSE)
@@ -589,9 +616,9 @@ V(g)$size = degree(g)*3
 plot(g, mode = &quot;undirected&quot;)</code></pre>
 <p><img src="week-2-plotting_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>g</code></pre>
-<pre><code>## IGRAPH 8757261 U--- 34 78 -- Zachary
+<pre><code>## IGRAPH 1f73ee4 U--- 34 78 -- Zachary
 ## + attr: name (g/c), size (v/n)
-## + edges from 8757261:
+## + edges from 1f73ee4:
 ##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12  1--13  1--14  1--18
 ## [14]  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14  2--18  2--20  2--22  2--31  3-- 4  3-- 8
 ## [27]  3--28  3--29  3--33  3--10  3-- 9  3--14  4-- 8  4--13  4--14  5-- 7  5--11  6-- 7  6--11
@@ -599,7 +626,7 @@ plot(g, mode = &quot;undirected&quot;)</code></pre>
 ## [53] 20--34 21--33 21--34 23--33 23--34 24--26 24--28 24--33 24--34 24--30 25--26 25--28 25--32
 ## [66] 26--32 27--30 27--34 28--34 29--32 29--34 30--33 30--34 31--33 31--34 32--33 32--34 33--34</code></pre>
 <pre class="r"><code>summary(g)</code></pre>
-<pre><code>## IGRAPH 8757261 U--- 34 78 -- Zachary
+<pre><code>## IGRAPH 1f73ee4 U--- 34 78 -- Zachary
 ## + attr: name (g/c), size (v/n)</code></pre>
 <pre class="r"><code>head(g)</code></pre>
 <pre><code>## 6 x 34 sparse Matrix of class &quot;dgCMatrix&quot;
@@ -635,22 +662,8 @@ soc_collabs_unique &lt;- unique(soc_collabs_unique)
 
 # so this is a very important step, we join the unique soc collaborators to the collaborators of
 # collaborators
-require(tidyverse)</code></pre>
-<pre><code>## Loading required package: tidyverse</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
-## ✖ purrr::compose()       masks igraph::compose()
-## ✖ tidyr::crossing()      masks igraph::crossing()
-## ✖ dplyr::filter()        masks stats::filter()
-## ✖ dplyr::groups()        masks igraph::groups()
-## ✖ dplyr::lag()           masks stats::lag()
-## ✖ purrr::simplify()      masks igraph::simplify()</code></pre>
-<pre class="r"><code>onefivedegree &lt;- left_join(collabs_1deep, soc_collabs_unique, by = c(coauth_id = &quot;soc_collabs_unique&quot;))
+require(tidyverse)
+onefivedegree &lt;- left_join(collabs_1deep, soc_collabs_unique, by = c(coauth_id = &quot;soc_collabs_unique&quot;))
 
 # Then, we drop those that are not among sociology collaborators and who don&#39;t lsit coauthors
 # regardless

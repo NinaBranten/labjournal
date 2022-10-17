@@ -1,3 +1,38 @@
+---
+title: "1. names"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
 # getting started
 
 ```{r}
@@ -22,7 +57,7 @@ require(stringi)
 # collect names  
 
 ## Computer Science! 
-```{r}
+```{r, eval=FALSE}
 # Let's first get the staff page read_html is a function that simply extracts html webpages and
 # puts them in xml format
 cs_staff <- read_html("https://www.cs.ru.nl/staff/index.html")
@@ -31,7 +66,7 @@ cs_staff <- read_html("https://www.cs.ru.nl/staff/index.html")
 #class(soc_staff)
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_staff <- cs_staff %>%
     rvest::html_nodes("body") %>%
     xml2::xml_find_all("//a") %>%
@@ -39,7 +74,7 @@ cs_staff <- cs_staff %>%
 ```
 
 ### Cleaning
-```{r}
+```{r, eval=FALSE}
 Encoding(cs_staff) <- "UTF-8"
 cs_staff <- iconv(cs_staff, from="UTF-8", to="LATIN1")
 
@@ -55,11 +90,11 @@ cs_staff2 <- cs_staff[check]
 cs_staff <- cs_staff2
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_df <- data.frame(cs_staff)  
 ```
 
-```{r}
+```{r, eval=FALSE}
 # Last name seems to be everything after ) 
 cs_df$last_name <-as.character(str_split(cs_df$cs_staff, pattern="\\)", n = 2, simplify = TRUE)[,2])
 
@@ -69,7 +104,7 @@ cs_df$first_name <- as.character(str_extract_all(cs_df$cs_staff, "(?<=\\().+?(?=
 
 
 
-```{r}
+```{r, eval=FALSE}
 cs_df$first_name <- tolower(cs_df$first_name)  # everything to lower!
 cs_df$last_name <- tolower(cs_df$last_name)
 
@@ -83,7 +118,7 @@ cs_df$last_name
 cs_df$last_name <- trimws(cs_df$last_name, which = c("both"), whitespace = "[ \t\r\n]")
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_df %>% mutate(lastname=last_name) -> cs_df
 lastname_df <- cs_df
 #voorvoegsels correct zetten voor scraper
@@ -118,7 +153,7 @@ lastname_df$lastname<- trimws(lastname_df$lastname, which = c("right"), whitespa
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 cs_df <- lastname_df
 cs_df$affiliation <- "RU"
 cs_df$field <- "computer science"
@@ -128,16 +163,16 @@ save(cs_df, file="./data/cs_df_v20221005.RData")
 
 ## Sociology-RU
 
-```{r}
+```{r, eval=FALSE}
 rm(list=ls())
 ```
 
-```{r}
+```{r, eval=FALSE}
 soc_staff <- read_html("https://www.ru.nl/sociology/research/staff/")
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 soc_staff <- soc_staff %>%
     rvest::html_nodes("body") %>%
     xml2::xml_find_all("//td") %>%
@@ -145,7 +180,7 @@ soc_staff <- soc_staff %>%
 ```
 
 ## selecting only the odd rowes with the names
-```{r}
+```{r, eval=FALSE}
 fodd <- function(x) {
   #what is x, x is a vector
  x%%2 != 0 
@@ -158,13 +193,13 @@ soc_names <- soc_staff[fodd(1:nstaf)]
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 
 soc_names <- stri_trans_general(soc_names, id = "Latin-ASCII")
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 soc_df <- data.frame(soc_names)  
 
 delrows <- which(soc_df$soc_names == "Staff:" | soc_df$soc_names == "PhD:" | soc_df$soc_names == "External PhD:" |
@@ -176,7 +211,7 @@ colnames(soc_df) <- "soc_names"
 
 
 ### cleaning  
-```{r}
+```{r, eval=FALSE}
 # Last name seems to be everything before the comma
 soc_df$last_name <- gsub(",.*$", "", soc_df$soc_names)
 
@@ -189,7 +224,7 @@ test <- substr(test, start= regexpr("\\.[^\\.]*$", test) + 2, length(test) )
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 soc_df$last_name <- gsub(" J. \\(Jansje\\) van MSc", "", soc_df$last_name)
 soc_df$first_name <- tolower(soc_df$first_name)  # everything to lower!
 soc_df$last_name <- tolower(soc_df$last_name)
@@ -197,7 +232,7 @@ soc_df$last_name <- tolower(soc_df$last_name)
 
 
 
-```{r}
+```{r, eval=FALSE}
 cs_df <- soc_df
 cs_df$first_name <- tolower(cs_df$first_name)  # everything to lower!
 cs_df$last_name <- tolower(cs_df$last_name)
@@ -214,7 +249,7 @@ cs_df$last_name <- trimws(cs_df$last_name, which = c("both"), whitespace = "[ \t
 cs_df$last_name <- paste(test, cs_df$last_name, sep="" )
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_df %>% mutate(lastname=last_name) -> cs_df
 lastname_df <- cs_df
 #voorvoegsels correct zetten voor scraper
@@ -249,7 +284,7 @@ lastname_df$lastname<- trimws(lastname_df$lastname, which = c("right"), whitespa
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 soc_df <- lastname_df
 soc_df$affiliation <- "RU" 
 soc_df$field <- "sociology"
@@ -259,12 +294,12 @@ save(soc_df, file="./data/soc_df_v20221005.RData")
 
 ## Data Science
 
-```{r}
+```{r, eval=FALSE}
 rm(list=ls())
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 library(V8)
 link <- 'https://www.cs.ru.nl/das/staff/index.html'
 namesjs <- read_html(link)  %>% html_nodes('script') %>% html_text()
@@ -284,7 +319,7 @@ names <- names[1:95]
 
 ### cleaning
 
-```{r}
+```{r, eval=FALSE}
 names <- stri_trans_general(names, id = "Latin-ASCII")
 
 cs_df <- data.frame(names)
@@ -293,7 +328,7 @@ cs_df$first_name <- str_split(cs_df$names, pattern=" ", n = 2, simplify = TRUE)[
 cs_df$last_name <- str_split(cs_df$names, pattern=" ", n = 2, simplify = TRUE)[,2]
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_df$first_name <- tolower(cs_df$first_name)  # everything to lower!
 cs_df$last_name <- tolower(cs_df$last_name)
 
@@ -302,7 +337,7 @@ cs_df$first_name <- trimws(cs_df$first_name, which = c("both"), whitespace = "[ 
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 cs_df %>% mutate(lastname=last_name) -> cs_df
 lastname_df <- cs_df
 lastname_df$lastname
@@ -337,7 +372,7 @@ for (i in 1: length(lastname_df$lastname)) {
 lastname_df$lastname<- trimws(lastname_df$lastname, which = c("right"), whitespace = "[ \t\r\n]")
 ```
 
-```{r}
+```{r, eval=FALSE}
 ds_df <- lastname_df
 ds_df$affiliation <- "RU"
 ds_df$field <- "data science"
@@ -347,12 +382,12 @@ save(ds_df, file="./data/ds_df_v20221005.RData")
 ## Sociology - UU
 
 
-```{r}
+```{r, eval=FALSE}
 rm(list=ls())
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 
 library(RSelenium) # note that this is something new you need to install yourself first 
 pjs <- wdman::phantomjs() # never mind this
@@ -390,7 +425,7 @@ names <- tolower(names)
 
 
 
-```{r}
+```{r, eval=FALSE}
 
 removes <- c("\\(", "\\)", "prof. ", "dr. ", "drs. ", "msc", "bsc", "ir. ", "drs. ")
 
@@ -406,7 +441,7 @@ names <- trimws(names, which = c("both"), whitespace = "[ \t\r\n]")
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 
 cs_df <- data.frame(names)
 
@@ -416,7 +451,7 @@ cs_df$last_name <- str_split(cs_df$names, pattern=" ", n = 2, simplify = TRUE)[,
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 
 cs_df$first_name <- tolower(cs_df$first_name)  # everything to lower!
 cs_df$last_name <- tolower(cs_df$last_name)
@@ -426,7 +461,7 @@ cs_df$first_name <- trimws(cs_df$first_name, which = c("both"), whitespace = "[ 
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 
 cs_df %>% mutate(lastname=last_name) -> cs_df
 lastname_df <- cs_df
@@ -462,7 +497,7 @@ for (i in 1: length(lastname_df$lastname)) {
 lastname_df$lastname<- trimws(lastname_df$lastname, which = c("right"), whitespace = "[ \t\r\n]")
 ```
 
-```{r}
+```{r, eval=FALSE}
 lastname_df$first_name <- str_split(lastname_df$first_name, pattern=" ", n = 2, simplify = TRUE)[,1]
 lastname_df$first_name <- str_split(lastname_df$first_name, pattern="-", n = 2, simplify = TRUE)[,1]
 
@@ -471,7 +506,7 @@ lastname_df$first_name <- str_split(lastname_df$first_name, pattern="-", n = 2, 
 
 
 
-```{r}
+```{r, eval=FALSE}
 socuu_df <- lastname_df
 socuu_df$affiliation <- "UU"
 socuu_df$field <- "sociology"
@@ -480,7 +515,7 @@ save(socuu_df, file="./data/socuu_df_v20221005.RData")
 
 # combine
 
-```{r}
+```{r, eval=FALSE}
 rm(list=ls())
 load("./data/soc_df_v20221005.RData")
 load("./data/cs_df_v20221005.RData")

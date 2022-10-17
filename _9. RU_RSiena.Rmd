@@ -1,0 +1,117 @@
+#RSiena
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+```
+
+
+```{r}
+#load dataobjects
+load("./data/descriptives/RU_net_array_sym.RData")
+load("./data/descriptives/RUpub_dfv2.RData")
+load("./data/descriptives/RU_dfv2.RData")
+load("./data/soc_staff_cit.RData")
+
+library(RSiena)
+library(tidyverse)
+```
+
+
+
+```{r}
+#dependent
+net <- sienaDependent(net_soc_array)
+```
+
+
+```{r}
+### Step 1: define data
+#diversiteit egonet
+div_net <- coCovar(as.numeric(soc_df$div.net))
+
+#diversiteit ego
+div_ego <- coCovar(as.numeric(soc_df$div.ego))
+
+#gender
+gender <- coCovar(soc_df$gender4)
+
+#leeftijd
+pub_first <- coCovar(soc_df$pub_first)
+```
+
+```{r}
+load()
+```
+
+
+```{r}
+#pubs: time-varying
+pubsw1 <- pubsw2 <- pubsw3 <- pubsw4 <- NA
+for (i in 1:length(soc_df$gs_id)) {
+  pubsw1[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2016 & soc_staff_cit$year<=2017,])
+  pubsw2[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2018 & soc_staff_cit$year<=2019,])
+  pubsw3[i] <- nrow(soc_staff_cit[(soc_staff_cit$gs_id == soc_df$gs_id[i]) & soc_staff_cit$year>=2020 & soc_staff_cit$year<=2022,])
+}
+
+pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
+pubs <- varCovar(pub_df)
+```
+
+# Model 1: Diversity of the egonet
+
+```{r}
+mydata1 <- sienaDataCreate(net, div_net)
+```
+
+
+```{r}
+### Step 2: create effects structure
+myeff <- getEffects(mydata1)
+effectsDocumentation(myeff)
+```
+
+
+```{r}
+
+### Step 3: get initial description
+print01Report(mydata1, modelname = "./data/results/soc_init")
+```
+
+
+```{r}
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus)
+myeff <- includeEffects(myeff, transTriads)
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="div_net")
+myeff <- includeEffect(myeff, Jout)
+myeff <- includeEffect(myeff, 
+
+
+
+myeff <- includeEffects(myeff, sameX, interaction1 = "gender")
+myeff <- includeEffects(myeff, absDiffX, interaction1 = "pub_first")
+
+#myeff <- includeEffects(myeff, altX,interaction1="div_net")
+#myeff <- includeEffects(myeff, egoX,interaction1="div_ego")
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="div_ego")
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="div_net")
+myeff <- includeEffects(myeff, sameX, interaction1 = "gender")
+#myeff <- includeEffects(myeff, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year? 
+myeff <- includeEffects(myeff, absDiffX, interaction1 = "pub_first") #senior publishes with junior
+```
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "soc_init")
+```
+
+
+```{r}
+(ans <- siena07(myAlgorithm, data = mydata, effects = myeff))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+
+
+

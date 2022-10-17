@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="by: Nina Branten" />
+
+
+<title>UU regression analysis</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
+    </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+    <li>
+      <a href="RQ4.html">fourth attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_report.html">Intro</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">UU regression analysis</h1>
+<h4 class="author">by: Nina Branten</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<pre class="r test"><code>#start with clean workspace 
+rm(list=ls())
+getwd()</code></pre>
+<pre class="test2"><code>#&gt; [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<div id="packages" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> packages</h1>
+<pre class="r test"><code>library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(Rsiena)
+require(igraph)</code></pre>
+<pre class="r test"><code>#load dataobjects
+load(&quot;./data/descriptives/UU_dfv2.RData&quot;)</code></pre>
+</div>
+<div id="model-1-ethnicity-ego" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Model 1: ethnicity
+ego</h1>
+<pre class="r test"><code>divego.divnet.lm&lt;-lm(soc_df$div.net ~ soc_df$div.ego)
+summary(divego.divnet.lm)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = soc_df$div.net ~ soc_df$div.ego)
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -52.759 -10.837   1.303   9.003  51.303 
+#&gt; 
+#&gt; Coefficients:
+#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)      52.759      7.625   6.919 9.25e-08 ***
+#&gt; soc_df$div.ego  -24.062      9.133  -2.635    0.013 *  
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; 
+#&gt; Residual standard error: 24.11 on 31 degrees of freedom
+#&gt; Multiple R-squared:  0.1829, Adjusted R-squared:  0.1566 
+#&gt; F-statistic: 6.941 on 1 and 31 DF,  p-value: 0.01303</code></pre>
+</div>
+<div id="model-2-year-first-publication" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Model 2: year first
+publication</h1>
+<pre class="r test"><code>pubfirst.divnet.lm&lt;-lm(soc_df$div.net ~ soc_df$pub_first)
+summary(pubfirst.divnet.lm)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = soc_df$div.net ~ soc_df$pub_first)
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -41.360 -13.023  -6.090   9.686  57.389 
+#&gt; 
+#&gt; Coefficients:
+#&gt;                   Estimate Std. Error t value Pr(&gt;|t|)
+#&gt; (Intercept)      -800.2789   681.4321  -1.174    0.249
+#&gt; soc_df$pub_first    0.4171     0.3398   1.227    0.229
+#&gt; 
+#&gt; Residual standard error: 26.05 on 31 degrees of freedom
+#&gt; Multiple R-squared:  0.04633,    Adjusted R-squared:  0.01557 
+#&gt; F-statistic: 1.506 on 1 and 31 DF,  p-value: 0.229</code></pre>
+</div>
+<div id="model-3-gender" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Model 3: gender</h1>
+<pre class="r test"><code>gender.divnet.lm&lt;-lm(soc_df$div.net ~ soc_df$gender4)
+summary(gender.divnet.lm)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = soc_df$div.net ~ soc_df$gender4)
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -39.945 -11.375  -3.417   9.443  60.055 
+#&gt; 
+#&gt; Coefficients:
+#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)      39.945      7.342   5.441 6.07e-06 ***
+#&gt; soc_df$gender4   -6.528      9.431  -0.692    0.494    
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; 
+#&gt; Residual standard error: 26.47 on 31 degrees of freedom
+#&gt; Multiple R-squared:  0.01522,    Adjusted R-squared:  -0.01655 
+#&gt; F-statistic: 0.4791 on 1 and 31 DF,  p-value: 0.494</code></pre>
+</div>
+<div id="model-4-ethnicity-ego-year-first-publication-gender"
+class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Model 4: ethnicity ego
++ year first publication + gender</h1>
+<pre class="r test"><code>final.divnet.lm&lt;-lm(soc_df$div.net ~ soc_df$div.ego + soc_df$pub_first + soc_df$gender4)
+summary(final.divnet.lm)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = soc_df$div.net ~ soc_df$div.ego + soc_df$pub_first + 
+#&gt;     soc_df$gender4)
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -50.403 -13.919   2.265   9.642  53.316 
+#&gt; 
+#&gt; Coefficients:
+#&gt;                   Estimate Std. Error t value Pr(&gt;|t|)  
+#&gt; (Intercept)      -232.8789   675.3779  -0.345   0.7327  
+#&gt; soc_df$div.ego    -24.0096     9.8023  -2.449   0.0206 *
+#&gt; soc_df$pub_first    0.1452     0.3354   0.433   0.6683  
+#&gt; soc_df$gender4     -9.1613     8.7939  -1.042   0.3061  
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; 
+#&gt; Residual standard error: 24.36 on 29 degrees of freedom
+#&gt; Multiple R-squared:   0.22,  Adjusted R-squared:  0.1394 
+#&gt; F-statistic: 2.727 on 3 and 29 DF,  p-value: 0.06218</code></pre>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlVVIHJlZ3Jlc3Npb24gYW5hbHlzaXMiDQphdXRob3I6ICJieTogTmluYSBCcmFudGVuIg0KYmlibGlvZ3JhcGh5OiByZWZlcmVuY2VzLmJpYg0KLS0tDQoNCg0KDQpgYGB7ciwgaW5zdGFsbCByZW1vdGVseSwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnLCBldmFsPUZBTFNFfQ0KaW5zdGFsbC5wYWNrYWdlcygicmVtb3RlcyIpDQpyZW1vdGVzOjppbnN0YWxsX2dpdGh1Yigicmxlc3VyL2tsaXBweSIpDQpgYGAgDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZSd9DQpsaWJyYXJ5KGtuaXRyKQ0KbGlicmFyeShyZ2wpDQoNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCg0KYGBge3J9DQojc3RhcnQgd2l0aCBjbGVhbiB3b3Jrc3BhY2UgDQpybShsaXN0PWxzKCkpDQpnZXR3ZCgpDQpgYGANCiMgcGFja2FnZXMNCg0KYGBge3J9DQpsaWJyYXJ5KGRhdGEudGFibGUpIA0KbGlicmFyeSh0aWR5dmVyc2UpIA0KcmVxdWlyZShzdHJpbmdpKQ0KcmVxdWlyZShSc2llbmEpDQpyZXF1aXJlKGlncmFwaCkNCg0KYGBgDQpgYGB7cn0NCiNsb2FkIGRhdGFvYmplY3RzDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1VVX2RmdjIuUkRhdGEiKQ0KYGBgDQoNCiMgTW9kZWwgMTogZXRobmljaXR5IGVnbw0KDQpgYGB7cn0NCmRpdmVnby5kaXZuZXQubG08LWxtKHNvY19kZiRkaXYubmV0IH4gc29jX2RmJGRpdi5lZ28pDQpzdW1tYXJ5KGRpdmVnby5kaXZuZXQubG0pDQpgYGANCiMgTW9kZWwgMjogeWVhciBmaXJzdCBwdWJsaWNhdGlvbg0KDQpgYGB7cn0NCnB1YmZpcnN0LmRpdm5ldC5sbTwtbG0oc29jX2RmJGRpdi5uZXQgfiBzb2NfZGYkcHViX2ZpcnN0KQ0Kc3VtbWFyeShwdWJmaXJzdC5kaXZuZXQubG0pDQpgYGANCg0KIyBNb2RlbCAzOiBnZW5kZXINCmBgYHtyfQ0KZ2VuZGVyLmRpdm5ldC5sbTwtbG0oc29jX2RmJGRpdi5uZXQgfiBzb2NfZGYkZ2VuZGVyNCkNCnN1bW1hcnkoZ2VuZGVyLmRpdm5ldC5sbSkNCmBgYA0KIyBNb2RlbCA0OiBldGhuaWNpdHkgZWdvICsgeWVhciBmaXJzdCBwdWJsaWNhdGlvbiArIGdlbmRlcg0KDQpgYGB7cn0NCmZpbmFsLmRpdm5ldC5sbTwtbG0oc29jX2RmJGRpdi5uZXQgfiBzb2NfZGYkZGl2LmVnbyArIHNvY19kZiRwdWJfZmlyc3QgKyBzb2NfZGYkZ2VuZGVyNCkNCnN1bW1hcnkoZmluYWwuZGl2bmV0LmxtKQ0KYGBgDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("8.UU_regression.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

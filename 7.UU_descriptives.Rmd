@@ -1,0 +1,261 @@
+
+```{r}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+# packages
+
+```{r}
+library(data.table) 
+library(tidyverse) 
+require(stringi)
+require(Rsiena)
+require(igraph)
+
+```
+# Data
+
+```{r}
+#load dataobjects
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UU_dfv2.RData")
+```
+
+
+# custum functions
+
+```{r}
+# density: observed relations divided by possible relations
+fdensity <- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) <- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] <- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra <- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    sum(x == 1 & A == 1, na.rm = T)/(sum((x == 1 | x == 0) & A == 1, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityinter <- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    sum(x == 1 & A != 1, na.rm = T)/(sum((x == 1 | x == 0) & A != 1, na.rm = T))
+}
+
+# construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat <- function(x) {
+    # x is a vector of node-covariate
+    xmat <- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt <- t(xmat)
+    xhomo <- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads <- function(x) {
+    diag(x) <- NA
+    x[x == 10] <- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 <- function(x, A) {
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    (sum((x == 1 | x == 0) & A == 1, na.rm = T))
+}
+
+
+
+```
+
+
+# descriptives
+
+```{r}
+
+
+soc_df$div.net <- as.numeric(soc_df$div)
+
+summary(soc_df$div.net)
+sd(soc_df$div.net, na.rm=TRUE)
+table(soc_df$div.net)
+hist(soc_df$div.net, col="lightblue")
+```
+
+```{r}
+summary(soc_df$div.ego)
+table(soc_df$div.ego)
+hist(soc_df$div.ego, col="lightblue")
+
+```
+
+```{r}
+summary(soc_df$nauthors)
+sd(soc_df$nauthors, na.rm=TRUE)
+hist(soc_df$nauthors, col="lightblue")
+
+```
+
+```{r}
+summary(soc_df$pub_first)
+sd(soc_df$pub_first, na.rm=TRUE)
+hist(soc_df$pub_first, col="lightblue")
+
+```
+
+```{r}
+
+table(soc_df$gender4)
+hist(soc_df$gender4, col="lightblue")
+
+```
+
+# degree
+## net 1
+
+
+```{r}
+net1 <- net_soc_array[ ,, 1]
+diag(net1) <- 0
+degree <- rowSums(net1)
+hist(degree)
+summary(degree)
+sd(degree)
+
+```
+
+## net 2
+```{r}
+net2 <- net_soc_array[ ,, 2]
+diag(net2) <- 0
+degree <- rowSums(net2)
+hist(degree)
+summary(degree)
+sd(degree)
+
+```
+
+
+## net 3
+
+```{r}
+net3 <- net_soc_array[ ,, 3]
+diag(net3) <- 0
+degree <- rowSums(net3)
+hist(degree)
+summary(degree)
+sd(degree)
+
+```
+
+
+# igraph object 
+## net 1
+
+```{r}
+net1_g <- igraph::graph_from_adjacency_matrix(net1, mode = c("undirected"))
+plot(net1_g)
+
+igraph::degree(net1_g)
+igraph::dyad.census(net1_g)
+igraph::triad.census(net1_g)
+igraph::edge_density(net1_g)
+
+sum(igraph::degree(net1_g))
+
+```
+
+## net 2
+
+```{r}
+net2_g <- igraph::graph_from_adjacency_matrix(net2, mode = c("undirected"))
+plot(net2_g)
+
+igraph::degree(net2_g)
+igraph::dyad.census(net2_g)
+igraph::triad.census(net2_g)
+igraph::edge_density(net2_g)
+
+sum(igraph::degree(net2_g))
+
+```
+
+## net 3
+```{r}
+net3_g <- igraph::graph_from_adjacency_matrix(net3, mode = c("undirected"))
+plot(net3_g)
+
+igraph::degree(net3_g)
+igraph::dyad.census(net3_g)
+igraph::triad.census(net3_g)
+igraph::edge_density(net3_g)
+
+sum(igraph::degree(net3_g))
+
+```
+# density
+## net 1
+```{r}
+
+net_und <- net1 + t(net1)
+net_und[net_und==2] <- 1
+
+sum(net_und, na.rm=TRUE)
+fdensity(net1)
+```
+## net 2
+```{r}
+
+net_und <- net2 + t(net2)
+net_und[net_und==2] <- 1
+
+sum(net_und, na.rm=TRUE)
+fdensity(net2)
+```
+## net 3
+```{r}
+
+net_und <- net3 + t(net3)
+net_und[net_und==2] <- 1
+
+sum(net_und, na.rm=TRUE)
+fdensity(net3)
+```
+
+# inter-/intragroup density
+
+```{r}
+div_m <-  fhomomat(soc_df$div.ego)
+```
+
+
+```{r}
+# calculate intra-/intergroup density diversity ego
+fdensityintra(x=net_und, A=div_m) 
+fdensityinter(x=net_und, A=div_m)
+    
+```
+
+```{r}
+# calculate intra-/intergroup density gender
+gender_m <-  fhomomat(soc_df$gender4)
+fdensityintra(x=net_und, A=gender_m) 
+fdensityinter(x=net_und, A=gender_m)
+    
+```
+
+

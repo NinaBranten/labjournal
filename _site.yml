@@ -20,6 +20,30 @@ navbar:
         href: RU_lab.html
       - text: "Week 4 - RSiena tutorial"
         href: RSiena_tutorial.html
+      - text: "1. Names"
+        href: 1.names.html
+      - text: "2. Gender"
+        href: 2.gender.html
+      - text: "3. Origin"
+        href: 3.origin.html
+      - text: "4. Scholar"
+        href: 4.scholar.html
+      - text: "5. RU ethnicity & age"
+        href: 5.RU_etni_age.html
+      - text: "5. UU ethnicity & age"
+        href: 5.UU_etni_age.html
+      - text: "6. RU array"
+        href: 6.RU_Array.html
+      - text: "6. UU array"
+        href: 6.UU_Array.html
+      - text: "7. RU descriptives"
+        href: 7.RU_descriptives.html
+      - text: "7. UU descriptives"
+        href: 7.UU_descriptives.html
+      - text: "8. RU regression"
+        href: 8.RU_regression.html
+      - text: "8. UU regression"
+        href: 8.UU_regression.html
     - text: "Research Question"
       menu:
       - text: "first attempt"
