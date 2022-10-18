@@ -1,0 +1,238 @@
+# Descriptives
+&nbsp;
+![](images/tabel1.png)
+&nbsp;
+
+## Radboud University
+&nbsp;
+
+**Period 2016-2017**
+
+```{r, echo=FALSE}
+load("./data/descriptives/RU_net_array_sym.RData")
+load("./data/descriptives/RU_dfv2.RData")
+
+net1 <- net_soc_array[ ,, 1]
+diag(net1) <- 0
+
+net1_g <- igraph::graph_from_adjacency_matrix(net1, mode = c("undirected"))
+plot(net1_g)
+
+degree <- rowSums(net1)
+summary(degree)
+
+```
+
+&nbsp;
+
+
+On average, in period 2016-2017, ego’s had 0.94 ties with other staff members within the Sociology department of Radboud University (see degrees, table 1). The minimum number of degrees is zero, the maximum number is 7.
+
+
+**Period 2018-2019**
+
+```{r, echo=FALSE}
+net2 <- net_soc_array[ ,, 2]
+diag(net2) <- 0
+
+net2_g <- igraph::graph_from_adjacency_matrix(net2, mode = c("undirected"))
+plot(net2_g)
+
+degree <- rowSums(net2)
+summary(degree)
+
+```
+&nbsp;
+On average, in period 2018-2019, ego’s had 1.06 ties with other staff members within the Sociology department of Radboud University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 6.
+
+&nbsp;
+
+**Period 2020-2022**
+
+&nbsp;
+
+```{r, echo=FALSE}
+net3 <- net_soc_array[ ,, 3]
+diag(net3) <- 0
+
+net3_g <- igraph::graph_from_adjacency_matrix(net3, mode = c("undirected"))
+plot(net3_g)
+
+degree <- rowSums(net3)
+summary(degree)
+
+```
+
+&nbsp;
+On average, in period 2020-2022, ego’s had 1.75 ties with other staff members within the Sociology department of Radboud University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 6.
+
+&nbsp;
+
+&nbsp;
+
+## Utrecht University
+
+**Period 2016-2017**
+
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UU_dfv2.RData")
+
+net1 <- net_soc_array[ ,, 1]
+diag(net1) <- 0
+
+net1_g <- igraph::graph_from_adjacency_matrix(net1, mode = c("undirected"))
+plot(net1_g)
+
+degree <- rowSums(net1)
+summary(degree)
+
+```
+
+&nbsp;
+On average, in period 2016-2017, ego’s had 1.76 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 20.
+
+&nbsp;
+
+**Period 2018-2019**
+
+```{r, echo=FALSE}
+net2 <- net_soc_array[ ,, 2]
+diag(net2) <- 0
+
+net2_g <- igraph::graph_from_adjacency_matrix(net2, mode = c("undirected"))
+plot(net2_g)
+
+degree <- rowSums(net2)
+summary(degree)
+
+```
+
+&nbsp;
+On average, in period 2018-2019, ego’s had 2.00 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum 23.
+
+&nbsp;
+
+**Period 2020-2022**
+
+&nbsp;
+```{r, echo=FALSE}
+net3 <- net_soc_array[ ,, 3]
+diag(net3) <- 0
+
+net3_g <- igraph::graph_from_adjacency_matrix(net3, mode = c("undirected"))
+plot(net3_g)
+
+degree <- rowSums(net3)
+summary(degree)
+
+```
+&nbsp;
+On average, in period 2020-2022, ego’s had 2.97 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 30.
+
+&nbsp;
+
+## Conclusion
+
+Generally, staff members of Utrecht University have more collaboration ties within the department than staff members of Radboud University.
+
+&nbsp;
+&nbsp;
+
+## Ethnicity egos
+Within the Sociology department of the Radboud University, 15.63 percent of the staff members has a non-Dutch last name. Within the Sociology department of Utrecht University, this percentage is 30.30. The department of Utrecht University is more ethnically diverse than the department of Radboud University.
+
+&nbsp;
+
+![](images/tabel2.png)
+
+&nbsp;
+
+## Gender egos
+
+Within the Sociology department of the Radboud University, 50 percent of the staff members is female and 50 percent is male. Within the Sociology department of Utrecht University, 39.40 percent of the staff members is female and 60.61 percent is male. This means that regarding to gender, the department of Radboud University is more diverse than the department of Utrecht University.
+
+![](images/tabel3.png)
+
+
+## Ethnic diversity egonet
+
+On average, the egonets of staff members from Radboud University had an ethnic diversity of 23.61 percent. This is lower than the ethnic diversity of the egonets from Utrecht University, that scored 35.99 percent on average. Therefore, we can conclude that sociologist from Utrecht University generally have a more ethnically diverse collaboration network than sociologists from Radboud University.
+
+&nbsp;
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+
+load("./data/descriptives/RU_net_array_sym.RData")
+load("./data/descriptives/RU_dfv2.RData")
+hist(soc_df$div.net, col="lightblue", main='RU: ethnic diversity egonets', xlab='Percentage non-Dutch collaborators')
+```
+&nbsp;
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UU_dfv2.RData")
+hist(soc_df$div.net, col="lightblue", main='UU: ethnic diversity egonets', xlab='Percentage non-Dutch collaborators')
+```
+&nbsp;
+
+## Year first publication
+On average, sociologists from Radboud University published their first paper in 2007 (see table 1). Generally, sociologists from Utrecht University published their first paper in 2005.
+
+&nbsp;
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+
+load("./data/descriptives/RU_net_array_sym.RData")
+load("./data/descriptives/RU_dfv2.RData")
+hist(soc_df$pub_first, col="lightblue", main='RU: year first publication', xlab='Year first publication')
+```
+
+
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UU_dfv2.RData")
+hist(soc_df$pub_first, col="lightblue", main='UU: year first publication', xlab='Year first publication')
+```
+
+&nbsp;
+
+## Densities
+Density contains all observed relations divided by all possible relations.
+&nbsp;
+For Radboud University, the density of net 1 contains 0.030, the density of net 2 0.034 and the density of net 3 0.056.
+&nbsp;
+For Utrecht University, the denisty of net 1 is 0.055, of net 2 0.063 and of net 3 0.093.
+&nbsp;
+For both universities, the density of the collaboration networks within the sociology departments has increased. Generally, the network within the sociology department of Utrecht University is more dense than the network within the sociology department of Radboud University.
+
+&nbsp;
+
+## Intra-/intergroup density: ethnicity
+To study segregation within the networks by ethnicity of the staff members, the intragroup and intergroup densities are compared. 
+&nbsp;
+For both Radboud and Utrecht University, people with the same ethnicity (Dutch or non-Dutch) seem to be working together more often. Segregation in collaboration ties is only present for Utrecht University.
+
+![](images/tabel4.png)
+
+
+
+
+
+
+

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Analysis_descriptives.knit</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
+    </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+    <li>
+      <a href="RQ4.html">fourth attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_report.html">Intro</a>
+    </li>
+    <li>
+      <a href="DataMethods.html">Data &amp; Methods</a>
+    </li>
+    <li>
+      <a href="Analysis_descriptives.html">Analysis: descriptives</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="descriptives" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Descriptives</h1>
+<p>  <img src="images/tabel1.png" />  </p>
+<div id="radboud-university" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Radboud
+University</h2>
+<p> </p>
+<p><strong>Period 2016-2017</strong></p>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.0000  0.9375  1.2500  7.0000</code></pre>
+<p> </p>
+<p>On average, in period 2016-2017, ego’s had 0.94 ties with other staff
+members within the Sociology department of Radboud University (see
+degrees, table 1). The minimum number of degrees is zero, the maximum
+number is 7.</p>
+<p><strong>Period 2018-2019</strong></p>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   1.062   1.250   6.000</code></pre>
+<p>  On average, in period 2018-2019, ego’s had 1.06 ties with other
+staff members within the Sociology department of Radboud University (see
+degrees, table 1). The minimum number of degrees is 0, the maximum
+number is 6.</p>
+<p> </p>
+<p><strong>Period 2020-2022</strong></p>
+<p> </p>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    0.00    1.50    1.75    3.00    6.00</code></pre>
+<p>  On average, in period 2020-2022, ego’s had 1.75 ties with other
+staff members within the Sociology department of Radboud University (see
+degrees, table 1). The minimum number of degrees is 0, the maximum
+number is 6.</p>
+<p> </p>
+<p> </p>
+</div>
+<div id="utrecht-university" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Utrecht
+University</h2>
+<p><strong>Period 2016-2017</strong></p>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   1.758   2.000  20.000</code></pre>
+<p>  On average, in period 2016-2017, ego’s had 1.76 ties with other
+staff members within the Sociology department of Utrecht University (see
+degrees, table 1). The minimum number of degrees is 0, the maximum
+number is 20.</p>
+<p> </p>
+<p><strong>Period 2018-2019</strong></p>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0       0       1       2       2      23</code></pre>
+<p>  On average, in period 2018-2019, ego’s had 2.00 ties with other
+staff members within the Sociology department of Utrecht University (see
+degrees, table 1). The minimum number of degrees is 0, the maximum
+23.</p>
+<p> </p>
+<p><strong>Period 2020-2022</strong></p>
+<p> 
+<img src="Analysis_descriptives_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    1.00    2.00    2.97    3.00   30.00</code></pre>
+<p>  On average, in period 2020-2022, ego’s had 2.97 ties with other
+staff members within the Sociology department of Utrecht University (see
+degrees, table 1). The minimum number of degrees is 0, the maximum
+number is 30.</p>
+<p> </p>
+</div>
+<div id="conclusion" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Conclusion</h2>
+<p>Generally, staff members of Utrecht University have more
+collaboration ties within the department than staff members of Radboud
+University.</p>
+<p>   </p>
+</div>
+<div id="ethnicity-egos" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Ethnicity egos</h2>
+<p>Within the Sociology department of the Radboud University, 15.63
+percent of the staff members has a non-Dutch last name. Within the
+Sociology department of Utrecht University, this percentage is 30.30.
+The department of Utrecht University is more ethnically diverse than the
+department of Radboud University.</p>
+<p> </p>
+<p><img src="images/tabel2.PNG" /></p>
+<p> </p>
+</div>
+<div id="gender-egos" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Gender egos</h2>
+<p>Within the Sociology department of the Radboud University, 50 percent
+of the staff members is female and 50 percent is male. Within the
+Sociology department of Utrecht University, 39.40 percent of the staff
+members is female and 60.61 percent is male. This means that regarding
+to gender, the department of Radboud University is more diverse than the
+department of Utrecht University.</p>
+<p><img src="images/tabel3.PNG" /></p>
+</div>
+<div id="ethnic-diversity-egonet" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> Ethnic diversity
+egonet</h2>
+<p>On average, the egonets of staff members from Radboud University had
+an ethnic diversity of 23.61 percent. This is lower than the ethnic
+diversity of the egonets from Utrecht University, that scored 35.99
+percent on average. Therefore, we can conclude that sociologist from
+Utrecht University generally have a more ethnically diverse
+collaboration network than sociologists from Radboud University.</p>
+<p> </p>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+ </p>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+ </p>
+</div>
+<div id="year-first-publication" class="section level2" number="1.7">
+<h2><span class="header-section-number">1.7</span> Year first
+publication</h2>
+<p>On average, sociologists from Radboud University published their
+first paper in 2007 (see table 1). Generally, sociologists from Utrecht
+University published their first paper in 2005.</p>
+<p> </p>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p> </p>
+</div>
+<div id="densities" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Densities</h2>
+<p>Density contains all observed relations divided by all possible
+relations.   For Radboud University, the density of net 1 contains
+0.030, the density of net 2 0.034 and the density of net 3 0.056.   For
+Utrecht University, the denisty of net 1 is 0.055, of net 2 0.063 and of
+net 3 0.093.   For both universities, the density of the collaboration
+networks within the sociology departments has increased. Generally, the
+network within the sociology department of Utrecht University is more
+dense than the network within the sociology department of Radboud
+University.</p>
+<p> </p>
+</div>
+<div id="intra-intergroup-density-ethnicity" class="section level2"
+number="1.9">
+<h2><span class="header-section-number">1.9</span> Intra-/intergroup
+density: ethnicity</h2>
+<p>To study segregation within the networks by ethnicity of the staff
+members, the intragroup and intergroup densities are compared.   For
+both Radboud and Utrecht University, people with the same ethnicity
+(Dutch or non-Dutch) seem to be working together more often. Segregation
+in collaboration ties is only present for Utrecht University.</p>
+<p><img src="images/tabel4.PNG" /></p>
+</div>
+</div>
+
+<div id="rmd-source-code">IyBEZXNjcmlwdGl2ZXMNCiZuYnNwOw0KIVtdKGltYWdlcy90YWJlbDEucG5nKQ0KJm5ic3A7DQoNCiMjIFJhZGJvdWQgVW5pdmVyc2l0eQ0KJm5ic3A7DQoNCioqUGVyaW9kIDIwMTYtMjAxNyoqDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQoNCm5ldDEgPC0gbmV0X3NvY19hcnJheVsgLCwgMV0NCmRpYWcobmV0MSkgPC0gMA0KDQpuZXQxX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MSwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0MV9nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQxKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KDQombmJzcDsNCg0KDQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAxNi0yMDE3LCBlZ2/igJlzIGhhZCAwLjk0IHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgUmFkYm91ZCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIHplcm8sIHRoZSBtYXhpbXVtIG51bWJlciBpcyA3Lg0KDQoNCioqUGVyaW9kIDIwMTgtMjAxOSoqDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KbmV0MiA8LSBuZXRfc29jX2FycmF5WyAsLCAyXQ0KZGlhZyhuZXQyKSA8LSAwDQoNCm5ldDJfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChuZXQyLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdChuZXQyX2cpDQoNCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDIpDQpzdW1tYXJ5KGRlZ3JlZSkNCg0KYGBgDQombmJzcDsNCk9uIGF2ZXJhZ2UsIGluIHBlcmlvZCAyMDE4LTIwMTksIGVnb+KAmXMgaGFkIDEuMDYgdGllcyB3aXRoIG90aGVyIHN0YWZmIG1lbWJlcnMgd2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkgKHNlZSBkZWdyZWVzLCB0YWJsZSAxKS4gVGhlIG1pbmltdW0gbnVtYmVyIG9mIGRlZ3JlZXMgaXMgMCwgdGhlIG1heGltdW0gbnVtYmVyIGlzIDYuDQoNCiZuYnNwOw0KDQoqKlBlcmlvZCAyMDIwLTIwMjIqKg0KDQombmJzcDsNCg0KYGBge3IsIGVjaG89RkFMU0V9DQpuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKG5ldDMpIDwtIDANCg0KbmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDNfZykNCg0KZGVncmVlIDwtIHJvd1N1bXMobmV0MykNCnN1bW1hcnkoZGVncmVlKQ0KDQpgYGANCg0KJm5ic3A7DQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAyMC0yMDIyLCBlZ2/igJlzIGhhZCAxLjc1IHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgUmFkYm91ZCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIDAsIHRoZSBtYXhpbXVtIG51bWJlciBpcyA2Lg0KDQombmJzcDsNCg0KJm5ic3A7DQoNCiMjIFV0cmVjaHQgVW5pdmVyc2l0eQ0KDQoqKlBlcmlvZCAyMDE2LTIwMTcqKg0KDQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfZGZ2Mi5SRGF0YSIpDQoNCm5ldDEgPC0gbmV0X3NvY19hcnJheVsgLCwgMV0NCmRpYWcobmV0MSkgPC0gMA0KDQpuZXQxX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MSwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0MV9nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQxKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KDQombmJzcDsNCk9uIGF2ZXJhZ2UsIGluIHBlcmlvZCAyMDE2LTIwMTcsIGVnb+KAmXMgaGFkIDEuNzYgdGllcyB3aXRoIG90aGVyIHN0YWZmIG1lbWJlcnMgd2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBVdHJlY2h0IFVuaXZlcnNpdHkgKHNlZSBkZWdyZWVzLCB0YWJsZSAxKS4gVGhlIG1pbmltdW0gbnVtYmVyIG9mIGRlZ3JlZXMgaXMgMCwgdGhlIG1heGltdW0gbnVtYmVyIGlzIDIwLg0KDQombmJzcDsNCg0KKipQZXJpb2QgMjAxOC0yMDE5KioNCg0KYGBge3IsIGVjaG89RkFMU0V9DQpuZXQyIDwtIG5ldF9zb2NfYXJyYXlbICwsIDJdDQpkaWFnKG5ldDIpIDwtIDANCg0KbmV0Ml9nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDIsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDJfZykNCg0KZGVncmVlIDwtIHJvd1N1bXMobmV0MikNCnN1bW1hcnkoZGVncmVlKQ0KDQpgYGANCg0KJm5ic3A7DQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAxOC0yMDE5LCBlZ2/igJlzIGhhZCAyLjAwIHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIDAsIHRoZSBtYXhpbXVtIDIzLg0KDQombmJzcDsNCg0KKipQZXJpb2QgMjAyMC0yMDIyKioNCg0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCm5ldDMgPC0gbmV0X3NvY19hcnJheVsgLCwgM10NCmRpYWcobmV0MykgPC0gMA0KDQpuZXQzX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MywgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0M19nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQzKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KJm5ic3A7DQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAyMC0yMDIyLCBlZ2/igJlzIGhhZCAyLjk3IHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIDAsIHRoZSBtYXhpbXVtIG51bWJlciBpcyAzMC4NCg0KJm5ic3A7DQoNCiMjIENvbmNsdXNpb24NCg0KR2VuZXJhbGx5LCBzdGFmZiBtZW1iZXJzIG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBoYXZlIG1vcmUgY29sbGFib3JhdGlvbiB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCB0aGFuIHN0YWZmIG1lbWJlcnMgb2YgUmFkYm91ZCBVbml2ZXJzaXR5Lg0KDQombmJzcDsNCiZuYnNwOw0KDQojIyBFdGhuaWNpdHkgZWdvcw0KV2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiB0aGUgUmFkYm91ZCBVbml2ZXJzaXR5LCAxNS42MyBwZXJjZW50IG9mIHRoZSBzdGFmZiBtZW1iZXJzIGhhcyBhIG5vbi1EdXRjaCBsYXN0IG5hbWUuIFdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5LCB0aGlzIHBlcmNlbnRhZ2UgaXMgMzAuMzAuIFRoZSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBpcyBtb3JlIGV0aG5pY2FsbHkgZGl2ZXJzZSB0aGFuIHRoZSBkZXBhcnRtZW50IG9mIFJhZGJvdWQgVW5pdmVyc2l0eS4NCg0KJm5ic3A7DQoNCiFbXShpbWFnZXMvdGFiZWwyLnBuZykNCg0KJm5ic3A7DQoNCiMjIEdlbmRlciBlZ29zDQoNCldpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgdGhlIFJhZGJvdWQgVW5pdmVyc2l0eSwgNTAgcGVyY2VudCBvZiB0aGUgc3RhZmYgbWVtYmVycyBpcyBmZW1hbGUgYW5kIDUwIHBlcmNlbnQgaXMgbWFsZS4gV2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBVdHJlY2h0IFVuaXZlcnNpdHksIDM5LjQwIHBlcmNlbnQgb2YgdGhlIHN0YWZmIG1lbWJlcnMgaXMgZmVtYWxlIGFuZCA2MC42MSBwZXJjZW50IGlzIG1hbGUuIFRoaXMgbWVhbnMgdGhhdCByZWdhcmRpbmcgdG8gZ2VuZGVyLCB0aGUgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkgaXMgbW9yZSBkaXZlcnNlIHRoYW4gdGhlIGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5Lg0KDQohW10oaW1hZ2VzL3RhYmVsMy5wbmcpDQoNCg0KIyMgRXRobmljIGRpdmVyc2l0eSBlZ29uZXQNCg0KT24gYXZlcmFnZSwgdGhlIGVnb25ldHMgb2Ygc3RhZmYgbWVtYmVycyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBoYWQgYW4gZXRobmljIGRpdmVyc2l0eSBvZiAyMy42MSBwZXJjZW50LiBUaGlzIGlzIGxvd2VyIHRoYW4gdGhlIGV0aG5pYyBkaXZlcnNpdHkgb2YgdGhlIGVnb25ldHMgZnJvbSBVdHJlY2h0IFVuaXZlcnNpdHksIHRoYXQgc2NvcmVkIDM1Ljk5IHBlcmNlbnQgb24gYXZlcmFnZS4gVGhlcmVmb3JlLCB3ZSBjYW4gY29uY2x1ZGUgdGhhdCBzb2Npb2xvZ2lzdCBmcm9tIFV0cmVjaHQgVW5pdmVyc2l0eSBnZW5lcmFsbHkgaGF2ZSBhIG1vcmUgZXRobmljYWxseSBkaXZlcnNlIGNvbGxhYm9yYXRpb24gbmV0d29yayB0aGFuIHNvY2lvbG9naXN0cyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eS4NCg0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIsIG1haW49J1JVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnLCB4bGFiPSdQZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIsIG1haW49J1VVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnLCB4bGFiPSdQZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KJm5ic3A7DQoNCiMjIFllYXIgZmlyc3QgcHVibGljYXRpb24NCk9uIGF2ZXJhZ2UsIHNvY2lvbG9naXN0cyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgaW4gMjAwNyAoc2VlIHRhYmxlIDEpLiBHZW5lcmFsbHksIHNvY2lvbG9naXN0cyBmcm9tIFV0cmVjaHQgVW5pdmVyc2l0eSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgaW4gMjAwNS4NCg0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRwdWJfZmlyc3QsIGNvbD0ibGlnaHRibHVlIiwgbWFpbj0nUlU6IHllYXIgZmlyc3QgcHVibGljYXRpb24nLCB4bGFiPSdZZWFyIGZpcnN0IHB1YmxpY2F0aW9uJykNCmBgYA0KDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KI3N0YXJ0IHdpdGggY2xlYW4gd29ya3NwYWNlIA0Kcm0obGlzdD1scygpKQ0KZ2V0d2QoKQ0KDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1VVX25ldF9hcnJheV9zeW0uUkRhdGEiKQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9kZnYyLlJEYXRhIikNCmhpc3Qoc29jX2RmJHB1Yl9maXJzdCwgY29sPSJsaWdodGJsdWUiLCBtYWluPSdVVTogeWVhciBmaXJzdCBwdWJsaWNhdGlvbicsIHhsYWI9J1llYXIgZmlyc3QgcHVibGljYXRpb24nKQ0KYGBgDQoNCiZuYnNwOw0KDQojIyBEZW5zaXRpZXMNCkRlbnNpdHkgY29udGFpbnMgYWxsIG9ic2VydmVkIHJlbGF0aW9ucyBkaXZpZGVkIGJ5IGFsbCBwb3NzaWJsZSByZWxhdGlvbnMuDQombmJzcDsNCkZvciBSYWRib3VkIFVuaXZlcnNpdHksIHRoZSBkZW5zaXR5IG9mIG5ldCAxIGNvbnRhaW5zIDAuMDMwLCB0aGUgZGVuc2l0eSBvZiBuZXQgMiAwLjAzNCBhbmQgdGhlIGRlbnNpdHkgb2YgbmV0IDMgMC4wNTYuDQombmJzcDsNCkZvciBVdHJlY2h0IFVuaXZlcnNpdHksIHRoZSBkZW5pc3R5IG9mIG5ldCAxIGlzIDAuMDU1LCBvZiBuZXQgMiAwLjA2MyBhbmQgb2YgbmV0IDMgMC4wOTMuDQombmJzcDsNCkZvciBib3RoIHVuaXZlcnNpdGllcywgdGhlIGRlbnNpdHkgb2YgdGhlIGNvbGxhYm9yYXRpb24gbmV0d29ya3Mgd2l0aGluIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudHMgaGFzIGluY3JlYXNlZC4gR2VuZXJhbGx5LCB0aGUgbmV0d29yayB3aXRoaW4gdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBpcyBtb3JlIGRlbnNlIHRoYW4gdGhlIG5ldHdvcmsgd2l0aGluIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkuDQoNCiZuYnNwOw0KDQojIyBJbnRyYS0vaW50ZXJncm91cCBkZW5zaXR5OiBldGhuaWNpdHkNClRvIHN0dWR5IHNlZ3JlZ2F0aW9uIHdpdGhpbiB0aGUgbmV0d29ya3MgYnkgZXRobmljaXR5IG9mIHRoZSBzdGFmZiBtZW1iZXJzLCB0aGUgaW50cmFncm91cCBhbmQgaW50ZXJncm91cCBkZW5zaXRpZXMgYXJlIGNvbXBhcmVkLiANCiZuYnNwOw0KRm9yIGJvdGggUmFkYm91ZCBhbmQgVXRyZWNodCBVbml2ZXJzaXR5LCBwZW9wbGUgd2l0aCB0aGUgc2FtZSBldGhuaWNpdHkgKER1dGNoIG9yIG5vbi1EdXRjaCkgc2VlbSB0byBiZSB3b3JraW5nIHRvZ2V0aGVyIG1vcmUgb2Z0ZW4uIFNlZ3JlZ2F0aW9uIGluIGNvbGxhYm9yYXRpb24gdGllcyBpcyBvbmx5IHByZXNlbnQgZm9yIFV0cmVjaHQgVW5pdmVyc2l0eS4NCg0KIVtdKGltYWdlcy90YWJlbDQucG5nKQ0KDQoNCg0KDQoNCg0KDQo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Analysis_descriptives.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

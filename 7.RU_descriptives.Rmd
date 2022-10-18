@@ -122,24 +122,23 @@ fndyads2 <- function(x, A) {
 summary(soc_df$div.net)
 sd(soc_df$div.net, na.rm=TRUE)
 table(soc_df$div.net)
-hist(soc_df$div.net, col="lightblue")
+hist(soc_df$div.net, col="lightblue", main='RU: ethnic diversity egonets', xlab='Percentage non-Dutch collaborators')
 ```
 ```{r}
 summary(soc_df$div.ego)
 table(soc_df$div.ego)
-hist(soc_df$div.ego, col="lightblue")
 
 ```
 ```{r}
 summary(soc_df$nauthors)
 sd(soc_df$nauthors, na.rm=TRUE)
-hist(soc_df$nauthors, col="lightblue")
+hist(soc_df$nauthors, col="lightblue", main='RU: number of co-authors', xlab='Number of co-authors since 2019')
 
 ```
 ```{r}
 summary(soc_df$pub_first)
 sd(soc_df$pub_first, na.rm=TRUE)
-hist(soc_df$pub_first, col="lightblue")
+hist(soc_df$pub_first, col="lightblue", main='RU: year first publication', xlab='Year first publication')
 
 ```
 

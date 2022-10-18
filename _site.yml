@@ -60,6 +60,8 @@ navbar:
         href: intro_report.html
       - text: "Data & Methods"
         href: DataMethods.html
+      - text: "Analysis: descriptives"
+        href: Analysis_descriptives.html
 
   right:
   - icon: fab fa-github

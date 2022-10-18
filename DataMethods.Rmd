@@ -71,6 +71,10 @@ As data on the age of scholars was not easily available on the internet, we oper
 
 ## Methods
 First, several descriptive statistics of the networks are presented. A visual representation of the collaboration networks within the departments is made. Furthermore, several descriptive and frequency statistics are calculated regarding the ethnicity, age and gender of the ego’s, the ethnic diversity of the egonets and the degrees of the networks. Moreover, to look into the segregation of the networks, we compared intra- and intergroup densities of both gender and ethnicity.
+&nbsp;
+
 Second, we try to explain differences in ethnic diversity of the collaboration egonets by characteristics of the egos themselves; ethnicity, gender and age. Therefore, two linear regression models were conducted.
+&nbsp;
+
 Last, to find further explanations for segregation in network layers we need to examine how and why collaboration ties within the departments are formed and how this is influenced by covariate effects and/or structural network effects. This is done using SIENA (Simulation Investigation for Empirical Network Analysis) in R with the package RSiena. Our data contains information on collaboration ties between staff-members within the department of three time-frames (2016-2017, 2018-2019 and 2020-2022).
 RSiena models tie changes as the results of actions by actors. It is assumed that each time only one actor is allowed to make changes, and this actor is only able to change one tie at a time. The actor who is allowed to make changes evaluates the networks structures on its attractiveness. This is determined by the evaluation function. The actor is most likely to make changes resulting in a network with the highest level of attractiveness. 
