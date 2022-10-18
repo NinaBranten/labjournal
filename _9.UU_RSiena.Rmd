@@ -8,9 +8,10 @@ rm(list=ls())
 
 ```{r}
 #load dataobjects
-load("./data/descriptives/RU_net_array_sym.RData")
-load("./data/descriptives/RUpub_dfv2.RData")
-load("./data/descriptives/RU_dfv2.RData")
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UUpub_dfv2.RData")
+load("./data/descriptives/UU_dfv2.RData")
+load("./data/soc_staff_cit.RData")
 load("./data/names_staff_cit_v20221006.RData")
 
 library(RSiena)
@@ -19,12 +20,14 @@ library(tidyverse)
 
 ```{r}
 names_staff_cit %>% 
-  filter(gs_id %in% soc_df$gs_id) -> RU_staff_cit
+  filter(gs_id %in% soc_df$gs_id) -> UU_staff_cit
 ```
 
 ```{r}
-save(RU_staff_cit, file="./data/descriptives/RU_staff_cit.RData")
+save(UU_staff_cit, file="./data/descriptives/UU_staff_cit.RData")
 ```
+
+
 
 ```{r}
 #dependent
@@ -56,9 +59,9 @@ total_cites <- coCovar(soc_df$total_cites_num)
 #pubs: time-varying
 pubsw1 <- pubsw2 <- pubsw3 <- pubsw4 <- NA
 for (i in 1:length(soc_df$gs_id)) {
-  pubsw1[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2016 & RU_staff_cit$year<=2017,])
-  pubsw2[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2018 & RU_staff_cit$year<=2019,])
-  pubsw3[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2020 & RU_staff_cit$year<=2022,])
+  pubsw1[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2016 & UU_staff_cit$year<=2017,])
+  pubsw2[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2018 & UU_staff_cit$year<=2019,])
+  pubsw3[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2020 & UU_staff_cit$year<=2022,])
 }
 
 pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
@@ -82,7 +85,7 @@ myeff1 <- getEffects(mydata1)
 ```{r}
 
 ### Step 3: get initial description
-print01Report(mydata1, modelname = "./data/results/RU_init")
+print01Report(mydata1, modelname = "./data/results/UU_init")
 ```
 
 
@@ -92,9 +95,10 @@ myeff1 <- includeEffects(myeff1, degPlus) #popularity
 myeff1 <- includeEffects(myeff1, transTriads) #number of transitive patterns in i's relationships
 myeff1 <- includeEffects(myeff1, absDiffX,interaction1="div_net")
 ```
+
 ```{r}
 ### Step5 estimate
-myAlgorithm <- sienaAlgorithmCreate(projname = "RU_init")
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init")
 ```
 
 
@@ -104,6 +108,7 @@ myAlgorithm <- sienaAlgorithmCreate(projname = "RU_init")
 # further
 #(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
 ```
+
 ```{r}
 summary(ans1)
 ```
@@ -124,7 +129,7 @@ myeff2 <- getEffects(mydata2)
 ```{r}
 
 ### Step 3: get initial description
-print01Report(mydata2, modelname = "./data/results/soc_init2")
+print01Report(mydata2, modelname = "./data/results/UU_init2")
 ```
 
 
@@ -142,7 +147,7 @@ myeff2 <- includeEffects(myeff2, egoPlusAltX, interaction1 = "pubs") #if you hav
 
 ```{r}
 ### Step5 estimate
-myAlgorithm <- sienaAlgorithmCreate(projname = "RU_init2")
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init2")
 ```
 
 ```{r}

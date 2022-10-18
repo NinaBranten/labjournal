@@ -58,6 +58,8 @@ navbar:
       menu:
       - text: "Intro"
         href: intro_report.html
+      - text: "Data & Methods"
+        href: datamethods.html
 
   right:
   - icon: fab fa-github
