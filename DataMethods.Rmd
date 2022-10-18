@@ -36,28 +36,38 @@ klippy::klippy(position = c('top', 'right'))
 
 
 # Data and methods
-## Data
-### Staff members sociology
+&nbsp;
 
+## Data
+&nbsp;
+
+### Staff members sociology
 The current study focusses on the collaboration networks of staff members working at the  sociology department of the Radboud University and Utrecht University. Names of the staff members are webscraped from the websites of the university, using the RSelenium package for the javascript tables of the website of Utrecht University.
 
-### Collaboration network
+&nbsp;
 
+### Collaboration network
 Data on the publications and citations of the staff members were webscraped from Google Scholar, using the Scholar package in R.
 For the RSiena analysis, collaborations between staff-members within the sociology departments themselves is operationalized using names of co-authors on the publications of the staff members within the period 2016-2022.
 Furthermore, to decide the level of ethnic diversity of the collaborator egonets, I also gathered information on co-author relationships outside the department is also needed. This network is operationalized using the names of co-authors on the publications of staffmembers since 2019. Because we only use information on the publications since 2019, we assume that the diversity of scholar’s network is relatively stable over time.
+
+&nbsp;
 
 ### Ethnic diversity
 Ethnicity of the scholars is decided looking at their last name. Scholars are divided into two groups: (0) a non-Dutch last name, and (1) a Dutch last name. When in doubt about the origin of a last name, the CBG family name database was used, containing information on the geographical distribution and origin of last names.
 The ethnic diversity of the egonet is operationalized as the percentage of ego’s co-authors since 2019 with non-Dutch last names.
 
+&nbsp;
+
 ### Gender
 Gender of the staff members is decided by looking at their first name, using the Meertens Voornamenbank. This a database contains information on the gender, popularity, geographical distribution and origin of all first names in The Netherlands.
 
+&nbsp;
 
 ### Age
 As data on the age of scholars was not easily available on the internet, we operationalized age as the period in which the scholar has been active in the academic world. Therefore age is seen as the year of the first publication of the staff member. 
 
+&nbsp;
 
 ## Methods
 First, several descriptive statistics of the networks are presented. A visual representation of the collaboration networks within the departments is made. Furthermore, several descriptive and frequency statistics are calculated regarding the ethnicity, age and gender of the ego’s, the ethnic diversity of the egonets and the degrees of the networks. Moreover, to look into the segregation of the networks, we compared intra- and intergroup densities of both gender and ethnicity.
