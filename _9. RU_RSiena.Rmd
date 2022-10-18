@@ -136,7 +136,7 @@ myeff2 <- includeEffects(myeff2, absDiffX,interaction1="div_net")
 myeff2 <- includeEffects(myeff2, sameX,interaction1="div_ego")
 myeff2 <- includeEffects(myeff2, sameX,interaction1="gender")
 myeff2 <- includeEffects(myeff2, egoPlusAltX,interaction1="pub_first") #if you are older, you will get more collaboration within department 
-myeff2 <- includeEffects(myeff2, egoPlusAltX,interaction1="total_cites") #if you are older, you will get more collaboration within department 
+myeff2 <- includeEffects(myeff2, egoPlusAltX,interaction1="total_cites") 
 myeff2 <- includeEffects(myeff2, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year?
 ```
 

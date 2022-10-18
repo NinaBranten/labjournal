@@ -12,7 +12,7 @@
 <meta name="author" content="by: Nina Branten" />
 
 
-<title>2. Gender</title>
+<title>Regression</title>
 
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -475,7 +475,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">2. Gender</h1>
+<h1 class="title toc-ignore">Regression</h1>
 <h4 class="author">by: Nina Branten</h4>
 
 </div>
@@ -485,79 +485,27 @@ div.tocify {
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
-<div id="getting-started" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> getting started</h1>
-<pre class="r test"><code>#start with clean workspace 
-rm(list=ls())
-getwd()
-load(&quot;./data/names_df_v20220106.RData&quot;)</code></pre>
-</div>
-<div id="packages" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> packages</h1>
-<pre class="r test"><code>library(data.table) 
-library(tidyverse) 
-require(xml2)
-require(rvest)
-require(devtools)
-require(scholar)
-require(stringi)</code></pre>
-<div id="adding-gender-to-dataset" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> adding gender to
-dataset</h2>
-<div id="gender-to-cs_df" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> gender to
-cs_df</h3>
-<pre class="r test"><code>names_df %&gt;% mutate(firstname=first_name) -&gt; names_df
-names_df$gender &lt;- NA
-
-# make links to scrape
-names_df$name_url &lt;- paste0(&quot;https://www.meertens.knaw.nl/nvb/naam/is/&quot;, names_df[, c(&quot;firstname&quot;)])
-
-name_list &lt;- list()
-table_list &lt;- list()
-
-for (i in 1:nrow(names_df)) {
-    print(i)
-    if (!(is.na(names_df$gender[i]))) next
-    name_list[[i]] &lt;- read_html(names_df$name_url[i])
-    # extract name frequency table and gender info
-    if (length(name_list[[i]] %&gt;% html_table())&gt;0) {
-      
-      table_list[[i]] &lt;- name_list[[i]] %&gt;% html_table()
-      table_list[[i]][[1]][table_list[[i]][[1]]==&quot;--&quot;] &lt;- &quot;0&quot;
-      if (as.numeric(table_list[[i]][[1]]$X3[2]) &gt; as.numeric(table_list[[i]][[1]]$X3[6])) {
-        names_df$gender[i] &lt;- &quot;male&quot; } else {
-          names_df$gender[i] &lt;- &quot;female&quot;
-        }
-    }
-    save(names_df, file=&quot;./data/names_df_temp.RData&quot;)
-}</code></pre>
-<pre class="r test"><code>#devtools::install_github(&quot;kalimu/genderizeR&quot;)
-require(genderizeR)
-names_df$gender2 &lt;- NA
-
-for (i in 1:nrow(names_df)) {
-    print(i)
-    tryCatch({
-      if (!(is.na(names_df$gender2[i]))) next
-      gender &lt;- genderizeAPI(names_df$first_name[i])
-      gender &lt;- gender[[1]]
-      names_df$gender2[i] &lt;- gender$gender[which.max(gender$probability)]
-    }, 
-    warning = function(w) {
-        cat(&quot;WARNING:&quot;, conditionMessage(w), &quot;\n&quot;) #WARNING message
-    },
-    error=function(e){
-      cat(&quot;Error:&quot;, conditionMessage(e), &quot;\n&quot;) #ERROR message
-    })  
-    save(names_df, file=&quot;./data/names_df_temp.RData&quot;)
-}</code></pre>
-<pre class="r test"><code>save(names_df, file=&quot;./data/names_df_v20221005.RData&quot;)</code></pre>
-</div>
-</div>
+<pre class="test2"><code>#&gt; [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p>   </p>
+<div id="regression-analysis" class="section level2" number="0.1">
+<h2><span class="header-section-number">0.1</span> Regression
+analysis</h2>
+<p>To examine what determines the ethnic diversity of ones egonet, we
+conducted four linear regression models. The first model contained the
+ethnicity of the ego, the second model the year of first publication and
+the third model gender. Last, all three effects were calculated in one
+final model.</p>
+<p>   </p>
+<p><img src="images/Tabel5.PNG" /></p>
+<p> </p>
+<p>For Sociology staff members of Radboud University, we observe that
+younger scholars have a significantly more ethnically diverse
+collaboration network than older scholars (b = 0.88).   Within Utrecht
+University, sociologists with a Dutch lastname have, on average, a less
+ethnically diverse collaboration network (b = -24.01).</p>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIjIuIEdlbmRlciINCmF1dGhvcjogImJ5OiBOaW5hIEJyYW50ZW4iDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQotLS0NCg0KDQoNCmBgYHtyLCBpbnN0YWxsIHJlbW90ZWx5LCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZScsIGV2YWw9RkFMU0V9DQppbnN0YWxsLnBhY2thZ2VzKCJyZW1vdGVzIikNCnJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCJybGVzdXIva2xpcHB5IikNCmBgYCANCg0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KHJnbCkNCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQojIGdldHRpbmcgc3RhcnRlZA0KDQpgYGB7ciwgZXZhbD1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCmxvYWQoIi4vZGF0YS9uYW1lc19kZl92MjAyMjAxMDYuUkRhdGEiKQ0KYGBgDQoNCiMgcGFja2FnZXMNCg0KYGBge3J9DQpsaWJyYXJ5KGRhdGEudGFibGUpIA0KbGlicmFyeSh0aWR5dmVyc2UpIA0KcmVxdWlyZSh4bWwyKQ0KcmVxdWlyZShydmVzdCkNCnJlcXVpcmUoZGV2dG9vbHMpDQpyZXF1aXJlKHNjaG9sYXIpDQpyZXF1aXJlKHN0cmluZ2kpDQoNCmBgYA0KDQoNCg0KIyMgYWRkaW5nIGdlbmRlciB0byBkYXRhc2V0DQoNCg0KDQoNCiMjIyBnZW5kZXIgdG8gY3NfZGYNCmBgYHtyLCBldmFsPUZBTFNFfQ0KbmFtZXNfZGYgJT4lIG11dGF0ZShmaXJzdG5hbWU9Zmlyc3RfbmFtZSkgLT4gbmFtZXNfZGYNCm5hbWVzX2RmJGdlbmRlciA8LSBOQQ0KDQojIG1ha2UgbGlua3MgdG8gc2NyYXBlDQpuYW1lc19kZiRuYW1lX3VybCA8LSBwYXN0ZTAoImh0dHBzOi8vd3d3Lm1lZXJ0ZW5zLmtuYXcubmwvbnZiL25hYW0vaXMvIiwgbmFtZXNfZGZbLCBjKCJmaXJzdG5hbWUiKV0pDQoNCm5hbWVfbGlzdCA8LSBsaXN0KCkNCnRhYmxlX2xpc3QgPC0gbGlzdCgpDQoNCmZvciAoaSBpbiAxOm5yb3cobmFtZXNfZGYpKSB7DQogICAgcHJpbnQoaSkNCiAgICBpZiAoIShpcy5uYShuYW1lc19kZiRnZW5kZXJbaV0pKSkgbmV4dA0KICAgIG5hbWVfbGlzdFtbaV1dIDwtIHJlYWRfaHRtbChuYW1lc19kZiRuYW1lX3VybFtpXSkNCiAgICAjIGV4dHJhY3QgbmFtZSBmcmVxdWVuY3kgdGFibGUgYW5kIGdlbmRlciBpbmZvDQogICAgaWYgKGxlbmd0aChuYW1lX2xpc3RbW2ldXSAlPiUgaHRtbF90YWJsZSgpKT4wKSB7DQogICAgICANCiAgICAgIHRhYmxlX2xpc3RbW2ldXSA8LSBuYW1lX2xpc3RbW2ldXSAlPiUgaHRtbF90YWJsZSgpDQogICAgICB0YWJsZV9saXN0W1tpXV1bWzFdXVt0YWJsZV9saXN0W1tpXV1bWzFdXT09Ii0tIl0gPC0gIjAiDQogICAgICBpZiAoYXMubnVtZXJpYyh0YWJsZV9saXN0W1tpXV1bWzFdXSRYM1syXSkgPiBhcy5udW1lcmljKHRhYmxlX2xpc3RbW2ldXVtbMV1dJFgzWzZdKSkgew0KICAgICAgICBuYW1lc19kZiRnZW5kZXJbaV0gPC0gIm1hbGUiIH0gZWxzZSB7DQogICAgICAgICAgbmFtZXNfZGYkZ2VuZGVyW2ldIDwtICJmZW1hbGUiDQogICAgICAgIH0NCiAgICB9DQogICAgc2F2ZShuYW1lc19kZiwgZmlsZT0iLi9kYXRhL25hbWVzX2RmX3RlbXAuUkRhdGEiKQ0KfQ0KDQoNCmBgYA0KDQpgYGB7ciwgZXZhbD1GQUxTRX0NCiNkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoImthbGltdS9nZW5kZXJpemVSIikNCnJlcXVpcmUoZ2VuZGVyaXplUikNCm5hbWVzX2RmJGdlbmRlcjIgPC0gTkENCg0KZm9yIChpIGluIDE6bnJvdyhuYW1lc19kZikpIHsNCiAgICBwcmludChpKQ0KICAgIHRyeUNhdGNoKHsNCiAgICAgIGlmICghKGlzLm5hKG5hbWVzX2RmJGdlbmRlcjJbaV0pKSkgbmV4dA0KICAgICAgZ2VuZGVyIDwtIGdlbmRlcml6ZUFQSShuYW1lc19kZiRmaXJzdF9uYW1lW2ldKQ0KICAgICAgZ2VuZGVyIDwtIGdlbmRlcltbMV1dDQogICAgICBuYW1lc19kZiRnZW5kZXIyW2ldIDwtIGdlbmRlciRnZW5kZXJbd2hpY2gubWF4KGdlbmRlciRwcm9iYWJpbGl0eSldDQogICAgfSwgDQogICAgd2FybmluZyA9IGZ1bmN0aW9uKHcpIHsNCiAgICAgICAgY2F0KCJXQVJOSU5HOiIsIGNvbmRpdGlvbk1lc3NhZ2UodyksICJcbiIpICNXQVJOSU5HIG1lc3NhZ2UNCiAgICB9LA0KICAgIGVycm9yPWZ1bmN0aW9uKGUpew0KICAgICAgY2F0KCJFcnJvcjoiLCBjb25kaXRpb25NZXNzYWdlKGUpLCAiXG4iKSAjRVJST1IgbWVzc2FnZQ0KICAgIH0pICANCiAgICBzYXZlKG5hbWVzX2RmLCBmaWxlPSIuL2RhdGEvbmFtZXNfZGZfdGVtcC5SRGF0YSIpDQp9DQoNCg0KDQoNCmBgYA0KDQoNCmBgYHtyLCBldmFsPUZBTFNFfQ0Kc2F2ZShuYW1lc19kZiwgZmlsZT0iLi9kYXRhL25hbWVzX2RmX3YyMDIyMTAwNS5SRGF0YSIpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJlZ3Jlc3Npb24iDQphdXRob3I6ICJieTogTmluYSBCcmFudGVuIg0KYmlibGlvZ3JhcGh5OiByZWZlcmVuY2VzLmJpYg0KLS0tDQoNCg0KDQpgYGB7ciwgaW5zdGFsbCByZW1vdGVseSwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnLCBldmFsPUZBTFNFfQ0KaW5zdGFsbC5wYWNrYWdlcygicmVtb3RlcyIpDQpyZW1vdGVzOjppbnN0YWxsX2dpdGh1Yigicmxlc3VyL2tsaXBweSIpDQpgYGAgDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZSd9DQpsaWJyYXJ5KGtuaXRyKQ0KbGlicmFyeShyZ2wpDQoNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCg0KYGBge3IsIGVjaG89RkFMU0V9DQojc3RhcnQgd2l0aCBjbGVhbiB3b3Jrc3BhY2UgDQpybShsaXN0PWxzKCkpDQpnZXR3ZCgpDQpgYGANCg0KJm5ic3A7DQombmJzcDsNCg0KIyMgUmVncmVzc2lvbiBhbmFseXNpcw0KVG8gZXhhbWluZSB3aGF0IGRldGVybWluZXMgdGhlIGV0aG5pYyBkaXZlcnNpdHkgb2Ygb25lcyBlZ29uZXQsIHdlIGNvbmR1Y3RlZCBmb3VyIGxpbmVhciByZWdyZXNzaW9uIG1vZGVscy4gVGhlIGZpcnN0IG1vZGVsIGNvbnRhaW5lZCB0aGUgZXRobmljaXR5IG9mIHRoZSBlZ28sIHRoZSBzZWNvbmQgbW9kZWwgdGhlIHllYXIgb2YgZmlyc3QgcHVibGljYXRpb24gYW5kIHRoZSB0aGlyZCBtb2RlbCBnZW5kZXIuIExhc3QsIGFsbCB0aHJlZSBlZmZlY3RzIHdlcmUgY2FsY3VsYXRlZCBpbiBvbmUgZmluYWwgbW9kZWwuDQoNCiZuYnNwOw0KJm5ic3A7DQoNCiFbXShpbWFnZXMvdGFiZWw1LnBuZykNCg0KJm5ic3A7DQoNCkZvciBTb2Npb2xvZ3kgc3RhZmYgbWVtYmVycyBvZiBSYWRib3VkIFVuaXZlcnNpdHksIHdlIG9ic2VydmUgdGhhdCB5b3VuZ2VyIHNjaG9sYXJzIGhhdmUgYSBzaWduaWZpY2FudGx5IG1vcmUgZXRobmljYWxseSBkaXZlcnNlIGNvbGxhYm9yYXRpb24gbmV0d29yayB0aGFuIG9sZGVyIHNjaG9sYXJzIChiID0gMC44OCkuDQombmJzcDsNCldpdGhpbiBVdHJlY2h0IFVuaXZlcnNpdHksIHNvY2lvbG9naXN0cyB3aXRoIGEgRHV0Y2ggbGFzdG5hbWUgaGF2ZSwgb24gYXZlcmFnZSwgYSBsZXNzIGV0aG5pY2FsbHkgZGl2ZXJzZSBjb2xsYWJvcmF0aW9uIG5ldHdvcmsgKGIgPSAtMjQuMDEpLg0K</div>
 
 
 </div>
@@ -595,7 +543,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("2.gender.rmd");
+  window.initializeSourceEmbed("Regression.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

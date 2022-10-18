@@ -62,6 +62,8 @@ navbar:
         href: DataMethods.html
       - text: "Analysis: descriptives"
         href: Analysis_descriptives.html
+      - text: "Regression analysis"
+        href: Regression.html
 
   right:
   - icon: fab fa-github

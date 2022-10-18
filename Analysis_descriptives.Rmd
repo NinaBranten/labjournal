@@ -226,7 +226,7 @@ For both universities, the density of the collaboration networks within the soci
 ## Intra-/intergroup density: ethnicity
 To study segregation within the networks by ethnicity of the staff members, the intragroup and intergroup densities are compared. 
 &nbsp;
-For both Radboud and Utrecht University, people with the same ethnicity (Dutch or non-Dutch) seem to be working together more often. Segregation in collaboration ties is only present for Utrecht University.
+For both Radboud and Utrecht University, people with the same ethnicity (Dutch or non-Dutch) seem to be working together more often. Segregation in collaboration ties for gender is only present for Utrecht University.
 
 ![](images/tabel4.png)
 
