@@ -1,0 +1,42 @@
+
+---
+title: "Introduction"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+---
+# Research questions
+
+**Question 1:** *To what exent do the collaborator egonets of sociology staff members from Radboud University and Utrecht University differ in their level of ethnic diversity?*
+
+**Question 2:** *To what extent can we explain these differences in the ethnic diversity of the collaborator egonets by age and ethnic background of these faculty members?*
+
+**Question 3:** *To what extent does the ethnic diversity of the collaborator egonets influence whether staff within the department works together?*

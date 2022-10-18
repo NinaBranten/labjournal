@@ -44,6 +44,10 @@ navbar:
         href: 8.RU_regression.html
       - text: "8. UU regression"
         href: 8.UU_regression.html
+      - text: "9. RU RSiena"
+        href: 9.RU_RSiena.html
+      - text: "9. UU RSiena"
+        href: 9.UU_RSiena.html
     - text: "Research Question"
       menu:
       - text: "first attempt"
@@ -56,8 +60,8 @@ navbar:
         href: RQ4.html
     - text: "Final report"
       menu:
-      - text: "Intro"
-        href: intro_report.html
+      - text: "Introduction"
+        href: Introduction.html
       - text: "Data & Methods"
         href: DataMethods.html
       - text: "Analysis: descriptives"

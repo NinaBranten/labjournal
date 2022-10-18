@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>9.RU_RSiena.knit</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
+    </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
+    <li>
+      <a href="9.RU_RSiena.html">9. RU RSiena</a>
+    </li>
+    <li>
+      <a href="9.UU_RSiena.html">9. UU RSiena</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+    <li>
+      <a href="RQ4.html">fourth attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="DataMethods.html">Data &amp; Methods</a>
+    </li>
+    <li>
+      <a href="Analysis_descriptives.html">Analysis: descriptives</a>
+    </li>
+    <li>
+      <a href="Regression.html">Analysis: regression</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p>#RSiena</p>
+<pre class="r"><code>#start with clean workspace 
+rm(list=ls())</code></pre>
+<pre class="r"><code>#load dataobjects
+load(&quot;./data/descriptives/RU_net_array_sym.RData&quot;)
+load(&quot;./data/descriptives/RUpub_dfv2.RData&quot;)
+load(&quot;./data/descriptives/RU_dfv2.RData&quot;)
+load(&quot;./data/names_staff_cit_v20221006.RData&quot;)
+
+library(RSiena)
+library(tidyverse)</code></pre>
+<pre class="r"><code>names_staff_cit %&gt;% 
+  filter(gs_id %in% soc_df$gs_id) -&gt; RU_staff_cit</code></pre>
+<pre class="r"><code>save(RU_staff_cit, file=&quot;./data/descriptives/RU_staff_cit.RData&quot;)</code></pre>
+<pre class="r"><code>#dependent
+net &lt;- sienaDependent(net_soc_array)</code></pre>
+<pre class="r"><code>### Step 1: define data
+#diversiteit egonet
+div_net &lt;- coCovar(as.numeric(soc_df$div.net))
+
+#diversiteit ego
+div_ego &lt;- coCovar(as.numeric(soc_df$div.ego))
+
+#gender
+gender &lt;- coCovar(soc_df$gender4)
+
+#leeftijd
+pub_first &lt;- coCovar(soc_df$pub_first)
+
+#total cites
+soc_df$total_cites_num &lt;- as.numeric(soc_df$total_cites)
+total_cites &lt;- coCovar(soc_df$total_cites_num)</code></pre>
+<pre class="r"><code>#pubs: time-varying
+pubsw1 &lt;- pubsw2 &lt;- pubsw3 &lt;- pubsw4 &lt;- NA
+for (i in 1:length(soc_df$gs_id)) {
+  pubsw1[i] &lt;- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) &amp; RU_staff_cit$year&gt;=2016 &amp; RU_staff_cit$year&lt;=2017,])
+  pubsw2[i] &lt;- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) &amp; RU_staff_cit$year&gt;=2018 &amp; RU_staff_cit$year&lt;=2019,])
+  pubsw3[i] &lt;- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) &amp; RU_staff_cit$year&gt;=2020 &amp; RU_staff_cit$year&lt;=2022,])
+}
+
+pub_df &lt;- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
+pubs &lt;- varCovar(pub_df)</code></pre>
+<div id="model-1-diversity-of-the-egonet-with-structural-effects"
+class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Model 1: Diversity of
+the egonet with structural effects</h1>
+<pre class="r"><code>mydata1 &lt;- sienaDataCreate(net, div_net)</code></pre>
+<pre class="r"><code>### Step 2: create effects structure
+myeff1 &lt;- getEffects(mydata1)
+#effectsDocumentation(myeff1)</code></pre>
+<pre class="r"><code>### Step 3: get initial description
+print01Report(mydata1, modelname = &quot;./data/results/RU_init&quot;)</code></pre>
+<pre class="r"><code>### Step4: specify model
+myeff1 &lt;- includeEffects(myeff1, degPlus) #popularity</code></pre>
+<pre><code>##   effectName     include fix   test  initialValue parm
+## 1 degree act+pop TRUE    FALSE FALSE          0   1</code></pre>
+<pre class="r"><code>myeff1 &lt;- includeEffects(myeff1, transTriads) #number of transitive patterns in i&#39;s relationships</code></pre>
+<pre><code>##   effectName        include fix   test  initialValue parm
+## 1 transitive triads TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff1 &lt;- includeEffects(myeff1, absDiffX,interaction1=&quot;div_net&quot;)</code></pre>
+<pre><code>##   effectName              include fix   test  initialValue parm
+## 1 div_net abs. difference TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>### Step5 estimate
+myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init&quot;)</code></pre>
+<pre><code>## If you use this algorithm object, siena07 will create/use an output file RU_init.txt .</code></pre>
+<pre class="r"><code>(ans1 &lt;- siena07(myAlgorithm, data = mydata1, effects = myeff1))</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                    Estimate   Standard   Convergence 
+##                                                 Error      t-ratio   
+## 
+## Rate parameters: 
+##   0.1      Rate parameter period 1  1.2147  ( 0.4154   )             
+##   0.2      Rate parameter period 2  2.8405  ( 1.1063   )             
+## 
+## Other parameters: 
+##   1.  eval degree (density)        -2.6674  ( 0.5288   )   0.0200    
+##   2.  eval transitive triads        0.9128  ( 0.3655   )   0.0476    
+##   3.  eval degree act+pop           0.1350  ( 0.0619   )   0.0521    
+##   4.  eval div_net abs. difference -0.0271  ( 0.0128   )   0.0397    
+## 
+## Overall maximum convergence ratio:    0.1341 
+## 
+## 
+## Total of 1797 iteration steps.</code></pre>
+<pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))</code></pre>
+<pre class="r"><code>summary(ans1)</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                    Estimate   Standard   Convergence 
+##                                                 Error      t-ratio   
+## 
+## Rate parameters: 
+##   0.1      Rate parameter period 1  1.2147  ( 0.4154   )             
+##   0.2      Rate parameter period 2  2.8405  ( 1.1063   )             
+## 
+## Other parameters: 
+##   1.  eval degree (density)        -2.6674  ( 0.5288   )   0.0200    
+##   2.  eval transitive triads        0.9128  ( 0.3655   )   0.0476    
+##   3.  eval degree act+pop           0.1350  ( 0.0619   )   0.0521    
+##   4.  eval div_net abs. difference -0.0271  ( 0.0128   )   0.0397    
+## 
+## Overall maximum convergence ratio:    0.1341 
+## 
+## 
+## Total of 1797 iteration steps.
+## 
+## Covariance matrix of estimates (correlations below diagonal)
+## 
+##        0.280        0.035       -0.026       -0.002
+##        0.183        0.134       -0.013        0.000
+##       -0.801       -0.561        0.004        0.000
+##       -0.313        0.072       -0.072        0.000
+## 
+## Derivative matrix of expected statistics X by parameters:
+## 
+##       47.365       35.571     1265.368     1392.095
+##       34.380       44.591     1102.326     1001.599
+##      467.389      421.042    14095.274    13809.180
+##      673.857      467.965    17565.690    33732.843
+## 
+## Covariance matrix of X (correlations below diagonal):
+## 
+##       88.349       82.380     2587.518     2527.067
+##        0.849      106.480     2720.761     2302.838
+##        0.960        0.920    82187.157    73030.853
+##        0.835        0.693        0.791   103792.020</code></pre>
+</div>
+<div id="model-2-all-covariates-with-structural-effects"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Model 2: all covariates
+with structural effects</h1>
+<pre class="r"><code>mydata2 &lt;- sienaDataCreate(net, div_net, div_ego, gender, pub_first, pubs, total_cites)</code></pre>
+<pre class="r"><code>### Step 2: create effects structure
+myeff2 &lt;- getEffects(mydata2)
+#effectsDocumentation(myeff2)</code></pre>
+<pre class="r"><code>### Step 3: get initial description
+print01Report(mydata2, modelname = &quot;./data/results/soc_init2&quot;)</code></pre>
+<pre class="r"><code>### Step4: specify model
+myeff2 &lt;- includeEffects(myeff2, degPlus) #popularity</code></pre>
+<pre><code>##   effectName     include fix   test  initialValue parm
+## 1 degree act+pop TRUE    FALSE FALSE          0   1</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, transTriads) #number of transitive patterns in i&#39;s relationships</code></pre>
+<pre><code>##   effectName        include fix   test  initialValue parm
+## 1 transitive triads TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, absDiffX,interaction1=&quot;div_net&quot;)</code></pre>
+<pre><code>##   effectName              include fix   test  initialValue parm
+## 1 div_net abs. difference TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, sameX,interaction1=&quot;div_ego&quot;)</code></pre>
+<pre><code>##   effectName   include fix   test  initialValue parm
+## 1 same div_ego TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, sameX,interaction1=&quot;gender&quot;)</code></pre>
+<pre><code>##   effectName  include fix   test  initialValue parm
+## 1 same gender TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, egoPlusAltX,interaction1=&quot;pub_first&quot;) #if you are older, you will get more collaboration within department </code></pre>
+<pre><code>##   effectName            include fix   test  initialValue parm
+## 1 pub_first ego and alt TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, egoPlusAltX,interaction1=&quot;total_cites&quot;) </code></pre>
+<pre><code>##   effectName              include fix   test  initialValue parm
+## 1 total_cites ego and alt TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>myeff2 &lt;- includeEffects(myeff2, egoPlusAltX, interaction1 = &quot;pubs&quot;) #if you have many pubs, you will probably publish more per year?</code></pre>
+<pre><code>##   effectName       include fix   test  initialValue parm
+## 1 pubs ego and alt TRUE    FALSE FALSE          0   0</code></pre>
+<pre class="r"><code>### Step5 estimate
+myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init2&quot;)</code></pre>
+<pre><code>## If you use this algorithm object, siena07 will create/use an output file RU_init2.txt .</code></pre>
+<pre class="r"><code>(ans2 &lt;- siena07(myAlgorithm, data = mydata2, effects = myeff2))</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                    Estimate   Standard   Convergence 
+##                                                 Error      t-ratio   
+## 
+## Rate parameters: 
+##   0.1      Rate parameter period 1  1.1871  ( 0.4031   )             
+##   0.2      Rate parameter period 2  2.7071  ( 0.8840   )             
+## 
+## Other parameters: 
+##   1.  eval degree (density)        -2.2741  ( 0.7515   )    0.0120   
+##   2.  eval transitive triads        1.3119  ( 0.4002   )    0.0370   
+##   3.  eval degree act+pop           0.0148  ( 0.0759   )    0.0389   
+##   4.  eval div_net abs. difference -0.0305  ( 0.0127   )    0.0027   
+##   5.  eval same div_ego             0.3199  ( 0.5618   )    0.0257   
+##   6.  eval same gender             -0.2683  ( 0.3227   )    0.0425   
+##   7.  eval pub_first ego and alt    0.0512  ( 0.0238   )   -0.0375   
+##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0528   
+##   9.  eval pubs ego and alt         0.0712  ( 0.2437   )   -0.0014   
+## 
+## Overall maximum convergence ratio:    0.1236 
+## 
+## 
+## Total of 2457 iteration steps.</code></pre>
+<pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))</code></pre>
+<pre class="r"><code>summary(ans2)</code></pre>
+<pre><code>## Estimates, standard errors and convergence t-ratios
+## 
+##                                    Estimate   Standard   Convergence 
+##                                                 Error      t-ratio   
+## 
+## Rate parameters: 
+##   0.1      Rate parameter period 1  1.1871  ( 0.4031   )             
+##   0.2      Rate parameter period 2  2.7071  ( 0.8840   )             
+## 
+## Other parameters: 
+##   1.  eval degree (density)        -2.2741  ( 0.7515   )    0.0120   
+##   2.  eval transitive triads        1.3119  ( 0.4002   )    0.0370   
+##   3.  eval degree act+pop           0.0148  ( 0.0759   )    0.0389   
+##   4.  eval div_net abs. difference -0.0305  ( 0.0127   )    0.0027   
+##   5.  eval same div_ego             0.3199  ( 0.5618   )    0.0257   
+##   6.  eval same gender             -0.2683  ( 0.3227   )    0.0425   
+##   7.  eval pub_first ego and alt    0.0512  ( 0.0238   )   -0.0375   
+##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0528   
+##   9.  eval pubs ego and alt         0.0712  ( 0.2437   )   -0.0014   
+## 
+## Overall maximum convergence ratio:    0.1236 
+## 
+## 
+## Total of 2457 iteration steps.
+## 
+## Covariance matrix of estimates (correlations below diagonal)
+## 
+##        0.565        0.066       -0.035       -0.002       -0.269       -0.055       -0.001        0.000        0.021
+##        0.219        0.160       -0.017        0.000       -0.027       -0.018        0.003        0.000        0.002
+##       -0.618       -0.549        0.006        0.000        0.003        0.001        0.000        0.000       -0.002
+##       -0.181       -0.078       -0.039        0.000        0.000        0.001        0.000        0.000        0.000
+##       -0.638       -0.119        0.065       -0.016        0.316        0.001        0.000        0.000       -0.038
+##       -0.227       -0.137        0.043        0.142        0.004        0.104        0.000        0.000       -0.002
+##       -0.064        0.293       -0.084       -0.243        0.030       -0.047        0.001        0.000        0.001
+##        0.099        0.435       -0.388       -0.191        0.005       -0.090        0.885        0.000        0.000
+##        0.117        0.023       -0.097       -0.050       -0.279       -0.030        0.230        0.164        0.059
+## 
+## Derivative matrix of expected statistics X by parameters:
+## 
+##  3.452600e+01  2.845000e+01  9.444900e+02  1.008659e+03  6.527900e+01  3.996500e+01 -9.937100e+02  3.405606e+05  4.476300e+01
+##  2.664400e+01  4.087500e+01  8.839110e+02  8.006270e+02  5.267200e+01  3.307400e+01 -8.665930e+02  2.718675e+05  4.214900e+01
+##  3.407030e+02  3.460160e+02  1.094568e+04  1.009607e+04  6.571500e+02  3.991810e+02 -1.243462e+04  4.270918e+06  4.971530e+02
+##  4.901430e+02  3.954790e+02  1.324269e+04  2.838368e+04  9.140150e+02  4.914530e+02 -1.164793e+04  4.510845e+06  6.503630e+02
+##  3.217000e+01  2.887800e+01  9.084680e+02  9.463410e+02  6.814800e+01  3.720000e+01 -9.854000e+02  3.322457e+05  4.761900e+01
+##  1.893200e+01  1.698400e+01  5.323750e+02  5.033700e+02  3.617800e+01  4.017300e+01 -6.452420e+02  2.158460e+05  2.673200e+01
+## -5.205560e+02 -5.562160e+02 -1.950421e+04 -1.350199e+04 -1.061932e+03 -6.619580e+02  4.263401e+04 -1.307325e+07 -1.051305e+03
+##  1.870059e+05  1.749557e+05  6.884581e+06  5.346009e+06  3.713588e+05  2.280761e+05 -1.319216e+07  4.624128e+09  3.292463e+05
+##  2.114200e+01  2.230000e+01  6.884630e+02  6.612340e+02  4.529400e+01  2.539000e+01 -9.781740e+02  3.075377e+05  7.431300e+01
+## 
+## Covariance matrix of X (correlations below diagonal):
+## 
+##  5.137600e+01  5.479600e+01  1.536723e+03  1.540100e+03  9.938800e+01  6.049900e+01 -1.705862e+03  5.649987e+05  7.310200e+01
+##  8.010000e-01  9.107100e+01  1.946338e+03  1.616846e+03  1.112230e+02  6.607300e+01 -2.002517e+03  6.452151e+05  9.199700e+01
+##  9.360000e-01  8.910000e-01  5.244943e+04  4.560212e+04  3.052549e+03  1.803345e+03 -5.974428e+04  2.024698e+07  2.454531e+03
+##  7.820000e-01  6.170000e-01  7.250000e-01  7.548307e+04  2.957531e+03  1.699178e+03 -4.729599e+04  1.642840e+07  2.320124e+03
+##  9.630000e-01  8.090000e-01  9.260000e-01  7.480000e-01  2.073300e+02  1.168760e+02 -3.455869e+03  1.137190e+06  1.527940e+02
+##  8.260000e-01  6.770000e-01  7.700000e-01  6.050000e-01  7.940000e-01  1.044720e+02 -2.146813e+03  6.879020e+05  8.831400e+01
+## -7.200000e-01 -6.350000e-01 -7.900000e-01 -5.210000e-01 -7.270000e-01 -6.360000e-01  1.091375e+05 -3.323555e+07 -3.254582e+03
+##  7.340000e-01  6.300000e-01  8.230000e-01  5.570000e-01  7.350000e-01  6.270000e-01 -9.370000e-01  1.153077e+10  1.033449e+06
+##  7.050000e-01  6.660000e-01  7.410000e-01  5.840000e-01  7.340000e-01  5.970000e-01 -6.810000e-01  6.650000e-01  2.092750e+02</code></pre>
+</div>
+
+<div id="rmd-source-code">I1JTaWVuYQ0KDQpgYGB7cn0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmBgYA0KDQoNCmBgYHtyfQ0KI2xvYWQgZGF0YW9iamVjdHMNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfbmV0X2FycmF5X3N5bS5SRGF0YSIpDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1JVcHViX2RmdjIuUkRhdGEiKQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9kZnYyLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9uYW1lc19zdGFmZl9jaXRfdjIwMjIxMDA2LlJEYXRhIikNCg0KbGlicmFyeShSU2llbmEpDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQpgYGB7cn0NCm5hbWVzX3N0YWZmX2NpdCAlPiUgDQogIGZpbHRlcihnc19pZCAlaW4lIHNvY19kZiRnc19pZCkgLT4gUlVfc3RhZmZfY2l0DQpgYGANCg0KYGBge3J9DQpzYXZlKFJVX3N0YWZmX2NpdCwgZmlsZT0iLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9zdGFmZl9jaXQuUkRhdGEiKQ0KYGBgDQoNCmBgYHtyfQ0KI2RlcGVuZGVudA0KbmV0IDwtIHNpZW5hRGVwZW5kZW50KG5ldF9zb2NfYXJyYXkpDQpgYGANCg0KDQpgYGB7cn0NCiMjIyBTdGVwIDE6IGRlZmluZSBkYXRhDQojZGl2ZXJzaXRlaXQgZWdvbmV0DQpkaXZfbmV0IDwtIGNvQ292YXIoYXMubnVtZXJpYyhzb2NfZGYkZGl2Lm5ldCkpDQoNCiNkaXZlcnNpdGVpdCBlZ28NCmRpdl9lZ28gPC0gY29Db3Zhcihhcy5udW1lcmljKHNvY19kZiRkaXYuZWdvKSkNCg0KI2dlbmRlcg0KZ2VuZGVyIDwtIGNvQ292YXIoc29jX2RmJGdlbmRlcjQpDQoNCiNsZWVmdGlqZA0KcHViX2ZpcnN0IDwtIGNvQ292YXIoc29jX2RmJHB1Yl9maXJzdCkNCg0KI3RvdGFsIGNpdGVzDQpzb2NfZGYkdG90YWxfY2l0ZXNfbnVtIDwtIGFzLm51bWVyaWMoc29jX2RmJHRvdGFsX2NpdGVzKQ0KdG90YWxfY2l0ZXMgPC0gY29Db3Zhcihzb2NfZGYkdG90YWxfY2l0ZXNfbnVtKQ0KYGBgDQoNCg0KYGBge3J9DQojcHViczogdGltZS12YXJ5aW5nDQpwdWJzdzEgPC0gcHVic3cyIDwtIHB1YnN3MyA8LSBwdWJzdzQgPC0gTkENCmZvciAoaSBpbiAxOmxlbmd0aChzb2NfZGYkZ3NfaWQpKSB7DQogIHB1YnN3MVtpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAxNiAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDE3LF0pDQogIHB1YnN3MltpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAxOCAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDE5LF0pDQogIHB1YnN3M1tpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAyMCAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDIyLF0pDQp9DQoNCnB1Yl9kZiA8LSBhcy5tYXRyaXgoZGF0YS5mcmFtZShwdWJzdzEsIHB1YnN3MiwgcHVic3czKSkNCnB1YnMgPC0gdmFyQ292YXIocHViX2RmKQ0KYGBgDQoNCiMgTW9kZWwgMTogRGl2ZXJzaXR5IG9mIHRoZSBlZ29uZXQgd2l0aCBzdHJ1Y3R1cmFsIGVmZmVjdHMNCg0KYGBge3J9DQpteWRhdGExIDwtIHNpZW5hRGF0YUNyZWF0ZShuZXQsIGRpdl9uZXQpDQpgYGANCg0KDQpgYGB7cn0NCiMjIyBTdGVwIDI6IGNyZWF0ZSBlZmZlY3RzIHN0cnVjdHVyZQ0KbXllZmYxIDwtIGdldEVmZmVjdHMobXlkYXRhMSkNCiNlZmZlY3RzRG9jdW1lbnRhdGlvbihteWVmZjEpDQpgYGANCg0KDQpgYGB7cn0NCg0KIyMjIFN0ZXAgMzogZ2V0IGluaXRpYWwgZGVzY3JpcHRpb24NCnByaW50MDFSZXBvcnQobXlkYXRhMSwgbW9kZWxuYW1lID0gIi4vZGF0YS9yZXN1bHRzL1JVX2luaXQiKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcDQ6IHNwZWNpZnkgbW9kZWwNCm15ZWZmMSA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjEsIGRlZ1BsdXMpICNwb3B1bGFyaXR5DQpteWVmZjEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYxLCB0cmFuc1RyaWFkcykgI251bWJlciBvZiB0cmFuc2l0aXZlIHBhdHRlcm5zIGluIGkncyByZWxhdGlvbnNoaXBzDQpteWVmZjEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYxLCBhYnNEaWZmWCxpbnRlcmFjdGlvbjE9ImRpdl9uZXQiKQ0KYGBgDQpgYGB7cn0NCiMjIyBTdGVwNSBlc3RpbWF0ZQ0KbXlBbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAiUlVfaW5pdCIpDQpgYGANCg0KDQpgYGB7cn0NCihhbnMxIDwtIHNpZW5hMDcobXlBbGdvcml0aG0sIGRhdGEgPSBteWRhdGExLCBlZmZlY3RzID0gbXllZmYxKSkNCiMgKHRoZSBvdXRlciBwYXJlbnRoZXNlcyBsZWFkIHRvIHByaW50aW5nIHRoZSBvYnRhaW5lZCByZXN1bHQgb24gdGhlIHNjcmVlbikgaWYgbmVjZXNzYXJ5LCBlc3RpbWF0ZQ0KIyBmdXJ0aGVyDQojKGFucyA8LSBzaWVuYTA3KG15QWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYsIHByZXZBbnMgPSBhbnMpKQ0KYGBgDQpgYGB7cn0NCnN1bW1hcnkoYW5zMSkNCmBgYA0KIyBNb2RlbCAyOiBhbGwgY292YXJpYXRlcyB3aXRoIHN0cnVjdHVyYWwgZWZmZWN0cw0KDQpgYGB7cn0NCm15ZGF0YTIgPC0gc2llbmFEYXRhQ3JlYXRlKG5ldCwgZGl2X25ldCwgZGl2X2VnbywgZ2VuZGVyLCBwdWJfZmlyc3QsIHB1YnMsIHRvdGFsX2NpdGVzKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcCAyOiBjcmVhdGUgZWZmZWN0cyBzdHJ1Y3R1cmUNCm15ZWZmMiA8LSBnZXRFZmZlY3RzKG15ZGF0YTIpDQojZWZmZWN0c0RvY3VtZW50YXRpb24obXllZmYyKQ0KYGBgDQoNCg0KYGBge3J9DQoNCiMjIyBTdGVwIDM6IGdldCBpbml0aWFsIGRlc2NyaXB0aW9uDQpwcmludDAxUmVwb3J0KG15ZGF0YTIsIG1vZGVsbmFtZSA9ICIuL2RhdGEvcmVzdWx0cy9zb2NfaW5pdDIiKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcDQ6IHNwZWNpZnkgbW9kZWwNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGRlZ1BsdXMpICNwb3B1bGFyaXR5DQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCB0cmFuc1RyaWFkcykgI251bWJlciBvZiB0cmFuc2l0aXZlIHBhdHRlcm5zIGluIGkncyByZWxhdGlvbnNoaXBzDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBhYnNEaWZmWCxpbnRlcmFjdGlvbjE9ImRpdl9uZXQiKQ0KbXllZmYyIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMiwgc2FtZVgsaW50ZXJhY3Rpb24xPSJkaXZfZWdvIikNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIHNhbWVYLGludGVyYWN0aW9uMT0iZ2VuZGVyIikNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGVnb1BsdXNBbHRYLGludGVyYWN0aW9uMT0icHViX2ZpcnN0IikgI2lmIHlvdSBhcmUgb2xkZXIsIHlvdSB3aWxsIGdldCBtb3JlIGNvbGxhYm9yYXRpb24gd2l0aGluIGRlcGFydG1lbnQgDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBlZ29QbHVzQWx0WCxpbnRlcmFjdGlvbjE9InRvdGFsX2NpdGVzIikgDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBlZ29QbHVzQWx0WCwgaW50ZXJhY3Rpb24xID0gInB1YnMiKSAjaWYgeW91IGhhdmUgbWFueSBwdWJzLCB5b3Ugd2lsbCBwcm9iYWJseSBwdWJsaXNoIG1vcmUgcGVyIHllYXI/DQpgYGANCg0KYGBge3J9DQojIyMgU3RlcDUgZXN0aW1hdGUNCm15QWxnb3JpdGhtIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gIlJVX2luaXQyIikNCmBgYA0KDQpgYGB7cn0NCihhbnMyIDwtIHNpZW5hMDcobXlBbGdvcml0aG0sIGRhdGEgPSBteWRhdGEyLCBlZmZlY3RzID0gbXllZmYyKSkNCiMgKHRoZSBvdXRlciBwYXJlbnRoZXNlcyBsZWFkIHRvIHByaW50aW5nIHRoZSBvYnRhaW5lZCByZXN1bHQgb24gdGhlIHNjcmVlbikgaWYgbmVjZXNzYXJ5LCBlc3RpbWF0ZQ0KIyBmdXJ0aGVyDQojKGFucyA8LSBzaWVuYTA3KG15QWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYsIHByZXZBbnMgPSBhbnMpKQ0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShhbnMyKQ0KYGBgDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("9.RU_RSiena.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
