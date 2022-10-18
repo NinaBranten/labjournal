@@ -42,7 +42,7 @@ getwd()
 &nbsp;
 &nbsp;
 
-## Regression analysis
+# Regression analysis
 To examine what determines the ethnic diversity of ones egonet, we conducted four linear regression models. The first model contained the ethnicity of the ego, the second model the year of first publication and the third model gender. Last, all three effects were calculated in one final model.
 
 &nbsp;
