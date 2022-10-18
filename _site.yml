@@ -62,7 +62,7 @@ navbar:
         href: DataMethods.html
       - text: "Analysis: descriptives"
         href: Analysis_descriptives.html
-      - text: "Regression analysis"
+      - text: "Analysis: regression"
         href: Regression.html
 
   right:
