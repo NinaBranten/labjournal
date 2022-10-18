@@ -447,6 +447,12 @@ div.tocify {
     <li>
       <a href="Regression.html">Analysis: regression</a>
     </li>
+    <li>
+      <a href="9.RU_RSiena.html">Analysis: RU RSiena</a>
+    </li>
+    <li>
+      <a href="9.UU_RSiena.html">Analysis: UU RSiena</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -552,19 +558,19 @@ myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init&quot;)</code></p
 ##                                                 Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0.1      Rate parameter period 1  1.2147  ( 0.4154   )             
-##   0.2      Rate parameter period 2  2.8405  ( 1.1063   )             
+##   0.1      Rate parameter period 1  1.1803  ( 0.4010   )             
+##   0.2      Rate parameter period 2  2.8187  ( 1.0988   )             
 ## 
 ## Other parameters: 
-##   1.  eval degree (density)        -2.6674  ( 0.5288   )   0.0200    
-##   2.  eval transitive triads        0.9128  ( 0.3655   )   0.0476    
-##   3.  eval degree act+pop           0.1350  ( 0.0619   )   0.0521    
-##   4.  eval div_net abs. difference -0.0271  ( 0.0128   )   0.0397    
+##   1.  eval degree (density)        -2.6039  ( 0.5399   )    0.0224   
+##   2.  eval transitive triads        0.9306  ( 0.3508   )    0.0149   
+##   3.  eval degree act+pop           0.1290  ( 0.0628   )    0.0157   
+##   4.  eval div_net abs. difference -0.0289  ( 0.0129   )   -0.0318   
 ## 
-## Overall maximum convergence ratio:    0.1341 
+## Overall maximum convergence ratio:    0.0970 
 ## 
 ## 
-## Total of 1797 iteration steps.</code></pre>
+## Total of 2059 iteration steps.</code></pre>
 <pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
 # further
 #(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))</code></pre>
@@ -575,40 +581,40 @@ myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init&quot;)</code></p
 ##                                                 Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0.1      Rate parameter period 1  1.2147  ( 0.4154   )             
-##   0.2      Rate parameter period 2  2.8405  ( 1.1063   )             
+##   0.1      Rate parameter period 1  1.1803  ( 0.4010   )             
+##   0.2      Rate parameter period 2  2.8187  ( 1.0988   )             
 ## 
 ## Other parameters: 
-##   1.  eval degree (density)        -2.6674  ( 0.5288   )   0.0200    
-##   2.  eval transitive triads        0.9128  ( 0.3655   )   0.0476    
-##   3.  eval degree act+pop           0.1350  ( 0.0619   )   0.0521    
-##   4.  eval div_net abs. difference -0.0271  ( 0.0128   )   0.0397    
+##   1.  eval degree (density)        -2.6039  ( 0.5399   )    0.0224   
+##   2.  eval transitive triads        0.9306  ( 0.3508   )    0.0149   
+##   3.  eval degree act+pop           0.1290  ( 0.0628   )    0.0157   
+##   4.  eval div_net abs. difference -0.0289  ( 0.0129   )   -0.0318   
 ## 
-## Overall maximum convergence ratio:    0.1341 
+## Overall maximum convergence ratio:    0.0970 
 ## 
 ## 
-## Total of 1797 iteration steps.
+## Total of 2059 iteration steps.
 ## 
 ## Covariance matrix of estimates (correlations below diagonal)
 ## 
-##        0.280        0.035       -0.026       -0.002
-##        0.183        0.134       -0.013        0.000
-##       -0.801       -0.561        0.004        0.000
-##       -0.313        0.072       -0.072        0.000
+##        0.292        0.039       -0.027       -0.002
+##        0.207        0.123       -0.012        0.000
+##       -0.805       -0.561        0.004        0.000
+##       -0.357       -0.022       -0.002        0.000
 ## 
 ## Derivative matrix of expected statistics X by parameters:
 ## 
-##       47.365       35.571     1265.368     1392.095
-##       34.380       44.591     1102.326     1001.599
-##      467.389      421.042    14095.274    13809.180
-##      673.857      467.965    17565.690    33732.843
+##       43.955       31.811     1127.547     1325.742
+##       34.352       43.646     1078.935     1028.165
+##      434.804      383.779    12743.957    13105.326
+##      641.486      456.287    16280.515    33002.173
 ## 
 ## Covariance matrix of X (correlations below diagonal):
 ## 
-##       88.349       82.380     2587.518     2527.067
-##        0.849      106.480     2720.761     2302.838
-##        0.960        0.920    82187.157    73030.853
-##        0.835        0.693        0.791   103792.020</code></pre>
+##       83.250       76.074     2379.204     2415.037
+##        0.848       96.720     2480.697     2168.001
+##        0.957        0.925    74296.943    68531.817
+##        0.833        0.694        0.792   100876.155</code></pre>
 </div>
 <div id="model-2-all-covariates-with-structural-effects"
 class="section level1" number="2">
@@ -655,24 +661,24 @@ myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init2&quot;)</code></
 ##                                                 Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0.1      Rate parameter period 1  1.1871  ( 0.4031   )             
-##   0.2      Rate parameter period 2  2.7071  ( 0.8840   )             
+##   0.1      Rate parameter period 1  1.1627  ( 0.3888   )             
+##   0.2      Rate parameter period 2  2.7083  ( 0.9157   )             
 ## 
 ## Other parameters: 
-##   1.  eval degree (density)        -2.2741  ( 0.7515   )    0.0120   
-##   2.  eval transitive triads        1.3119  ( 0.4002   )    0.0370   
-##   3.  eval degree act+pop           0.0148  ( 0.0759   )    0.0389   
-##   4.  eval div_net abs. difference -0.0305  ( 0.0127   )    0.0027   
-##   5.  eval same div_ego             0.3199  ( 0.5618   )    0.0257   
-##   6.  eval same gender             -0.2683  ( 0.3227   )    0.0425   
-##   7.  eval pub_first ego and alt    0.0512  ( 0.0238   )   -0.0375   
-##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0528   
-##   9.  eval pubs ego and alt         0.0712  ( 0.2437   )   -0.0014   
+##   1.  eval degree (density)        -2.2382  ( 0.6904   )    0.0788   
+##   2.  eval transitive triads        1.2891  ( 0.4208   )    0.0205   
+##   3.  eval degree act+pop           0.0157  ( 0.0802   )    0.0535   
+##   4.  eval div_net abs. difference -0.0309  ( 0.0127   )    0.0396   
+##   5.  eval same div_ego             0.3059  ( 0.5167   )    0.0733   
+##   6.  eval same gender             -0.2696  ( 0.3244   )    0.0989   
+##   7.  eval pub_first ego and alt    0.0485  ( 0.0233   )   -0.0544   
+##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0452   
+##   9.  eval pubs ego and alt         0.0779  ( 0.2359   )    0.0452   
 ## 
-## Overall maximum convergence ratio:    0.1236 
+## Overall maximum convergence ratio:    0.1323 
 ## 
 ## 
-## Total of 2457 iteration steps.</code></pre>
+## Total of 2531 iteration steps.</code></pre>
 <pre class="r"><code># (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
 # further
 #(ans &lt;- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))</code></pre>
@@ -683,60 +689,60 @@ myAlgorithm &lt;- sienaAlgorithmCreate(projname = &quot;RU_init2&quot;)</code></
 ##                                                 Error      t-ratio   
 ## 
 ## Rate parameters: 
-##   0.1      Rate parameter period 1  1.1871  ( 0.4031   )             
-##   0.2      Rate parameter period 2  2.7071  ( 0.8840   )             
+##   0.1      Rate parameter period 1  1.1627  ( 0.3888   )             
+##   0.2      Rate parameter period 2  2.7083  ( 0.9157   )             
 ## 
 ## Other parameters: 
-##   1.  eval degree (density)        -2.2741  ( 0.7515   )    0.0120   
-##   2.  eval transitive triads        1.3119  ( 0.4002   )    0.0370   
-##   3.  eval degree act+pop           0.0148  ( 0.0759   )    0.0389   
-##   4.  eval div_net abs. difference -0.0305  ( 0.0127   )    0.0027   
-##   5.  eval same div_ego             0.3199  ( 0.5618   )    0.0257   
-##   6.  eval same gender             -0.2683  ( 0.3227   )    0.0425   
-##   7.  eval pub_first ego and alt    0.0512  ( 0.0238   )   -0.0375   
-##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0528   
-##   9.  eval pubs ego and alt         0.0712  ( 0.2437   )   -0.0014   
+##   1.  eval degree (density)        -2.2382  ( 0.6904   )    0.0788   
+##   2.  eval transitive triads        1.2891  ( 0.4208   )    0.0205   
+##   3.  eval degree act+pop           0.0157  ( 0.0802   )    0.0535   
+##   4.  eval div_net abs. difference -0.0309  ( 0.0127   )    0.0396   
+##   5.  eval same div_ego             0.3059  ( 0.5167   )    0.0733   
+##   6.  eval same gender             -0.2696  ( 0.3244   )    0.0989   
+##   7.  eval pub_first ego and alt    0.0485  ( 0.0233   )   -0.0544   
+##   8.  eval total_cites ego and alt  0.0002  ( 0.0001   )    0.0452   
+##   9.  eval pubs ego and alt         0.0779  ( 0.2359   )    0.0452   
 ## 
-## Overall maximum convergence ratio:    0.1236 
+## Overall maximum convergence ratio:    0.1323 
 ## 
 ## 
-## Total of 2457 iteration steps.
+## Total of 2531 iteration steps.
 ## 
 ## Covariance matrix of estimates (correlations below diagonal)
 ## 
-##        0.565        0.066       -0.035       -0.002       -0.269       -0.055       -0.001        0.000        0.021
-##        0.219        0.160       -0.017        0.000       -0.027       -0.018        0.003        0.000        0.002
-##       -0.618       -0.549        0.006        0.000        0.003        0.001        0.000        0.000       -0.002
-##       -0.181       -0.078       -0.039        0.000        0.000        0.001        0.000        0.000        0.000
-##       -0.638       -0.119        0.065       -0.016        0.316        0.001        0.000        0.000       -0.038
-##       -0.227       -0.137        0.043        0.142        0.004        0.104        0.000        0.000       -0.002
-##       -0.064        0.293       -0.084       -0.243        0.030       -0.047        0.001        0.000        0.001
-##        0.099        0.435       -0.388       -0.191        0.005       -0.090        0.885        0.000        0.000
-##        0.117        0.023       -0.097       -0.050       -0.279       -0.030        0.230        0.164        0.059
+##        0.477        0.075       -0.034       -0.003       -0.211       -0.033        0.001        0.000        0.012
+##        0.257        0.177       -0.020        0.000       -0.023       -0.012        0.003        0.000       -0.009
+##       -0.614       -0.586        0.006        0.000        0.001       -0.001        0.000        0.000       -0.002
+##       -0.292       -0.024       -0.029        0.000        0.000        0.001        0.000        0.000        0.000
+##       -0.592       -0.107        0.020        0.059        0.267       -0.010        0.000        0.000       -0.024
+##       -0.146       -0.086       -0.046        0.146       -0.059        0.105        0.000        0.000        0.003
+##        0.059        0.333       -0.261       -0.062        0.026       -0.015        0.001        0.000        0.001
+##        0.215        0.461       -0.520       -0.064        0.006       -0.033        0.897        0.000        0.000
+##        0.074       -0.086       -0.089       -0.045       -0.195        0.035        0.185        0.099        0.056
 ## 
 ## Derivative matrix of expected statistics X by parameters:
 ## 
-##  3.452600e+01  2.845000e+01  9.444900e+02  1.008659e+03  6.527900e+01  3.996500e+01 -9.937100e+02  3.405606e+05  4.476300e+01
-##  2.664400e+01  4.087500e+01  8.839110e+02  8.006270e+02  5.267200e+01  3.307400e+01 -8.665930e+02  2.718675e+05  4.214900e+01
-##  3.407030e+02  3.460160e+02  1.094568e+04  1.009607e+04  6.571500e+02  3.991810e+02 -1.243462e+04  4.270918e+06  4.971530e+02
-##  4.901430e+02  3.954790e+02  1.324269e+04  2.838368e+04  9.140150e+02  4.914530e+02 -1.164793e+04  4.510845e+06  6.503630e+02
-##  3.217000e+01  2.887800e+01  9.084680e+02  9.463410e+02  6.814800e+01  3.720000e+01 -9.854000e+02  3.322457e+05  4.761900e+01
-##  1.893200e+01  1.698400e+01  5.323750e+02  5.033700e+02  3.617800e+01  4.017300e+01 -6.452420e+02  2.158460e+05  2.673200e+01
-## -5.205560e+02 -5.562160e+02 -1.950421e+04 -1.350199e+04 -1.061932e+03 -6.619580e+02  4.263401e+04 -1.307325e+07 -1.051305e+03
-##  1.870059e+05  1.749557e+05  6.884581e+06  5.346009e+06  3.713588e+05  2.280761e+05 -1.319216e+07  4.624128e+09  3.292463e+05
-##  2.114200e+01  2.230000e+01  6.884630e+02  6.612340e+02  4.529400e+01  2.539000e+01 -9.781740e+02  3.075377e+05  7.431300e+01
+##  3.477200e+01  2.682700e+01  9.053250e+02  1.095538e+03  6.416400e+01  3.948900e+01 -9.833490e+02  3.197141e+05  4.623800e+01
+##  2.602800e+01  3.896200e+01  8.446250e+02  8.122020e+02  5.142100e+01  3.248200e+01 -8.668840e+02  2.612135e+05  4.357500e+01
+##  3.300320e+02  3.219770e+02  1.023386e+04  1.033528e+04  6.256980e+02  3.897610e+02 -1.214317e+04  4.048773e+06  4.960020e+02
+##  5.140950e+02  4.005000e+02  1.343429e+04  2.954930e+04  9.212200e+02  5.260320e+02 -1.384044e+04  4.642991e+06  7.183130e+02
+##  3.187200e+01  2.719400e+01  8.640040e+02  9.939610e+02  6.684600e+01  3.675400e+01 -9.766810e+02  3.146723e+05  4.740100e+01
+##  1.788700e+01  1.595900e+01  4.915690e+02  5.019150e+02  3.386700e+01  3.859100e+01 -6.310270e+02  2.013259e+05  2.438300e+01
+## -5.011750e+02 -5.061820e+02 -1.810082e+04 -1.426135e+04 -9.948080e+02 -6.627040e+02  4.300053e+04 -1.312377e+07 -1.017491e+03
+##  1.768765e+05  1.646326e+05  6.401729e+06  5.196671e+06  3.440320e+05  2.261012e+05 -1.332248e+07  4.595439e+09  3.216366e+05
+##  2.230200e+01  2.505000e+01  7.189680e+02  7.566940e+02  4.643700e+01  2.676000e+01 -1.019464e+03  3.183064e+05  7.755800e+01
 ## 
 ## Covariance matrix of X (correlations below diagonal):
 ## 
-##  5.137600e+01  5.479600e+01  1.536723e+03  1.540100e+03  9.938800e+01  6.049900e+01 -1.705862e+03  5.649987e+05  7.310200e+01
-##  8.010000e-01  9.107100e+01  1.946338e+03  1.616846e+03  1.112230e+02  6.607300e+01 -2.002517e+03  6.452151e+05  9.199700e+01
-##  9.360000e-01  8.910000e-01  5.244943e+04  4.560212e+04  3.052549e+03  1.803345e+03 -5.974428e+04  2.024698e+07  2.454531e+03
-##  7.820000e-01  6.170000e-01  7.250000e-01  7.548307e+04  2.957531e+03  1.699178e+03 -4.729599e+04  1.642840e+07  2.320124e+03
-##  9.630000e-01  8.090000e-01  9.260000e-01  7.480000e-01  2.073300e+02  1.168760e+02 -3.455869e+03  1.137190e+06  1.527940e+02
-##  8.260000e-01  6.770000e-01  7.700000e-01  6.050000e-01  7.940000e-01  1.044720e+02 -2.146813e+03  6.879020e+05  8.831400e+01
-## -7.200000e-01 -6.350000e-01 -7.900000e-01 -5.210000e-01 -7.270000e-01 -6.360000e-01  1.091375e+05 -3.323555e+07 -3.254582e+03
-##  7.340000e-01  6.300000e-01  8.230000e-01  5.570000e-01  7.350000e-01  6.270000e-01 -9.370000e-01  1.153077e+10  1.033449e+06
-##  7.050000e-01  6.660000e-01  7.410000e-01  5.840000e-01  7.340000e-01  5.970000e-01 -6.810000e-01  6.650000e-01  2.092750e+02</code></pre>
+##  5.160700e+01  5.328700e+01  1.506651e+03  1.592241e+03  9.930700e+01  6.120100e+01 -1.677595e+03  5.455399e+05  7.371400e+01
+##  7.910000e-01  8.791500e+01  1.868020e+03  1.620736e+03  1.086500e+02  6.663700e+01 -1.926295e+03  6.213236e+05  9.307200e+01
+##  9.350000e-01  8.880000e-01  5.036073e+04  4.554590e+04  2.983760e+03  1.813790e+03 -5.828154e+04  1.943535e+07  2.426740e+03
+##  7.960000e-01  6.210000e-01  7.290000e-01  7.755361e+04  3.020898e+03  1.788334e+03 -4.646669e+04  1.527691e+07  2.396746e+03
+##  9.620000e-01  8.060000e-01  9.250000e-01  7.550000e-01  2.066600e+02  1.180530e+02 -3.373121e+03  1.095105e+06  1.526120e+02
+##  8.280000e-01  6.910000e-01  7.850000e-01  6.240000e-01  7.980000e-01  1.058980e+02 -2.246549e+03  7.133701e+05  8.938600e+01
+## -7.070000e-01 -6.220000e-01 -7.860000e-01 -5.050000e-01 -7.100000e-01 -6.610000e-01  1.091234e+05 -3.342671e+07 -3.098605e+03
+##  7.090000e-01  6.190000e-01  8.090000e-01  5.120000e-01  7.120000e-01  6.480000e-01 -9.450000e-01  1.145969e+10  9.829688e+05
+##  7.110000e-01  6.880000e-01  7.500000e-01  5.970000e-01  7.360000e-01  6.020000e-01 -6.500000e-01  6.370000e-01  2.080820e+02</code></pre>
 </div>
 
 <div id="rmd-source-code">I1JTaWVuYQ0KDQpgYGB7cn0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmBgYA0KDQoNCmBgYHtyfQ0KI2xvYWQgZGF0YW9iamVjdHMNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfbmV0X2FycmF5X3N5bS5SRGF0YSIpDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1JVcHViX2RmdjIuUkRhdGEiKQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9kZnYyLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9uYW1lc19zdGFmZl9jaXRfdjIwMjIxMDA2LlJEYXRhIikNCg0KbGlicmFyeShSU2llbmEpDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQpgYGB7cn0NCm5hbWVzX3N0YWZmX2NpdCAlPiUgDQogIGZpbHRlcihnc19pZCAlaW4lIHNvY19kZiRnc19pZCkgLT4gUlVfc3RhZmZfY2l0DQpgYGANCg0KYGBge3J9DQpzYXZlKFJVX3N0YWZmX2NpdCwgZmlsZT0iLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9zdGFmZl9jaXQuUkRhdGEiKQ0KYGBgDQoNCmBgYHtyfQ0KI2RlcGVuZGVudA0KbmV0IDwtIHNpZW5hRGVwZW5kZW50KG5ldF9zb2NfYXJyYXkpDQpgYGANCg0KDQpgYGB7cn0NCiMjIyBTdGVwIDE6IGRlZmluZSBkYXRhDQojZGl2ZXJzaXRlaXQgZWdvbmV0DQpkaXZfbmV0IDwtIGNvQ292YXIoYXMubnVtZXJpYyhzb2NfZGYkZGl2Lm5ldCkpDQoNCiNkaXZlcnNpdGVpdCBlZ28NCmRpdl9lZ28gPC0gY29Db3Zhcihhcy5udW1lcmljKHNvY19kZiRkaXYuZWdvKSkNCg0KI2dlbmRlcg0KZ2VuZGVyIDwtIGNvQ292YXIoc29jX2RmJGdlbmRlcjQpDQoNCiNsZWVmdGlqZA0KcHViX2ZpcnN0IDwtIGNvQ292YXIoc29jX2RmJHB1Yl9maXJzdCkNCg0KI3RvdGFsIGNpdGVzDQpzb2NfZGYkdG90YWxfY2l0ZXNfbnVtIDwtIGFzLm51bWVyaWMoc29jX2RmJHRvdGFsX2NpdGVzKQ0KdG90YWxfY2l0ZXMgPC0gY29Db3Zhcihzb2NfZGYkdG90YWxfY2l0ZXNfbnVtKQ0KYGBgDQoNCg0KYGBge3J9DQojcHViczogdGltZS12YXJ5aW5nDQpwdWJzdzEgPC0gcHVic3cyIDwtIHB1YnN3MyA8LSBwdWJzdzQgPC0gTkENCmZvciAoaSBpbiAxOmxlbmd0aChzb2NfZGYkZ3NfaWQpKSB7DQogIHB1YnN3MVtpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAxNiAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDE3LF0pDQogIHB1YnN3MltpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAxOCAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDE5LF0pDQogIHB1YnN3M1tpXSA8LSBucm93KFJVX3N0YWZmX2NpdFsoUlVfc3RhZmZfY2l0JGdzX2lkID09IHNvY19kZiRnc19pZFtpXSkgJiBSVV9zdGFmZl9jaXQkeWVhcj49MjAyMCAmIFJVX3N0YWZmX2NpdCR5ZWFyPD0yMDIyLF0pDQp9DQoNCnB1Yl9kZiA8LSBhcy5tYXRyaXgoZGF0YS5mcmFtZShwdWJzdzEsIHB1YnN3MiwgcHVic3czKSkNCnB1YnMgPC0gdmFyQ292YXIocHViX2RmKQ0KYGBgDQoNCiMgTW9kZWwgMTogRGl2ZXJzaXR5IG9mIHRoZSBlZ29uZXQgd2l0aCBzdHJ1Y3R1cmFsIGVmZmVjdHMNCg0KYGBge3J9DQpteWRhdGExIDwtIHNpZW5hRGF0YUNyZWF0ZShuZXQsIGRpdl9uZXQpDQpgYGANCg0KDQpgYGB7cn0NCiMjIyBTdGVwIDI6IGNyZWF0ZSBlZmZlY3RzIHN0cnVjdHVyZQ0KbXllZmYxIDwtIGdldEVmZmVjdHMobXlkYXRhMSkNCiNlZmZlY3RzRG9jdW1lbnRhdGlvbihteWVmZjEpDQpgYGANCg0KDQpgYGB7cn0NCg0KIyMjIFN0ZXAgMzogZ2V0IGluaXRpYWwgZGVzY3JpcHRpb24NCnByaW50MDFSZXBvcnQobXlkYXRhMSwgbW9kZWxuYW1lID0gIi4vZGF0YS9yZXN1bHRzL1JVX2luaXQiKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcDQ6IHNwZWNpZnkgbW9kZWwNCm15ZWZmMSA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjEsIGRlZ1BsdXMpICNwb3B1bGFyaXR5DQpteWVmZjEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYxLCB0cmFuc1RyaWFkcykgI251bWJlciBvZiB0cmFuc2l0aXZlIHBhdHRlcm5zIGluIGkncyByZWxhdGlvbnNoaXBzDQpteWVmZjEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYxLCBhYnNEaWZmWCxpbnRlcmFjdGlvbjE9ImRpdl9uZXQiKQ0KYGBgDQpgYGB7cn0NCiMjIyBTdGVwNSBlc3RpbWF0ZQ0KbXlBbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAiUlVfaW5pdCIpDQpgYGANCg0KDQpgYGB7cn0NCihhbnMxIDwtIHNpZW5hMDcobXlBbGdvcml0aG0sIGRhdGEgPSBteWRhdGExLCBlZmZlY3RzID0gbXllZmYxKSkNCiMgKHRoZSBvdXRlciBwYXJlbnRoZXNlcyBsZWFkIHRvIHByaW50aW5nIHRoZSBvYnRhaW5lZCByZXN1bHQgb24gdGhlIHNjcmVlbikgaWYgbmVjZXNzYXJ5LCBlc3RpbWF0ZQ0KIyBmdXJ0aGVyDQojKGFucyA8LSBzaWVuYTA3KG15QWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYsIHByZXZBbnMgPSBhbnMpKQ0KYGBgDQpgYGB7cn0NCnN1bW1hcnkoYW5zMSkNCmBgYA0KIyBNb2RlbCAyOiBhbGwgY292YXJpYXRlcyB3aXRoIHN0cnVjdHVyYWwgZWZmZWN0cw0KDQpgYGB7cn0NCm15ZGF0YTIgPC0gc2llbmFEYXRhQ3JlYXRlKG5ldCwgZGl2X25ldCwgZGl2X2VnbywgZ2VuZGVyLCBwdWJfZmlyc3QsIHB1YnMsIHRvdGFsX2NpdGVzKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcCAyOiBjcmVhdGUgZWZmZWN0cyBzdHJ1Y3R1cmUNCm15ZWZmMiA8LSBnZXRFZmZlY3RzKG15ZGF0YTIpDQojZWZmZWN0c0RvY3VtZW50YXRpb24obXllZmYyKQ0KYGBgDQoNCg0KYGBge3J9DQoNCiMjIyBTdGVwIDM6IGdldCBpbml0aWFsIGRlc2NyaXB0aW9uDQpwcmludDAxUmVwb3J0KG15ZGF0YTIsIG1vZGVsbmFtZSA9ICIuL2RhdGEvcmVzdWx0cy9zb2NfaW5pdDIiKQ0KYGBgDQoNCg0KYGBge3J9DQojIyMgU3RlcDQ6IHNwZWNpZnkgbW9kZWwNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGRlZ1BsdXMpICNwb3B1bGFyaXR5DQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCB0cmFuc1RyaWFkcykgI251bWJlciBvZiB0cmFuc2l0aXZlIHBhdHRlcm5zIGluIGkncyByZWxhdGlvbnNoaXBzDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBhYnNEaWZmWCxpbnRlcmFjdGlvbjE9ImRpdl9uZXQiKQ0KbXllZmYyIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMiwgc2FtZVgsaW50ZXJhY3Rpb24xPSJkaXZfZWdvIikNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIHNhbWVYLGludGVyYWN0aW9uMT0iZ2VuZGVyIikNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGVnb1BsdXNBbHRYLGludGVyYWN0aW9uMT0icHViX2ZpcnN0IikgI2lmIHlvdSBhcmUgb2xkZXIsIHlvdSB3aWxsIGdldCBtb3JlIGNvbGxhYm9yYXRpb24gd2l0aGluIGRlcGFydG1lbnQgDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBlZ29QbHVzQWx0WCxpbnRlcmFjdGlvbjE9InRvdGFsX2NpdGVzIikgDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBlZ29QbHVzQWx0WCwgaW50ZXJhY3Rpb24xID0gInB1YnMiKSAjaWYgeW91IGhhdmUgbWFueSBwdWJzLCB5b3Ugd2lsbCBwcm9iYWJseSBwdWJsaXNoIG1vcmUgcGVyIHllYXI/DQpgYGANCg0KYGBge3J9DQojIyMgU3RlcDUgZXN0aW1hdGUNCm15QWxnb3JpdGhtIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gIlJVX2luaXQyIikNCmBgYA0KDQpgYGB7cn0NCihhbnMyIDwtIHNpZW5hMDcobXlBbGdvcml0aG0sIGRhdGEgPSBteWRhdGEyLCBlZmZlY3RzID0gbXllZmYyKSkNCiMgKHRoZSBvdXRlciBwYXJlbnRoZXNlcyBsZWFkIHRvIHByaW50aW5nIHRoZSBvYnRhaW5lZCByZXN1bHQgb24gdGhlIHNjcmVlbikgaWYgbmVjZXNzYXJ5LCBlc3RpbWF0ZQ0KIyBmdXJ0aGVyDQojKGFucyA8LSBzaWVuYTA3KG15QWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYsIHByZXZBbnMgPSBhbnMpKQ0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShhbnMyKQ0KYGBgDQoNCg==</div>
