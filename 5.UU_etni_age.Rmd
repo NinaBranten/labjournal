@@ -63,7 +63,7 @@ load("./data/names_df_publications_v20221006.RData")
 ```{r}
 
 #wrong gs_id (just by eye-balling)
-deselect <- c(312,325,329,332,335,341,344,355,371)
+deselect <- c(312,325,329,332,335,341,344,355,363,371)
 
 #selecting only the names of RU sociology staff members
 

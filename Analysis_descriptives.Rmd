@@ -94,7 +94,7 @@ summary(degree)
 ```
 
 &nbsp;
-On average, in period 2016-2017, ego’s had 1.76 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 20.
+On average, in period 2016-2017, ego’s had 0.56 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 0.95.
 
 &nbsp;
 
@@ -113,7 +113,7 @@ summary(degree)
 ```
 
 &nbsp;
-On average, in period 2018-2019, ego’s had 2.00 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum 23.
+On average, in period 2018-2019, ego’s had 0.63 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum 1.04.
 
 &nbsp;
 
@@ -132,19 +132,19 @@ summary(degree)
 
 ```
 &nbsp;
-On average, in period 2020-2022, ego’s had 2.97 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 30.
+On average, in period 2020-2022, ego’s had 1.19 ties with other staff members within the Sociology department of Utrecht University (see degrees, table 1). The minimum number of degrees is 0, the maximum number is 4.00.
 
 &nbsp;
 
 ## Conclusion
 
-Generally, staff members of Utrecht University have more collaboration ties within the department than staff members of Radboud University.
+Generally, staff members of Radboud University have a lot more collaboration ties within the department than staff members of Utrecht University.
 
 &nbsp;
 &nbsp;
 
 ## Ethnicity egos
-Within the Sociology department of the Radboud University, 15.63 percent of the staff members has a non-Dutch last name. Within the Sociology department of Utrecht University, this percentage is 30.30. The department of Utrecht University is more ethnically diverse than the department of Radboud University.
+Within the Sociology department of the Radboud University, 15.63 percent of the staff members has a non-Dutch last name. Within the Sociology department of Utrecht University, this percentage is 31.25. The department of Utrecht University is more ethnically diverse than the department of Radboud University.
 
 &nbsp;
 
@@ -154,7 +154,7 @@ Within the Sociology department of the Radboud University, 15.63 percent of the 
 
 ## Gender egos
 
-Within the Sociology department of the Radboud University, 50 percent of the staff members is female and 50 percent is male. Within the Sociology department of Utrecht University, 39.40 percent of the staff members is female and 60.61 percent is male. This means that regarding to gender, the department of Radboud University is more diverse than the department of Utrecht University.
+Within the Sociology department of the Radboud University, 50 percent of the staff members is female and 50 percent is male. Within the Sociology department of Utrecht University, 40.63 percent of the staff members is female and 59.37 percent is male. This means that regarding to gender, the department of Radboud University is more diverse than the department of Utrecht University.
 
 ![](images/tabel3.png)
 
@@ -217,7 +217,7 @@ Density contains all observed relations divided by all possible relations.
 &nbsp;
 For Radboud University, the density of net 1 contains 0.030, the density of net 2 0.034 and the density of net 3 0.056.
 &nbsp;
-For Utrecht University, the denisty of net 1 is 0.055, of net 2 0.063 and of net 3 0.093.
+For Utrecht University, the denisty of net 1 is 0.018, of net 2 0.020 and of net 3 0.038.
 &nbsp;
 For both universities, the density of the collaboration networks within the sociology departments has increased. Generally, the network within the sociology department of Utrecht University is more dense than the network within the sociology department of Radboud University.
 

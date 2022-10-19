@@ -493,51 +493,32 @@ getwd()</code></pre>
 <div id="packages" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> packages</h1>
 <pre class="r"><code>library(data.table) 
-library(tidyverse) </code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
-## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::between()   masks data.table::between()
-## ✖ dplyr::filter()    masks stats::filter()
-## ✖ dplyr::first()     masks data.table::first()
-## ✖ dplyr::lag()       masks stats::lag()
-## ✖ dplyr::last()      masks data.table::last()
-## ✖ purrr::transpose() masks data.table::transpose()</code></pre>
-<pre class="r"><code>require(stringi)</code></pre>
-<pre><code>## Loading required package: stringi</code></pre>
-<pre class="r"><code>require(Rsiena)</code></pre>
+library(tidyverse) 
+require(stringi)
+require(Rsiena)</code></pre>
 <pre><code>## Loading required package: Rsiena</code></pre>
 <pre><code>## Warning in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE, : there
 ## is no package called &#39;Rsiena&#39;</code></pre>
 <pre class="r"><code>require(igraph)</code></pre>
-<pre><code>## Loading required package: igraph
+<pre><code>## Loading required package: igraph</code></pre>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
 ## 
-## Attaching package: &#39;igraph&#39;
+##     as_data_frame, groups, union</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
 ## 
-## The following objects are masked from &#39;package:dplyr&#39;:
+##     compose, simplify</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
 ## 
-##     as_data_frame, groups, union
+##     crossing</code></pre>
+<pre><code>## The following object is masked from &#39;package:tibble&#39;:
 ## 
-## The following objects are masked from &#39;package:purrr&#39;:
+##     as_data_frame</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
 ## 
-##     compose, simplify
-## 
-## The following object is masked from &#39;package:tidyr&#39;:
-## 
-##     crossing
-## 
-## The following object is masked from &#39;package:tibble&#39;:
-## 
-##     as_data_frame
-## 
-## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     decompose, spectrum
-## 
-## The following object is masked from &#39;package:base&#39;:
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
 ## 
 ##     union</code></pre>
 </div>
@@ -606,44 +587,44 @@ fndyads2 &lt;- function(x, A) {
 
 summary(soc_df$div.net)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00   25.00   32.26   35.99   44.00  100.00</code></pre>
+##    0.00   23.96   31.89   36.10   44.11  100.00</code></pre>
 <pre class="r"><code>sd(soc_df$div.net, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 26.25446</code></pre>
+<pre><code>## [1] 26.66588</code></pre>
 <pre class="r"><code>table(soc_df$div.net)</code></pre>
 <pre><code>## 
-##     0    10 17.86 20.83    25 26.19 28.57    30 31.43 32.26 32.35 33.33 36.36  37.7 38.46 42.86 
-##     5     1     1     1     3     1     2     1     1     1     1     2     1     1     1     1 
-##    44 44.44 57.14  62.5 76.92 78.05    80 89.47   100 
-##     1     1     1     1     1     1     1     1     1</code></pre>
+##     0    10 17.86 20.83    25 26.19 28.57    30 31.43 32.35 33.33 36.36  37.7 38.46 42.86    44 
+##     5     1     1     1     3     1     2     1     1     1     2     1     1     1     1     1 
+## 44.44 57.14  62.5 76.92 78.05    80 89.47   100 
+##     1     1     1     1     1     1     1     1</code></pre>
 <pre class="r"><code>hist(soc_df$div.net, col=&quot;lightblue&quot;, main=&#39;UU: ethnic diversity egonets&#39;, xlab=&#39;Percentage non-Dutch collaborators&#39;)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>summary(soc_df$div.ego)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   1.000   0.697   1.000   1.000</code></pre>
+##  0.0000  0.0000  1.0000  0.6875  1.0000  1.0000</code></pre>
 <pre class="r"><code>table(soc_df$div.ego)</code></pre>
 <pre><code>## 
 ##  0  1 
-## 10 23</code></pre>
+## 10 22</code></pre>
 <pre class="r"><code>hist(soc_df$div.ego, col=&quot;lightblue&quot;)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>summary(soc_df$nauthors)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    6.00   13.00   16.64   25.00   61.00</code></pre>
+##    1.00    5.50   12.00   16.19   24.25   61.00</code></pre>
 <pre class="r"><code>sd(soc_df$nauthors, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 14.41531</code></pre>
+<pre><code>## [1] 14.40976</code></pre>
 <pre class="r"><code>hist(soc_df$nauthors, col=&quot;lightblue&quot;, main=&#39;UU: number of co-authors&#39;, xlab=&#39;Number of co-authors since 2019&#39;)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>summary(soc_df$pub_first)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1976    1996    2010    2005    2016    2022</code></pre>
+##    1976    1997    2010    2006    2016    2022</code></pre>
 <pre class="r"><code>sd(soc_df$pub_first, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 13.55027</code></pre>
+<pre><code>## [1] 13.40825</code></pre>
 <pre class="r"><code>hist(soc_df$pub_first, col=&quot;lightblue&quot;, main=&#39;UU: year first publication&#39;, xlab=&#39;Year first publication&#39;)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>table(soc_df$gender4)</code></pre>
 <pre><code>## 
 ##  0  1 
-## 13 20</code></pre>
+## 13 19</code></pre>
 <pre class="r"><code>hist(soc_df$gender4, col=&quot;lightblue&quot;)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
@@ -658,9 +639,9 @@ hist(degree)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>summary(degree)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   1.000   1.758   2.000  20.000</code></pre>
+##  0.0000  0.0000  0.0000  0.5625  1.0000  3.0000</code></pre>
 <pre class="r"><code>sd(degree)</code></pre>
-<pre><code>## [1] 3.500271</code></pre>
+<pre><code>## [1] 0.9482582</code></pre>
 </div>
 <div id="net-2" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> net 2</h2>
@@ -671,9 +652,9 @@ hist(degree)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>summary(degree)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##       0       0       1       2       2      23</code></pre>
+##   0.000   0.000   0.000   0.625   1.000   3.000</code></pre>
 <pre class="r"><code>sd(degree)</code></pre>
-<pre><code>## [1] 3.976493</code></pre>
+<pre><code>## [1] 1.039541</code></pre>
 </div>
 <div id="net-3" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> net 3</h2>
@@ -684,9 +665,9 @@ hist(degree)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>summary(degree)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00    1.00    2.00    2.97    3.00   30.00</code></pre>
+##   0.000   0.000   1.000   1.188   2.000   4.000</code></pre>
 <pre class="r"><code>sd(degree)</code></pre>
-<pre><code>## [1] 5.034164</code></pre>
+<pre><code>## [1] 1.281066</code></pre>
 </div>
 </div>
 <div id="igraph-object" class="section level1" number="6">
@@ -697,25 +678,24 @@ hist(degree)</code></pre>
 plot(net1_g)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre class="r"><code>igraph::degree(net1_g)</code></pre>
-<pre><code>##  [1]  2  0  0  3  0  3  1  0  3  1  0  4  4  0  1  0  1  0  2  1  2  1  0  2  1  1  1  0  3  0 20  1
-## [33]  0</code></pre>
+<pre><code>##  [1] 1 0 0 2 0 2 0 0 2 0 0 3 3 0 0 0 0 0 1 0 1 0 0 1 0 0 0 0 2 0 0 0</code></pre>
 <pre class="r"><code>igraph::dyad.census(net1_g)</code></pre>
 <pre><code>## $mut
-## [1] 29
+## [1] 9
 ## 
 ## $asym
 ## [1] 0
 ## 
 ## $null
-## [1] 499</code></pre>
+## [1] 487</code></pre>
 <pre class="r"><code>igraph::triad.census(net1_g)</code></pre>
 <pre><code>## Warning in igraph::triad.census(net1_g): At core/misc/motifs.c:1165 : Triad census called on an
 ## undirected graph.</code></pre>
-<pre><code>##  [1] 4765    0  493    0    0    0    0    0    0    0  188    0    0    0    0   10</code></pre>
+<pre><code>##  [1] 4699    0  253    0    0    0    0    0    0    0    7    0    0    0    0    1</code></pre>
 <pre class="r"><code>igraph::edge_density(net1_g)</code></pre>
-<pre><code>## [1] 0.05492424</code></pre>
+<pre><code>## [1] 0.01814516</code></pre>
 <pre class="r"><code>sum(igraph::degree(net1_g))</code></pre>
-<pre><code>## [1] 58</code></pre>
+<pre><code>## [1] 18</code></pre>
 </div>
 <div id="net-2-1" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> net 2</h2>
@@ -723,25 +703,24 @@ plot(net1_g)</code></pre>
 plot(net2_g)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r"><code>igraph::degree(net2_g)</code></pre>
-<pre><code>##  [1]  2  1  0  4  0  2  1  2  3  0  1  4  4  0  1  0  1  0  4  2  2  1  1  2  1  1  0  0  1  1 23  1
-## [33]  0</code></pre>
+<pre><code>##  [1] 1 0 0 3 0 1 0 1 2 0 0 3 3 0 0 0 0 0 3 1 1 0 0 1 0 0 0 0 0 0 0 0</code></pre>
 <pre class="r"><code>igraph::dyad.census(net2_g)</code></pre>
 <pre><code>## $mut
-## [1] 33
+## [1] 10
 ## 
 ## $asym
 ## [1] 0
 ## 
 ## $null
-## [1] 495</code></pre>
+## [1] 486</code></pre>
 <pre class="r"><code>igraph::triad.census(net2_g)</code></pre>
 <pre><code>## Warning in igraph::triad.census(net2_g): At core/misc/motifs.c:1165 : Triad census called on an
 ## undirected graph.</code></pre>
-<pre><code>##  [1] 4708    0  484    0    0    0    0    0    0    0  253    0    0    0    0   11</code></pre>
+<pre><code>##  [1] 4672    0  277    0    0    0    0    0    0    0   10    0    0    0    0    1</code></pre>
 <pre class="r"><code>igraph::edge_density(net2_g)</code></pre>
-<pre><code>## [1] 0.0625</code></pre>
+<pre><code>## [1] 0.02016129</code></pre>
 <pre class="r"><code>sum(igraph::degree(net2_g))</code></pre>
-<pre><code>## [1] 66</code></pre>
+<pre><code>## [1] 20</code></pre>
 </div>
 <div id="net-3-1" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> net 3</h2>
@@ -749,25 +728,24 @@ plot(net2_g)</code></pre>
 plot(net3_g)</code></pre>
 <p><img src="7.UU_descriptives_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <pre class="r"><code>igraph::degree(net3_g)</code></pre>
-<pre><code>##  [1]  3  0  1  5  1  4  1  2  3  3  2  5  4  1  1  2  2  3  4  2  2  4  2  1  2  1  1  3  1  1 30  0
-## [33]  1</code></pre>
+<pre><code>##  [1] 2 0 0 4 0 3 0 1 2 2 1 4 3 0 0 1 1 2 3 1 1 3 1 0 1 0 0 2 0 0 0 0</code></pre>
 <pre class="r"><code>igraph::dyad.census(net3_g)</code></pre>
 <pre><code>## $mut
-## [1] 49
+## [1] 19
 ## 
 ## $asym
 ## [1] 0
 ## 
 ## $null
-## [1] 479</code></pre>
+## [1] 477</code></pre>
 <pre class="r"><code>igraph::triad.census(net3_g)</code></pre>
 <pre><code>## Warning in igraph::triad.census(net3_g): At core/misc/motifs.c:1165 : Triad census called on an
 ## undirected graph.</code></pre>
-<pre><code>##  [1] 4417    0  581    0    0    0    0    0    0    0  436    0    0    0    0   22</code></pre>
+<pre><code>##  [1] 4416    0  521    0    0    0    0    0    0    0   20    0    0    0    0    3</code></pre>
 <pre class="r"><code>igraph::edge_density(net3_g)</code></pre>
-<pre><code>## [1] 0.09280303</code></pre>
+<pre><code>## [1] 0.03830645</code></pre>
 <pre class="r"><code>sum(igraph::degree(net3_g))</code></pre>
-<pre><code>## [1] 98</code></pre>
+<pre><code>## [1] 38</code></pre>
 </div>
 </div>
 <div id="density" class="section level1" number="7">
@@ -778,9 +756,9 @@ plot(net3_g)</code></pre>
 net_und[net_und==2] &lt;- 1
 
 sum(net_und, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 58</code></pre>
+<pre><code>## [1] 18</code></pre>
 <pre class="r"><code>fdensity(net1)</code></pre>
-<pre><code>## [1] 0.05492424</code></pre>
+<pre><code>## [1] 0.01814516</code></pre>
 </div>
 <div id="net-2-2" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> net 2</h2>
@@ -788,9 +766,9 @@ sum(net_und, na.rm=TRUE)</code></pre>
 net_und[net_und==2] &lt;- 1
 
 sum(net_und, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 66</code></pre>
+<pre><code>## [1] 20</code></pre>
 <pre class="r"><code>fdensity(net2)</code></pre>
-<pre><code>## [1] 0.0625</code></pre>
+<pre><code>## [1] 0.02016129</code></pre>
 </div>
 <div id="net-3-2" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> net 3</h2>
@@ -798,9 +776,9 @@ sum(net_und, na.rm=TRUE)</code></pre>
 net_und[net_und==2] &lt;- 1
 
 sum(net_und, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 98</code></pre>
+<pre><code>## [1] 38</code></pre>
 <pre class="r"><code>fdensity(net3)</code></pre>
-<pre><code>## [1] 0.09280303</code></pre>
+<pre><code>## [1] 0.03830645</code></pre>
 </div>
 </div>
 <div id="inter-intragroup-density" class="section level1" number="8">
@@ -809,15 +787,15 @@ density</h1>
 <pre class="r"><code>div_m &lt;-  fhomomat(soc_df$div.ego)</code></pre>
 <pre class="r"><code># calculate intra-/intergroup density diversity ego
 fdensityintra(x=net_und, A=div_m) </code></pre>
-<pre><code>## [1] 0.1174497</code></pre>
+<pre><code>## [1] 0.05072464</code></pre>
 <pre class="r"><code>fdensityinter(x=net_und, A=div_m)</code></pre>
-<pre><code>## [1] 0.06086957</code></pre>
+<pre><code>## [1] 0.02272727</code></pre>
 <pre class="r"><code># calculate intra-/intergroup density gender
 gender_m &lt;-  fhomomat(soc_df$gender4)
 fdensityintra(x=net_und, A=gender_m) </code></pre>
-<pre><code>## [1] 0.1044776</code></pre>
+<pre><code>## [1] 0.04417671</code></pre>
 <pre class="r"><code>fdensityinter(x=net_und, A=gender_m)</code></pre>
-<pre><code>## [1] 0.08076923</code></pre>
+<pre><code>## [1] 0.03238866</code></pre>
 </div>
 
 <div id="rmd-source-code">DQpgYGB7cn0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCmBgYA0KDQojIHBhY2thZ2VzDQoNCmBgYHtyfQ0KbGlicmFyeShkYXRhLnRhYmxlKSANCmxpYnJhcnkodGlkeXZlcnNlKSANCnJlcXVpcmUoc3RyaW5naSkNCnJlcXVpcmUoUnNpZW5hKQ0KcmVxdWlyZShpZ3JhcGgpDQoNCmBgYA0KIyBEYXRhDQoNCmBgYHtyfQ0KI2xvYWQgZGF0YW9iamVjdHMNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfbmV0X2FycmF5X3N5bS5SRGF0YSIpDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1VVX2RmdjIuUkRhdGEiKQ0KYGBgDQoNCg0KIyBjdXN0dW0gZnVuY3Rpb25zDQoNCmBgYHtyfQ0KIyBkZW5zaXR5OiBvYnNlcnZlZCByZWxhdGlvbnMgZGl2aWRlZCBieSBwb3NzaWJsZSByZWxhdGlvbnMNCmZkZW5zaXR5IDwtIGZ1bmN0aW9uKHgpIHsNCiAgICAjIHggaXMgeW91ciBub21pbmF0aW9uIG5ldHdvcmsgbWFrZSBzdXJlIGRpYWdvbmFsIGNlbGxzIGFyZSBOQQ0KICAgIGRpYWcoeCkgPC0gTkENCiAgICAjIHRha2UgY2FyZSBvZiBSU2llbmEgc3RydWN0dXJhbCB6ZXJvcywgc2V0IGFzIG1pc3NpbmcuDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIHN1bSh4ID09IDEsIG5hLnJtID0gVCkvKHN1bSh4ID09IDEgfCB4ID09IDAsIG5hLnJtID0gVCkpDQp9DQoNCiMgY2FsY3VsYXRlIGludHJhZ3JvdXAgZGVuc2l0eQ0KZmRlbnNpdHlpbnRyYSA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgIyBBIGlzIG1hdHJpeCBpbmRpY2F0aW5nIHdoZXRoZXIgbm9kZXMgaW4gZHlhZCBoYXZlIHNhbWUgbm9kZSBhdHRyaWJ1dGVzDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgc3VtKHggPT0gMSAmIEEgPT0gMSwgbmEucm0gPSBUKS8oc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSA9PSAxLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGNhbGN1bGF0ZSBpbnRyYWdyb3VwIGRlbnNpdHkNCmZkZW5zaXR5aW50ZXIgPC0gZnVuY3Rpb24oeCwgQSkgew0KICAgICMgQSBpcyBtYXRyaXggaW5kaWNhdGluZyB3aGV0aGVyIG5vZGVzIGluIGR5YWQgaGF2ZSBzYW1lIG5vZGUgYXR0cmlidXRlcw0KICAgIGRpYWcoeCkgPC0gTkENCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgZGlhZyhBKSA8LSBOQQ0KICAgIHN1bSh4ID09IDEgJiBBICE9IDEsIG5hLnJtID0gVCkvKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSAmIEEgIT0gMSwgbmEucm0gPSBUKSkNCn0NCg0KIyBjb25zdHJ1Y3QgZHlhZGNoYXJhY3RlcmlzdGljIHdoZXRoZXIgbm9kZXMgYXJlIHNpbWlsYXIvaG9tb2dlbm91cw0KZmhvbW9tYXQgPC0gZnVuY3Rpb24oeCkgew0KICAgICMgeCBpcyBhIHZlY3RvciBvZiBub2RlLWNvdmFyaWF0ZQ0KICAgIHhtYXQgPC0gbWF0cml4KHgsIG5yb3cgPSBsZW5ndGgoeCksIG5jb2wgPSBsZW5ndGgoeCkpDQogICAgeG1hdHQgPC0gdCh4bWF0KQ0KICAgIHhob21vIDwtIHhtYXQgPT0geG1hdHQNCiAgICByZXR1cm4oeGhvbW8pDQp9DQoNCiMgYSBmdW5jdGlvbiB0byBjYWxjdWxhdGUgYWxsIHZhbGlkIGR5YWRzLg0KZm5keWFkcyA8LSBmdW5jdGlvbih4KSB7DQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICAoc3VtKCh4ID09IDEgfCB4ID09IDApLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGEgZnVuY3Rpb24gdG8gY2FsY3VsYXRlIGFsbCB2YWxpZCBpbnRyYWdyb3VwZHlhZHMuDQpmbmR5YWRzMiA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgKHN1bSgoeCA9PSAxIHwgeCA9PSAwKSAmIEEgPT0gMSwgbmEucm0gPSBUKSkNCn0NCg0KDQoNCmBgYA0KDQoNCiMgZGVzY3JpcHRpdmVzDQoNCmBgYHtyfQ0KDQoNCnNvY19kZiRkaXYubmV0IDwtIGFzLm51bWVyaWMoc29jX2RmJGRpdikNCg0Kc3VtbWFyeShzb2NfZGYkZGl2Lm5ldCkNCnNkKHNvY19kZiRkaXYubmV0LCBuYS5ybT1UUlVFKQ0KdGFibGUoc29jX2RmJGRpdi5uZXQpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIsIG1haW49J1VVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnLCB4bGFiPSdQZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KDQpgYGB7cn0NCnN1bW1hcnkoc29jX2RmJGRpdi5lZ28pDQp0YWJsZShzb2NfZGYkZGl2LmVnbykNCmhpc3Qoc29jX2RmJGRpdi5lZ28sIGNvbD0ibGlnaHRibHVlIikNCg0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShzb2NfZGYkbmF1dGhvcnMpDQpzZChzb2NfZGYkbmF1dGhvcnMsIG5hLnJtPVRSVUUpDQpoaXN0KHNvY19kZiRuYXV0aG9ycywgY29sPSJsaWdodGJsdWUiLCBtYWluPSdVVTogbnVtYmVyIG9mIGNvLWF1dGhvcnMnLCB4bGFiPSdOdW1iZXIgb2YgY28tYXV0aG9ycyBzaW5jZSAyMDE5JykNCg0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShzb2NfZGYkcHViX2ZpcnN0KQ0Kc2Qoc29jX2RmJHB1Yl9maXJzdCwgbmEucm09VFJVRSkNCmhpc3Qoc29jX2RmJHB1Yl9maXJzdCwgY29sPSJsaWdodGJsdWUiLCBtYWluPSdVVTogeWVhciBmaXJzdCBwdWJsaWNhdGlvbicsIHhsYWI9J1llYXIgZmlyc3QgcHVibGljYXRpb24nKQ0KDQpgYGANCg0KYGBge3J9DQoNCnRhYmxlKHNvY19kZiRnZW5kZXI0KQ0KaGlzdChzb2NfZGYkZ2VuZGVyNCwgY29sPSJsaWdodGJsdWUiKQ0KDQpgYGANCg0KIyBkZWdyZWUNCiMjIG5ldCAxDQoNCg0KYGBge3J9DQpuZXQxIDwtIG5ldF9zb2NfYXJyYXlbICwsIDFdDQpkaWFnKG5ldDEpIDwtIDANCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDEpDQpoaXN0KGRlZ3JlZSkNCnN1bW1hcnkoZGVncmVlKQ0Kc2QoZGVncmVlKQ0KDQpgYGANCg0KIyMgbmV0IDINCmBgYHtyfQ0KbmV0MiA8LSBuZXRfc29jX2FycmF5WyAsLCAyXQ0KZGlhZyhuZXQyKSA8LSAwDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQyKQ0KaGlzdChkZWdyZWUpDQpzdW1tYXJ5KGRlZ3JlZSkNCnNkKGRlZ3JlZSkNCg0KYGBgDQoNCg0KIyMgbmV0IDMNCg0KYGBge3J9DQpuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKG5ldDMpIDwtIDANCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDMpDQpoaXN0KGRlZ3JlZSkNCnN1bW1hcnkoZGVncmVlKQ0Kc2QoZGVncmVlKQ0KDQpgYGANCg0KDQojIGlncmFwaCBvYmplY3QgDQojIyBuZXQgMQ0KDQpgYGB7cn0NCm5ldDFfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChuZXQxLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdChuZXQxX2cpDQoNCmlncmFwaDo6ZGVncmVlKG5ldDFfZykNCmlncmFwaDo6ZHlhZC5jZW5zdXMobmV0MV9nKQ0KaWdyYXBoOjp0cmlhZC5jZW5zdXMobmV0MV9nKQ0KaWdyYXBoOjplZGdlX2RlbnNpdHkobmV0MV9nKQ0KDQpzdW0oaWdyYXBoOjpkZWdyZWUobmV0MV9nKSkNCg0KYGBgDQoNCiMjIG5ldCAyDQoNCmBgYHtyfQ0KbmV0Ml9nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDIsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDJfZykNCg0KaWdyYXBoOjpkZWdyZWUobmV0Ml9nKQ0KaWdyYXBoOjpkeWFkLmNlbnN1cyhuZXQyX2cpDQppZ3JhcGg6OnRyaWFkLmNlbnN1cyhuZXQyX2cpDQppZ3JhcGg6OmVkZ2VfZGVuc2l0eShuZXQyX2cpDQoNCnN1bShpZ3JhcGg6OmRlZ3JlZShuZXQyX2cpKQ0KDQpgYGANCg0KIyMgbmV0IDMNCmBgYHtyfQ0KbmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDNfZykNCg0KaWdyYXBoOjpkZWdyZWUobmV0M19nKQ0KaWdyYXBoOjpkeWFkLmNlbnN1cyhuZXQzX2cpDQppZ3JhcGg6OnRyaWFkLmNlbnN1cyhuZXQzX2cpDQppZ3JhcGg6OmVkZ2VfZGVuc2l0eShuZXQzX2cpDQoNCnN1bShpZ3JhcGg6OmRlZ3JlZShuZXQzX2cpKQ0KDQpgYGANCiMgZGVuc2l0eQ0KIyMgbmV0IDENCmBgYHtyfQ0KDQpuZXRfdW5kIDwtIG5ldDEgKyB0KG5ldDEpDQpuZXRfdW5kW25ldF91bmQ9PTJdIDwtIDENCg0Kc3VtKG5ldF91bmQsIG5hLnJtPVRSVUUpDQpmZGVuc2l0eShuZXQxKQ0KYGBgDQojIyBuZXQgMg0KYGBge3J9DQoNCm5ldF91bmQgPC0gbmV0MiArIHQobmV0MikNCm5ldF91bmRbbmV0X3VuZD09Ml0gPC0gMQ0KDQpzdW0obmV0X3VuZCwgbmEucm09VFJVRSkNCmZkZW5zaXR5KG5ldDIpDQpgYGANCiMjIG5ldCAzDQpgYGB7cn0NCg0KbmV0X3VuZCA8LSBuZXQzICsgdChuZXQzKQ0KbmV0X3VuZFtuZXRfdW5kPT0yXSA8LSAxDQoNCnN1bShuZXRfdW5kLCBuYS5ybT1UUlVFKQ0KZmRlbnNpdHkobmV0MykNCmBgYA0KDQojIGludGVyLS9pbnRyYWdyb3VwIGRlbnNpdHkNCg0KYGBge3J9DQpkaXZfbSA8LSAgZmhvbW9tYXQoc29jX2RmJGRpdi5lZ28pDQpgYGANCg0KDQpgYGB7cn0NCiMgY2FsY3VsYXRlIGludHJhLS9pbnRlcmdyb3VwIGRlbnNpdHkgZGl2ZXJzaXR5IGVnbw0KZmRlbnNpdHlpbnRyYSh4PW5ldF91bmQsIEE9ZGl2X20pIA0KZmRlbnNpdHlpbnRlcih4PW5ldF91bmQsIEE9ZGl2X20pDQogICAgDQpgYGANCg0KYGBge3J9DQojIGNhbGN1bGF0ZSBpbnRyYS0vaW50ZXJncm91cCBkZW5zaXR5IGdlbmRlcg0KZ2VuZGVyX20gPC0gIGZob21vbWF0KHNvY19kZiRnZW5kZXI0KQ0KZmRlbnNpdHlpbnRyYSh4PW5ldF91bmQsIEE9Z2VuZGVyX20pIA0KZmRlbnNpdHlpbnRlcih4PW5ldF91bmQsIEE9Z2VuZGVyX20pDQogICAgDQpgYGANCg0KDQo=</div>
