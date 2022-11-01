@@ -658,7 +658,7 @@ Last, the transitivity effects show the probability of two co-authors of the sam
 Although the transitivity changes over the years, no linear effect can be found.
 Generally, the transitivity of Utrecht University is lower than at Radboud University. Therefore, we can conclude that within the department of Utrecht University, scholars are less clustered as they are less influenced by who the co-authors of co-authors are.
 
-# Descriptives: conclusion
+# Conclusion
 
 When comparing the two sociology departments of Radboud and Utrecht University, we can see that Utrecht has a higher percentage of non-Dutch sociologists than Radboud (31.25 versus 12.90 percent).Moreover, the collaboration networks of the staff of UU contain, on average, a higher percentage of non-Dutch scholars than the collaboration networks of staff of RU. However, the sociology staff of RU is more diverse regarding gender as their gender division is almost 50/50. 
 &nbsp;

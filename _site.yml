@@ -68,10 +68,9 @@ navbar:
         href: Analysis_descriptives.html
       - text: "Analysis: regression"
         href: Regression.html
-      - text: "Analysis: RU RSiena"
-        href: 9.RU_RSiena.html
-      - text: "Analysis: UU RSiena"
-        href: 9.UU_RSiena.html
+      - text: "Analysis: RSiena"
+        href: RSiena.html
+       
 
   right:
   - icon: fab fa-github

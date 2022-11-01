@@ -1,0 +1,385 @@
+---
+title: "RSiena"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+For the RSiena analysis, three models will be estimated. The first model contains only the percentage of non-Dutch collaborators within the network. Second, we will add the structural effects to this model. As our network is undirected, we only include the density effect, the transitive triads effect and the activity and popularity effect. Last, a model with all individual characteristics and structural effects will be estimated.
+
+# Radboud University
+
+```{r}
+#load dataobjects
+load("./data/descriptives/RU_net_array_sym.RData")
+load("./data/descriptives/RUpub_dfv2.RData")
+load("./data/descriptives/RU_dfv2.RData")
+load("./data/names_staff_cit_v20221006.RData")
+
+library(RSiena)
+library(tidyverse)
+```
+
+```{r}
+names_staff_cit %>% 
+  filter(gs_id %in% soc_df$gs_id) -> RU_staff_cit
+```
+
+```{r}
+save(RU_staff_cit, file="./data/descriptives/RU_staff_cit.RData")
+```
+
+```{r}
+#dependent
+net <- sienaDependent(net_soc_array)
+```
+
+
+```{r}
+### Step 1: define data
+#diversiteit egonet
+div_net <- coCovar(as.numeric(soc_df$div.net))
+
+#diversiteit ego
+div_ego <- coCovar(as.numeric(soc_df$div.ego))
+
+#gender
+gender <- coCovar(soc_df$gender4)
+
+#leeftijd
+pub_first <- coCovar(soc_df$pub_first)
+
+#total cites
+soc_df$total_cites_num <- as.numeric(soc_df$total_cites)
+total_cites <- coCovar(soc_df$total_cites_num)
+```
+
+
+```{r}
+#pubs: time-varying
+pubsw1 <- pubsw2 <- pubsw3 <- pubsw4 <- NA
+for (i in 1:length(soc_df$gs_id)) {
+  pubsw1[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2016 & RU_staff_cit$year<=2017,])
+  pubsw2[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2018 & RU_staff_cit$year<=2019,])
+  pubsw3[i] <- nrow(RU_staff_cit[(RU_staff_cit$gs_id == soc_df$gs_id[i]) & RU_staff_cit$year>=2020 & RU_staff_cit$year<=2022,])
+}
+
+pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
+pubs <- varCovar(pub_df)
+```
+
+```{r}
+mydata <- sienaDataCreate(net, div_net, div_ego, gender, pub_first, pubs, total_cites)
+myeff <- getEffects(mydata)
+effectsDocumentation(myeff)
+print01Report(mydata, modelname = "./data/results/RU_init")
+```
+
+## Jaccard Index
+The Jaccard Index shows how stable networks are over time by counting the amount of stable ties, new ties and dissolved ties (Ripley et al., 2022). In this case it calculates the stability between wave 1 and 2 and between wave 2 and 3. The first Jaccard index of the sociology network of RU contains 0.33 (between wave 1 and 2) and the second 0.25 (between wave 2 and 3). Generally, a Jaccard index lower than 0.2 indicates that there could be difficulties in the estimation of the model (Ripley et al., 2022). Therefore, we conclude that our models are good to estimate.
+
+&nbsp;
+
+## Model 1: Percentage of non-Dutch collaborators
+
+```{r}
+### Step4: specify model
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "RU_report1")
+```
+
+
+```{r}
+(ans1 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+summary(ans1)
+```
+
+&nbsp;
+
+The first model shows that the effect of the percentage of non-Dutch collaborators within ones network is negative (b = -0.036) and significant (se = 0.011). This indicates that sociologists of the Radboud University prefer co-authorship ties with staff members who have a similar percentage of non_Dutch co-authors within their collaboration network. However, in the next two models we can examine to what extent this effect can be explained by either structural effects or the influence of the control variables.
+
+&nbsp;
+
+## Model 2: percentage non-Dutch collaborators + structural effects
+
+```{r, results='hide'}
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus) #popularity
+myeff <- includeEffects(myeff, transTriads) #number of transitive patterns in i's relationships
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+```
+```{r, results='hide'}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "RU_report2")
+```
+
+
+```{r}
+(ans2 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+```{r}
+summary(ans2)
+```
+The second model indicates that the density effect is negative and significant (b = -2.242, se = 0.476). Furthermore, we observe a positive and significant transitive triads effect (b = 0.889, se = 0.356). This means that scholars within the sociology department of RU prefer to make transitive ties over non-transitive ties. Moreover, a positive and significant effect is also visible for the activity and popularity effect (b = 0.124, se = 0.060), indicating that staff members would rather co-publish with staff members who have already co-published more often.
+When adding the structural effects, we observe that the effect of the percentage of non-Dutch collaborators in the egonet is still negative (b = -0.034) and significant (se = 0.012). 
+
+## Model 3: percentage non-Dutch collaborators + structural effects + control variables
+
+```{r}
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus) #popularity
+myeff <- includeEffects(myeff, transTriads) #number of transitive patterns in i's relationships
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+myeff <- includeEffects(myeff, sameX,interaction1="div_ego")
+myeff <- includeEffects(myeff, sameX,interaction1="gender")
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="pub_first") #if you are older, you will get more collaboration within department 
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="total_cites") #if you are older, you will get more collaboration within department 
+myeff <- includeEffects(myeff, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year?
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "RU_report3")
+```
+
+
+```{r, results='hide'}
+(ans3 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+summary(ans3)
+```
+The last model shows that the density effects is still negative and significant, even when all control variables are added (b = -1.913, se = 0.756). Furthermore, the transitive triads effect is still positive (b = 1.280) and significant (se = 0.403), indicating that sociology staff members of RU prefer to have ties with co-authors of co-authors. The last structural effect has lost its significance when the control variables were added (b = 0.013, se = 0.087). This means that for the RU, when controlled for all individual characteristics, sociologists do not necessarily prefer to make ties with staff members who co-publish a lot. 
+
+&nbsp;
+
+Furthermore, regarding the individual characteristics we see no significant effect of ethnicity (b = 0.089, se = 0.519), gender (b = 0.089, se = 0.519), the number of publications (b = 0.091, se = 0.242) and the total number of cites (b = 0.000, se - 0.000) in staff members' choice for with whom they want to co-publish . This is in contrast with our findings based on the intragroup and intergroup densities, indicating that ethnical and gender segregation within the RU department was indeed visible. This segregation can thus be explained by either structural effects or the effects of other individual characteristics. The effect of year of first publication is positive and significant (b = 0.047, se = 0.022). This means that Ru staff members find a scholar's academical age important in their choice of whether to co-publish or not. 
+
+&nbsp;
+
+However, even after controlling for all individual characteristics and some structural effects, the effect of percentage of non-Dutch collaborators within the egonet remains negative and significant (b = -0.278, se = 0.322). This shows that for sociologist of RU, the ethnicity of a scholar's co-authors is an important criteria for the ego's choice whether they want to co-publish with this person. The staff members prefer to make ties with someone who has a similar percentage of non-Dutch co-authors.
+
+
+
+
+
+
+
+# Utrecht University
+
+```{r, echo=FALSE}
+#start with clean workspace 
+rm(list=ls())
+getwd()
+```
+
+```{r}
+#load dataobjects
+load("./data/descriptives/UU_net_array_sym.RData")
+load("./data/descriptives/UUpub_dfv2.RData")
+load("./data/descriptives/UU_dfv2.RData")
+load("./data/names_staff_cit_v20221006.RData")
+
+library(RSiena)
+library(tidyverse)
+```
+
+```{r}
+names_staff_cit %>% 
+  filter(gs_id %in% soc_df$gs_id) -> UU_staff_cit
+```
+
+```{r}
+save(UU_staff_cit, file="./data/descriptives/UU_staff_cit.RData")
+```
+
+```{r}
+#dependent
+net <- sienaDependent(net_soc_array)
+```
+
+
+```{r}
+### Step 1: define data
+#diversiteit egonet
+div_net <- coCovar(as.numeric(soc_df$div.net))
+
+#diversiteit ego
+div_ego <- coCovar(as.numeric(soc_df$div.ego))
+
+#gender
+gender <- coCovar(soc_df$gender4)
+
+#leeftijd
+pub_first <- coCovar(soc_df$pub_first)
+
+#total cites
+soc_df$total_cites_num <- as.numeric(soc_df$total_cites)
+total_cites <- coCovar(soc_df$total_cites_num)
+```
+
+
+```{r}
+#pubs: time-varying
+pubsw1 <- pubsw2 <- pubsw3 <- pubsw4 <- NA
+for (i in 1:length(soc_df$gs_id)) {
+  pubsw1[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2016 & UU_staff_cit$year<=2017,])
+  pubsw2[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2018 & UU_staff_cit$year<=2019,])
+  pubsw3[i] <- nrow(UU_staff_cit[(UU_staff_cit$gs_id == soc_df$gs_id[i]) & UU_staff_cit$year>=2020 & UU_staff_cit$year<=2022,])
+}
+
+pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
+pubs <- varCovar(pub_df)
+```
+
+```{r}
+mydata <- sienaDataCreate(net, div_net, div_ego, gender, pub_first, pubs, total_cites)
+myeff <- getEffects(mydata)
+effectsDocumentation(myeff)
+print01Report(mydata, modelname = "./data/results/UU_init")
+```
+
+## Jaccard Index
+The Jaccard Index shows how stable networks are over time by counting the amount of stable ties, new ties and dissolved ties (Ripley et al., 2022). In this case it calculates the stability between wave 1 and 2 and between wave 2 and 3. The Jaccard indixes of the Utrecht University networks are similar to the ones of the Radboud University. The first Jaccard index of the sociology network of UU contains 0.36 (between wave 1 and 2) and the second 0.26 (between wave 2 and 3). Generally, a Jaccard index lower than 0.2 indicates that there could be difficulties in the estimation of the model (Ripley et al., 2022). Therefore, we conclude that our models are good to estimate.
+
+&nbsp;
+
+## Model 1: Percentage of non-Dutch collaborators
+
+```{r}
+### Step4: specify model
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_report1")
+```
+
+
+```{r}
+(ans1 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+summary(ans1)
+```
+
+&nbsp;
+
+The first model shows that the density effect is strongly negative (b = -1.361) and significant (se = 0.014). Furthermore, the effect of the percentage of non-Dutch collaborators within ones network is negative (b = -0.030) and significant (se = 0.014). This indicates that sociologists at Utrecht University prefer to co-publish with scholars who have a similar level of ethnic diversity. However, the next two models will show if this effect will stay when we compare for structural effects and include control variables.
+
+&nbsp;
+
+## Model 2: percentage non-Dutch collaborators + structural effects
+
+```{r, results='hide'}
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus) #popularity
+myeff <- includeEffects(myeff, transTriads) #number of transitive patterns in i's relationships
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+```
+```{r, results='hide'}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_report2")
+```
+
+
+```{r}
+(ans2 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+```{r}
+summary(ans2)
+```
+The second model indicates that the density effect is negative and significant (b = -2.615, se = 0.834). Furthermore, we observe a non-significant transitive triads effect (b = 1.576, se = 0.824). This means that for scholars within the sociology department of UU, there is no significant influence transitivity. The activity and popularity effect is also not significant (b = 0.171, se = 0.136). The amount of co-publishers of an actor does not influence an ego's choice of whether they want to co-publish with this actor.
+
+&nbsp;
+
+Last, we can observe that the effect of the percentage of non-Dutch co-authors within the egonet cannot be explained by structural effects, as the effect is still negative (b = -0.271) and significant (se = 0.013). Staff members of UU still prefer to co-publish with scholars who have a similar percentage of non-Dutch co-authors.
+
+## Model 3: percentage non-Dutch collaborators + structural effects + control variables
+
+```{r}
+### Step4: specify model
+myeff <- includeEffects(myeff, degPlus) #popularity
+myeff <- includeEffects(myeff, transTriads) #number of transitive patterns in i's relationships
+myeff <- includeEffects(myeff, absDiffX,interaction1="div_net")
+myeff <- includeEffects(myeff, sameX,interaction1="div_ego")
+myeff <- includeEffects(myeff, sameX,interaction1="gender")
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="pub_first") #if you are older, you will get more collaboration within department 
+myeff <- includeEffects(myeff, egoPlusAltX,interaction1="total_cites") #if you are older, you will get more collaboration within department 
+myeff <- includeEffects(myeff, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year?
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_report3")
+```
+
+
+```{r, results='hide'}
+(ans3 <- siena07(myAlgorithm, data = mydata, effects = myeff))
+summary(ans3)
+```
+The last model shows that the density effects is still negative and significant (b = -3.150, se = 0.995). Furthermore, the transitive triads effect (b = 1.622, se = 0.816) and the activity popularity effect (b = 0.136, se = 0.157) are still not significant. For sociologists of UU, the transitivity or the amount of co-publishers of an ego does not influence their choice in making collaboration ties within the department.
+
+&nbsp;
+
+Furthermore, regarding the individual characteristics we see no significant effect of ethnicity (b = 0.227, se = 0.502), gender (b = 0.232, se = 0.404), the age of first publication (b = 0.018, se = 0.020), the number of publications (b = 0.807, se = 0.429) and the total number of cites (b = 0.000, se = 0.000) in staff members' choice for with whom they want to co-publish . This is in contrast with our findings based on the intragroup and intergroup densities, indicating that ethnical and gender segregation within the UU department was indeed visible.
+
+&nbsp;
+
+Last, after controlling for all individual characteristics and some structural effects, the effect of percentage of non-Dutch collaborators within the egonet is no longer significant (b = -0.024, se = 0.014). Therefore, we conclude that within Utrecht University, none of the individual characteristics are of significant influence in their choice to co-publish with staff members within the department. Although, when the control variables were not added, the percentage of non-Dutch collaborators within the egonet seemed to be of influence.
+
+&nbsp;
+
+# Conclusion
+The structural effects seem to have more influence in the sociology department of the Radboud University than in the department of Utrecht University. Out of the structural effects within the RU department, the transitive triplet effect was of most significant importance, as it also stayed significant in the last model, in contrast to the activity and popularity effect.
+
+&nbsp;
+
+Furthermore, individual characteristics did not have a big influence on the attractiveness of a potential co-authorship tie. For RU, only the year of first publication and the percentage of non-Dutch collaborators within the egonet were significant. For UU, only the percentage of non-Dutch collaborators seemed to be of influence, although this effect was not significant anymore when all the variables were added in the last model (albeit near-significant). 
+
+&nbsp;
+
+Generally, we could state that these findings indicate that sociologists prefer to co-publish with someone who has a similar percentage of non-Dutch co-authors in their network.
+

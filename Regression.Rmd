@@ -43,7 +43,7 @@ getwd()
 &nbsp;
 
 # Regression analysis
-To examine what determines the ethnic diversity of ones egonet, we conducted four linear regression models. The first model contained the ethnicity of the ego, the second model the year of first publication and the third model gender. Last, all three effects were calculated in one final model.
+To examine what determines the percentage of non-Dutch scholars within ones egonet, we conducted four linear regression models. The first model contained the ethnicity of the ego, the second model the year of first publication and the third model gender. Last, all three effects were calculated in one final model (see "my journal", ch. 8).
 
 &nbsp;
 &nbsp;
@@ -52,6 +52,19 @@ To examine what determines the ethnic diversity of ones egonet, we conducted fou
 
 &nbsp;
 
-For Sociology staff members of Radboud University, we observe that younger scholars have a significantly more ethnically diverse collaboration network than older scholars (b = 0.88).
+# Radboud University
+
+For Radboud University, we observe that both the ethnicity of the ego and gender have no significant effect on the percentage of non-Dutch scholars within the collaboration network. However, in the last model we do see an effect of age (year of first publication). The younger academical age of a staff member, the higher the percentage of non-Dutch collaborators present within their collaboration network (0.88).
+
+
 &nbsp;
-Within Utrecht University, sociologists with a Dutch last name have, on average, a less ethnically diverse collaboration network (b = -24.31).
+
+# Utrecht University
+
+Within Utrecht University, their seems to be no significant effect of the year of first publication or gender. However, in the first model we see a significant effect of ethnicity of the ego (-24.22), which remains visible when adding all other variables in our last model (-24.31). Sociologists at UU with a Dutch last name have, on average, a lower percentage of non-Dutch collaborators than sociologists at UU with a non-Dutch last name.
+
+&nbsp;
+
+# Conclusion
+
+We see that the effect of individual characteristics of the egos on the percentage of non-Dutch collaborators differs between the two departments. Whilst for Radboud University the academical age of a staff member seems to be of influence, for Utrecht University the ethnicity of the ego has an effect.
