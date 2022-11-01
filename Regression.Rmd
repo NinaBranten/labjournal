@@ -54,4 +54,4 @@ To examine what determines the ethnic diversity of ones egonet, we conducted fou
 
 For Sociology staff members of Radboud University, we observe that younger scholars have a significantly more ethnically diverse collaboration network than older scholars (b = 0.88).
 &nbsp;
-Within Utrecht University, sociologists with a Dutch lastname have, on average, a less ethnically diverse collaboration network (b = -24.01).
+Within Utrecht University, sociologists with a Dutch last name have, on average, a less ethnically diverse collaboration network (b = -24.31).

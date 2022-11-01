@@ -111,9 +111,6 @@ fndyads2 <- function(x, A) {
     diag(A) <- NA
     (sum((x == 1 | x == 0) & A == 1, na.rm = T))
 }
-
-
-
 ```
 
 # descriptives
@@ -235,7 +232,6 @@ sum(igraph::degree(net3_g))
 # density
 ## net 1
 ```{r}
-
 net_und <- net1 + t(net1)
 net_und[net_und==2] <- 1
 

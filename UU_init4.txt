@@ -1,0 +1,274 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 01/11/2022 01:15:19
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 709450.
+Effects object used: myeff4 
+Model Type:
+ Forcing model
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation
+.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2
+distance :   18  34.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         1.1718
+  0.2  Rate parameter                         2.2020
+  1. eval:  degree (density)                               -1.4321
+  2. eval:  transitive triads                               0.0000
+  3. eval:  degree act+pop                                  0.0000
+  4. eval:  div_net abs. difference                         0.0000
+  5. eval:  same div_ego                                    0.0000
+  6. eval:  same gender                                     0.0000
+  7. eval:  pub_first ego and alt                           0.0000
+  8. eval:  total_cites ego and alt                         0.0000
+  9. eval:  pubs ego and alt                                0.0000
+
+
+Observed values of target statistics are
+  1. Number of edges                                                     29.0000
+  2. Number of transitive triads                                          4.0000
+  3. Sum of squared degrees                                             284.0000
+  4. Sum_ties abs.diff div_net                                         1020.7400
+  5. same div_ego                                                        44.0000
+  6. same gender                                                         36.0000
+  7. 2 * sum degr. x pub_first                                         -652.1250
+  8. 2 * sum degr. x total_cites                                       169154.0000
+  9. 2 * sum degr. x pubs                                                42.3750
+
+ 9 parameters, 9 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2666 iterations.
+Parameter estimates based on 1666 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.    0.1520     4.7480   0.0320 
+  2.   -0.0940     2.8680  -0.0328 
+  3.    1.6360    89.0121   0.0184 
+  4.   11.3067   232.6020   0.0486 
+  5.    0.1980     8.6847   0.0228 
+  6.    0.1840     7.2207   0.0255 
+  7.   -1.6650   234.3433  -0.0071 
+  8. 1849.9340 73492.3033   0.0252 
+  9.    0.3930    10.1767   0.0386 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.1044 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2666 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     0.5831  (   0.2286)
+ 0.2  Rate parameter period 2     1.2262  (   0.4212)
+
+Other parameters:
+ 1. eval:  degree (density)                                       -3.1384  (   0.9780)
+ 2. eval:  transitive triads                                       1.6456  (   0.8232)
+ 3. eval:  degree act+pop                                          0.1407  (   0.1525)
+ 4. eval:  div_net abs. difference                                -0.0243  (   0.0140)
+ 5. eval:  same div_ego                                            0.2030  (   0.5116)
+ 6. eval:  same gender                                             0.2239  (   0.4112)
+ 7. eval:  pub_first ego and alt                                   0.0182  (   0.0195)
+ 8. eval:  total_cites ego and alt                                 0.0000  (   0.0000)
+ 9. eval:  pubs ego and alt                                        0.8147  (   0.4262)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.956      0.125     -0.104     -0.004     -0.203     -0.127     -0.005      0.000     -0.067
+     0.156      0.678     -0.043      0.000     -0.039     -0.007      0.003      0.000      0.011
+    -0.698     -0.339      0.023      0.000      0.003      0.003      0.001      0.000     -0.013
+    -0.307     -0.005     -0.052      0.000      0.001      0.000      0.000      0.000      0.001
+    -0.406     -0.093      0.033      0.122      0.262      0.008      0.000      0.000     -0.010
+    -0.317     -0.022      0.055      0.006      0.037      0.169      0.000      0.000      0.003
+    -0.237      0.172      0.311     -0.014      0.015      0.038      0.000      0.000      0.001
+     0.002      0.124     -0.086      0.155     -0.134      0.050      0.544      0.000      0.000
+    -0.161      0.031     -0.196      0.098     -0.047      0.017      0.139      0.038      0.182
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 6.59 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 01/11/2022 09:42:50
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 953872.
+Effects object used: myeff4 
+Model Type:
+ Forcing model
+Note that the model type requested has been over-ridden
+Estimation method: conditional moment estimation
+.
+Conditioning variable is the total number of observed changes ("distance") 
+in the network variable.
+Distances for simulations are
+period   :   1   2
+distance :   18  34.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  0.1  Rate parameter                         1.1718
+  0.2  Rate parameter                         2.2020
+  1. eval:  degree (density)                               -1.4321
+  2. eval:  transitive triads                               0.0000
+  3. eval:  degree act+pop                                  0.0000
+  4. eval:  div_net abs. difference                         0.0000
+  5. eval:  same div_ego                                    0.0000
+  6. eval:  same gender                                     0.0000
+  7. eval:  pub_first ego and alt                           0.0000
+  8. eval:  total_cites ego and alt                         0.0000
+  9. eval:  pubs ego and alt                                0.0000
+
+
+Observed values of target statistics are
+  1. Number of edges                                                     29.0000
+  2. Number of transitive triads                                          4.0000
+  3. Sum of squared degrees                                             284.0000
+  4. Sum_ties abs.diff div_net                                         1020.7400
+  5. same div_ego                                                        44.0000
+  6. same gender                                                         36.0000
+  7. 2 * sum degr. x pub_first                                         -652.1250
+  8. 2 * sum degr. x total_cites                                       169154.0000
+  9. 2 * sum degr. x pubs                                                42.3750
+
+ 9 parameters, 9 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 2653 iterations.
+Parameter estimates based on 1653 iterations,
+basic rate parameters as well as 
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.0520     4.9669  -0.0105 
+  2.   0.0240     3.0736   0.0078 
+  3.   0.5720    92.4589   0.0062 
+  4.   4.9878   231.0845   0.0216 
+  5.   0.1760     9.2372   0.0191 
+  6.  -0.0840     7.2986  -0.0115 
+  7.   3.6845   239.8540   0.0154 
+  8. 950.6900 75768.5435   0.0125 
+  9.   0.1025    10.5287   0.0097 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.1063 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 2653 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Rate parameters:
+ 0.1  Rate parameter period 1     0.5870  (   0.2260)
+ 0.2  Rate parameter period 2     1.2831  (   0.4399)
+
+Other parameters:
+ 1. eval:  degree (density)                                       -3.2295  (   0.9715)
+ 2. eval:  transitive triads                                       1.6587  (   0.8412)
+ 3. eval:  degree act+pop                                          0.1426  (   0.1480)
+ 4. eval:  div_net abs. difference                                -0.0237  (   0.0136)
+ 5. eval:  same div_ego                                            0.2482  (   0.5388)
+ 6. eval:  same gender                                             0.2343  (   0.4055)
+ 7. eval:  pub_first ego and alt                                   0.0185  (   0.0197)
+ 8. eval:  total_cites ego and alt                                 0.0000  (   0.0001)
+ 9. eval:  pubs ego and alt                                        0.8076  (   0.4369)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.944      0.147     -0.097     -0.004     -0.229     -0.120     -0.004      0.000     -0.072
+     0.180      0.708     -0.045     -0.001     -0.019     -0.034      0.003      0.000      0.032
+    -0.675     -0.359      0.022      0.000     -0.003      0.006      0.001      0.000     -0.013
+    -0.332     -0.044     -0.058      0.000      0.001      0.000      0.000      0.000      0.000
+    -0.438     -0.042     -0.034      0.157      0.290      0.001      0.001      0.000      0.016
+    -0.304     -0.098      0.094      0.069      0.006      0.164      0.000      0.000     -0.009
+    -0.211      0.195      0.251     -0.077      0.083      0.027      0.000      0.000      0.001
+    -0.003      0.043     -0.034      0.083     -0.102      0.054      0.561      0.000      0.000
+    -0.170      0.087     -0.200      0.067      0.067     -0.049      0.169     -0.008      0.191
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 6.39 seconds.

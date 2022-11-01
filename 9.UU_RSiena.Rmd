@@ -68,37 +68,31 @@ pub_df <- as.matrix(data.frame(pubsw1, pubsw2, pubsw3))
 pubs <- varCovar(pub_df)
 ```
 
-# Model 1: Diversity of the egonet with structural effects
+# Model 1: Diversity of the egonet
 
 ```{r}
 mydata1 <- sienaDataCreate(net, div_net)
 ```
 
-
 ```{r}
 ### Step 2: create effects structure
 myeff1 <- getEffects(mydata1)
-#effectsDocumentation(myeff1)
+#effectsDocumentation(myeff2)
 ```
-
 
 ```{r}
-
 ### Step 3: get initial description
-print01Report(mydata1, modelname = "./data/results/UU_init")
+print01Report(mydata1, modelname = "./data/results/UU_init1")
 ```
-
 
 ```{r}
 ### Step4: specify model
-myeff1 <- includeEffects(myeff1, degPlus) #popularity
-myeff1 <- includeEffects(myeff1, transTriads) #number of transitive patterns in i's relationships
 myeff1 <- includeEffects(myeff1, absDiffX,interaction1="div_net")
 ```
 
 ```{r}
 ### Step5 estimate
-myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init")
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init1")
 ```
 
 
@@ -112,10 +106,11 @@ myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init")
 ```{r}
 summary(ans1)
 ```
-# Model 2: all covariates with structural effects
+
+# Model 2: Diversity of the egonet with structural effects
 
 ```{r}
-mydata2 <- sienaDataCreate(net, div_net, div_ego, gender, pub_first, pubs, total_cites)
+mydata2 <- sienaDataCreate(net, div_net)
 ```
 
 
@@ -127,7 +122,6 @@ myeff2 <- getEffects(mydata2)
 
 
 ```{r}
-
 ### Step 3: get initial description
 print01Report(mydata2, modelname = "./data/results/UU_init2")
 ```
@@ -138,17 +132,13 @@ print01Report(mydata2, modelname = "./data/results/UU_init2")
 myeff2 <- includeEffects(myeff2, degPlus) #popularity
 myeff2 <- includeEffects(myeff2, transTriads) #number of transitive patterns in i's relationships
 myeff2 <- includeEffects(myeff2, absDiffX,interaction1="div_net")
-myeff2 <- includeEffects(myeff2, sameX,interaction1="div_ego")
-myeff2 <- includeEffects(myeff2, sameX,interaction1="gender")
-myeff2 <- includeEffects(myeff2, egoPlusAltX,interaction1="pub_first") #if you are older, you will get more collaboration within department 
-myeff2 <- includeEffects(myeff2, egoPlusAltX,interaction1="total_cites") #if you are older, you will get more collaboration within department 
-myeff2 <- includeEffects(myeff2, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year?
 ```
 
 ```{r}
 ### Step5 estimate
 myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init2")
 ```
+
 
 ```{r}
 (ans2 <- siena07(myAlgorithm, data = mydata2, effects = myeff2))
@@ -159,5 +149,94 @@ myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init2")
 
 ```{r}
 summary(ans2)
+```
+# Model 3: div ego en div net
+
+```{r}
+mydata3 <- sienaDataCreate(net, div_net, div_ego)
+```
+
+
+```{r}
+### Step 2: create effects structure
+myeff3 <- getEffects(mydata3)
+#effectsDocumentation(myeff3)
+```
+
+
+```{r}
+
+### Step 3: get initial description
+print01Report(mydata3, modelname = "./data/results/UU_init3")
+```
+
+
+```{r}
+### Step4: specify model
+myeff3 <- includeEffects(myeff3, degPlus) #popularity
+myeff3 <- includeEffects(myeff3, transTriads) #number of transitive patterns in i's relationships
+myeff3 <- includeEffects(myeff3, absDiffX,interaction1="div_net")
+myeff3 <- includeEffects(myeff3, sameX,interaction1="div_ego")
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init3")
+```
+
+```{r}
+(ans3 <- siena07(myAlgorithm, data = mydata3, effects = myeff3))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+
+# Model 4: all covariates with structural effects
+
+```{r}
+mydata4 <- sienaDataCreate(net, div_net, div_ego, gender, pub_first, pubs, total_cites)
+```
+
+
+```{r}
+### Step 2: create effects structure
+myeff4 <- getEffects(mydata4)
+#effectsDocumentation(myeff3)
+```
+
+
+```{r}
+
+### Step 3: get initial description
+print01Report(mydata4, modelname = "./data/results/UU_init4")
+```
+
+
+```{r}
+### Step4: specify model
+myeff4 <- includeEffects(myeff4, degPlus) #popularity
+myeff4 <- includeEffects(myeff4, transTriads) #number of transitive patterns in i's relationships
+myeff4 <- includeEffects(myeff4, absDiffX,interaction1="div_net")
+myeff4 <- includeEffects(myeff4, sameX,interaction1="div_ego")
+myeff4 <- includeEffects(myeff4, sameX,interaction1="gender")
+myeff4 <- includeEffects(myeff4, egoPlusAltX,interaction1="pub_first") #if you are older, you will get more collaboration within department 
+myeff4 <- includeEffects(myeff4, egoPlusAltX,interaction1="total_cites") #if you are older, you will get more collaboration within department 
+myeff4 <- includeEffects(myeff4, egoPlusAltX, interaction1 = "pubs") #if you have many pubs, you will probably publish more per year?
+```
+
+```{r}
+### Step5 estimate
+myAlgorithm <- sienaAlgorithmCreate(projname = "UU_init4")
+```
+
+```{r}
+(ans4 <- siena07(myAlgorithm, data = mydata4, effects = myeff4))
+# (the outer parentheses lead to printing the obtained result on the screen) if necessary, estimate
+# further
+#(ans <- siena07(myAlgorithm, data = mydata, effects = myeff, prevAns = ans))
+```
+
+```{r}
+summary(ans4)
 ```
 

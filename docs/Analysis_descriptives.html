@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="by: Nina Branten" />
 
 
-<title>Analysis_descriptives.knit</title>
+<title>Analysis - descriptives</title>
 
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -37,6 +38,17 @@
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -482,166 +494,781 @@ div.tocify {
 
 
 
+<h1 class="title toc-ignore">Analysis - descriptives</h1>
+<h4 class="author">by: Nina Branten</h4>
 
 </div>
 
 
-<div id="descriptives" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Descriptives</h1>
-<p>  <img src="images/tabel1.png" />  </p>
-<div id="radboud-university" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Radboud
-University</h2>
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<pre class="test2"><code>#&gt; [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
 <p> </p>
-<p><strong>Period 2016-2017</strong></p>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.0000  0.0000  0.0000  0.9375  1.2500  7.0000</code></pre>
+<div id="descriptives-radboud-university" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Descriptives Radboud
+University</h1>
+<pre class="r test"><code>load(&quot;./data/descriptives/RU_net_array_sym.RData&quot;)
+load(&quot;./data/descriptives/RU_dfv2.RData&quot;)</code></pre>
+<pre class="r test"><code># construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat &lt;- function(x) {
+    # x is a vector of node-covariate
+    xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt &lt;- t(xmat)
+    xhomo &lt;- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads &lt;- function(x) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 &lt;- function(x, A) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    (sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# density: observed relations divided by possible relations
+fdensity &lt;- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) &lt;- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] &lt;- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A == 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# calculate intergroup density
+fdensityinter &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A != 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A != 1, na.rm = T))
+}</code></pre>
+<div id="descriptives-of-the-variables" class="section level2"
+number="1.1">
+<h2><span class="header-section-number">1.1</span> Descriptives of the
+variables</h2>
 <p> </p>
-<p>On average, in period 2016-2017, ego’s had 0.94 ties with other staff
-members within the Sociology department of Radboud University (see
-degrees, table 1). The minimum number of degrees is zero, the maximum
-number is 7.</p>
-<p><strong>Period 2018-2019</strong></p>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   0.000   1.062   1.250   6.000</code></pre>
-<p>  On average, in period 2018-2019, ego’s had 1.06 ties with other
-staff members within the Sociology department of Radboud University (see
-degrees, table 1). The minimum number of degrees is 0, the maximum
-number is 6.</p>
-<p> </p>
-<p><strong>Period 2020-2022</strong></p>
-<p> </p>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00    0.00    1.50    1.75    3.00    6.00</code></pre>
-<p>  On average, in period 2020-2022, ego’s had 1.75 ties with other
-staff members within the Sociology department of Radboud University (see
-degrees, table 1). The minimum number of degrees is 0, the maximum
-number is 6.</p>
-<p> </p>
-<p> </p>
+<div id="ethnicity-egos" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Ethnicity egos</h3>
+<pre class="r test"><code>summary(soc_df$div.ego)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   0.000   1.000   1.000   0.871   1.000   1.000</code></pre>
+<pre class="r test"><code>table(soc_df$div.ego)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt;  0  1 
+#&gt;  4 27</code></pre>
+<pre class="r test"><code># histogram ethnicity egos
+library(ggplot2)
+#install.packages(&quot;plotly&quot;)
+library(plotly)
+
+colnames(soc_df) &lt;- make.unique(names(soc_df))
+
+baretniru &lt;- ggplot2:::ggplot(soc_df, aes(factor(div.ego), fill = factor(div.ego))) + geom_bar()
+baretniru &lt;- baretniru + scale_fill_manual(values=c(&quot;#56B4E9&quot;, &quot;#66ff99&quot;))
+ggplotly(baretniru + ggtitle(&quot;RU: gender sociology staff&quot;))</code></pre>
+<div id="htmlwidget-022a908224669eb917a0" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-022a908224669eb917a0">{"x":{"data":[{"orientation":"v","width":0.9,"base":0,"x":[1],"y":[4],"text":"count:  4<br />factor(div.ego): 0<br />factor(div.ego): 0","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(86,180,233,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"0","legendgroup":"0","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[2],"y":[27],"text":"count: 27<br />factor(div.ego): 1<br />factor(div.ego): 1","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(102,255,153,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"RU: gender sociology staff","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","1"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","1"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"factor(div.ego)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1.35,28.35],"tickmode":"array","ticktext":["0","10","20"],"tickvals":[0,10,20],"categoryorder":"array","categoryarray":["0","10","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(div.ego)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"44103b05e":{"x":{},"fill":{},"type":"bar"}},"cur_data":"44103b05e","visdat":{"44103b05e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Within the department of Sociology at the Radboud University, 12.90
+percent of the ego’s has a non-Dutch last name and 87.10 percent has a
+Dutch last name (table 2).</p>
 </div>
-<div id="utrecht-university" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Utrecht
-University</h2>
-<p><strong>Period 2016-2017</strong></p>
-<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.0000  0.0000  0.0000  0.5625  1.0000  3.0000</code></pre>
-<p>  On average, in period 2016-2017, ego’s had 0.56 ties with other
-staff members within the Sociology department of Utrecht University (see
-degrees, table 1). The minimum number of degrees is 0, the maximum
-number is 0.95.</p>
-<p> </p>
-<p><strong>Period 2018-2019</strong></p>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   0.000   0.625   1.000   3.000</code></pre>
-<p>  On average, in period 2018-2019, ego’s had 0.63 ties with other
-staff members within the Sociology department of Utrecht University (see
-degrees, table 1). The minimum number of degrees is 0, the maximum
-1.04.</p>
-<p> </p>
-<p><strong>Period 2020-2022</strong></p>
-<p> 
-<img src="Analysis_descriptives_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   1.000   1.188   2.000   4.000</code></pre>
-<p>  On average, in period 2020-2022, ego’s had 1.19 ties with other
-staff members within the Sociology department of Utrecht University (see
-degrees, table 1). The minimum number of degrees is 0, the maximum
-number is 4.00.</p>
-<p> </p>
+<div id="gender-egos" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Gender egos</h3>
+<pre class="r test"><code>table(soc_df$gender)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; female   male 
+#&gt;     15     16</code></pre>
+<pre class="r test"><code># Visualisation of the ethnicitycomposition of the three waves
+
+# histogram of the gendercomposition
+
+bargenderru &lt;- ggplot2:::ggplot(soc_df, aes(factor(gender), fill = factor(gender))) + geom_bar()
+bargenderru &lt;- bargenderru + scale_fill_manual(values=c(&quot;#56B4E9&quot;, &quot;#66ff99&quot;))
+ggplotly(bargenderru + ggtitle(&quot;RU: Gender sociology staff&quot;)) </code></pre>
+<div id="htmlwidget-09ad4bae826afddffba9" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-09ad4bae826afddffba9">{"x":{"data":[{"orientation":"v","width":0.9,"base":0,"x":[1],"y":[15],"text":"count: 15<br />factor(gender): female<br />factor(gender): female","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(86,180,233,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"female","legendgroup":"female","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[2],"y":[16],"text":"count: 16<br />factor(gender): male<br />factor(gender): male","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(102,255,153,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"male","legendgroup":"male","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"RU: Gender sociology staff","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["female","male"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["female","male"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"factor(gender)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.8,16.8],"tickmode":"array","ticktext":["0","5","10","15"],"tickvals":[0,5,10,15],"categoryorder":"array","categoryarray":["0","5","10","15"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(gender)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"44102eb449ae":{"x":{},"fill":{},"type":"bar"}},"cur_data":"44102eb449ae","visdat":{"44102eb449ae":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>The gender of sociologists working at the Radboud University is much
+more equal. 48.39 percent is female and 51.61 percent is male (table
+3).</p>
 </div>
-<div id="conclusion" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Conclusion</h2>
-<p>Generally, staff members of Radboud University have a lot more
-collaboration ties within the department than staff members of Utrecht
-University.</p>
-<p>   </p>
-</div>
-<div id="ethnicity-egos" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Ethnicity egos</h2>
-<p>Within the Sociology department of the Radboud University, 15.63
-percent of the staff members has a non-Dutch last name. Within the
-Sociology department of Utrecht University, this percentage is 31.25.
-The department of Utrecht University is more ethnically diverse than the
-department of Radboud University.</p>
+<div id="percentage-non-dutch-collaborators" class="section level3"
+number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Percentage
+non-Dutch collaborators</h3>
+<pre class="r test"><code>summary(soc_df$div.net)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;    0.00    0.00   14.29   22.85   34.48  100.00</code></pre>
+<pre class="r test"><code>sd(soc_df$div.net, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 27.60764</code></pre>
+<pre class="r test"><code>hist(soc_df$div.net, col=&quot;lightseagreen&quot;, main=&#39;RU: ethnic diversity egonets&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p> </p>
-<p><img src="images/tabel2.PNG" /></p>
+<p>On average, sociology staff members from Radboud University had 22.85
+percent of non-Dutch collaborators in their egonet (table 1).
+Furthermore, the histogram is right-skewed: most scholars had a
+percentage between the 0 and 20.</p>
+</div>
+<div id="year-first-publication" class="section level3" number="1.1.4">
+<h3><span class="header-section-number">1.1.4</span> Year first
+publication</h3>
+<pre class="r test"><code>summary(soc_df$pub_first)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;    1970    2004    2011    2007    2017    2019</code></pre>
+<pre class="r test"><code>sd(soc_df$pub_first, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 13.81716</code></pre>
+<pre class="r test"><code>hist(soc_df$pub_first, col=&quot;lightseagreen&quot;, main=&#39;RU: first publication ego&#39;, xlab=&#39;year of first publication&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p> </p>
-</div>
-<div id="gender-egos" class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Gender egos</h2>
-<p>Within the Sociology department of the Radboud University, 50 percent
-of the staff members is female and 50 percent is male. Within the
-Sociology department of Utrecht University, 40.63 percent of the staff
-members is female and 59.37 percent is male. This means that regarding
-to gender, the department of Radboud University is more diverse than the
-department of Utrecht University.</p>
-<p><img src="images/tabel3.PNG" /></p>
-</div>
-<div id="ethnic-diversity-egonet" class="section level2" number="1.6">
-<h2><span class="header-section-number">1.6</span> Ethnic diversity
-egonet</h2>
-<p>On average, the egonets of staff members from Radboud University had
-an ethnic diversity of 23.61 percent. This is lower than the ethnic
-diversity of the egonets from Utrecht University, that scored 35.99
-percent on average. Therefore, we can conclude that sociologist from
-Utrecht University generally have a more ethnically diverse
-collaboration network than sociologists from Radboud University.</p>
-<p> </p>
-<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" />
- </p>
-<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
-<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" />
- </p>
-</div>
-<div id="year-first-publication" class="section level2" number="1.7">
-<h2><span class="header-section-number">1.7</span> Year first
-publication</h2>
 <p>On average, sociologists from Radboud University published their
-first paper in 2007 (see table 1). Generally, sociologists from Utrecht
-University published their first paper in 2005.</p>
+first paper in 2007 (table 1). The oldest first publication of an ego
+within the department is from 1970, the newest first publication is from
+2019. The histogram is skewed to the left: most scholars from within the
+department are relatively new and have published their first paper
+somewhere during the last decade.</p>
 <p> </p>
-<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+</div>
+</div>
+<div id="network-descriptives" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Network
+descriptives</h2>
+<div id="plots-of-the-network" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Plots of the
+network</h3>
+<p>The size of the vertexes is based on the percentage of non-Dutch last
+names in the ego’s network. The higher the vertex, the higher the
+percentage of non-Dutch co-authors. The colour of the vertex label is
+based on the ethnicity of the egos themselves. Black means a Dutch last
+name, red a non-Dutch last name.</p>
+<pre class="r test"><code># PERIOD 2016-2017
+runet1 &lt;- net_soc_array[ ,, 1]
+diag(runet1) &lt;- 0
+
+#changing colour based on diversity of network.
+
+soc_df$gcol &lt;- ifelse(soc_df$div.ego == &quot;1&quot;, &quot;black&quot;, &quot;magenta4&quot;)
+
+runet1_g &lt;- igraph::graph_from_adjacency_matrix(runet1, mode = c(&quot;undirected&quot;))
+plot(runet1_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r test"><code># PERIOD 2018-2019
+runet2 &lt;- net_soc_array[ ,, 2]
+diag(runet2) &lt;- 0
+
+runet2_g &lt;- igraph::graph_from_adjacency_matrix(runet2, mode = c(&quot;undirected&quot;))
+plot(runet2_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r test"><code># PERIOD 2020-2022
+runet3 &lt;- net_soc_array[ ,, 3]
+diag(runet3) &lt;- 0
+
+runet3_g &lt;- igraph::graph_from_adjacency_matrix(runet3, mode = c(&quot;undirected&quot;))
+plot(runet3_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<p> </p>
+<p>From the plots of the sociology department of the Radboud University,
+we can see that the number of people co-publishing within the department
+increases over the year. This can be explained by the fact that younger
+sociologists did not yet work at the university in the earlier periods,
+so they could also not have worked together. Kraaykamp has the highest
+number of co-authors: this is a scholar who has been active in the
+department for a longer time, explaining the higher number of
+co-authors.  </p>
+</div>
+<div id="degrees" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Degrees</h3>
+<pre class="r test"><code># Degrees
+degree &lt;- rowSums(runet1)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.0000  0.0000  0.0000  0.9677  1.5000  7.0000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 1.682931</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;RU: degree distribution wave 1&#39;, xlab=&#39;number of ties&#39;)</code></pre>
 <p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<pre><code>## [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p> </p>
+<pre class="r test"><code>degree &lt;- rowSums(runet2)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   0.000   0.000   0.000   1.097   1.500   6.000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 1.738866</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;RU: degree distribution wave 2&#39;, xlab=&#39;number of ties&#39;)</code></pre>
 <p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r test"><code># Degrees
+degree &lt;- rowSums(runet3)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   0.000   0.000   2.000   1.806   3.000   6.000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 2.006977</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;RU: degree distribution wave 3&#39;, xlab=&#39;number of ties&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p> </p>
+<p>The number of ties within the department of the Radboud University
+increases over waves, as was also visible in the plots. The average
+number of ties increased from 0.97 ties in 2016-2017, to 1.097 ties in
+2018-2019 and 1.806 ties in 2020-2022.   Furthermore, we see that the
+histograms of degrees are right-skewed: most scholars do not have many
+ties within the department. However, the distribution becomes less
+skewed over the waves.</p>
 </div>
-<div id="densities" class="section level2" number="1.8">
-<h2><span class="header-section-number">1.8</span> Densities</h2>
+<div id="densities" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Densities</h3>
+<pre class="r test"><code>runet_und1 &lt;- runet1 + t(runet1)
+runet_und1[runet_und1==2] &lt;- 1
+sum(runet_und1, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 30</code></pre>
+<pre class="r test"><code>fdensity(runet1)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.03225806</code></pre>
+<pre class="r test"><code>runet_und1 &lt;- runet1 + t(runet1)
+runet_und1[runet_und1==2] &lt;- 1
+
+runet_und2 &lt;- runet2 + t(runet2)
+runet_und2[runet_und2==2] &lt;- 1
+sum(runet_und2, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 34</code></pre>
+<pre class="r test"><code>fdensity(runet2)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.03655914</code></pre>
+<pre class="r test"><code>runet_und2 &lt;- runet2 + t(runet2)
+runet_und2[runet_und2==2] &lt;- 1
+
+runet_und3 &lt;- runet3 + t(runet3)
+runet_und3[runet_und3==2] &lt;- 1
+sum(runet_und3, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 56</code></pre>
+<pre class="r test"><code>fdensity(runet3)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.06021505</code></pre>
+<pre class="r test"><code>runet_und3 &lt;- runet3 + t(runet3)
+runet_und3[runet_und3==2] &lt;- 1</code></pre>
 <p>Density contains all observed relations divided by all possible
-relations.   For Radboud University, the density of net 1 contains
-0.030, the density of net 2 0.034 and the density of net 3 0.056.   For
-Utrecht University, the denisty of net 1 is 0.018, of net 2 0.020 and of
-net 3 0.038.   For both universities, the density of the collaboration
-networks within the sociology departments has increased. Generally, the
-network within the sociology department of Utrecht University is more
-dense than the network within the sociology department of Radboud
-University.</p>
+relations.   The network of wave 1 contains 30 dyads. The number of
+dyads is relatively low to the number of dyads which are possible, as
+the edge density contains 0.032. Wave 2 consists of a little bit more
+dyads: 34. However, the edge density of 0.037 is still relatively low.
+We see a strong increase in density in wave 3: there are 56 dyads and
+the edge density contains 0.060.</p>
 <p> </p>
 </div>
-<div id="intra-intergroup-density-ethnicity" class="section level2"
-number="1.9">
-<h2><span class="header-section-number">1.9</span> Intra-/intergroup
-density: ethnicity</h2>
-<p>To study segregation within the networks by ethnicity of the staff
-members, the intragroup and intergroup densities are compared.   For
-both Radboud and Utrecht University, people with the same ethnicity
-(Dutch or non-Dutch) seem to be working together more often. Segregation
-in collaboration ties for gender is only present for Utrecht
-University.</p>
-<p><img src="images/tabel4.PNG" /></p>
+<div id="inter-intragroup-density-ethnicity" class="section level3"
+number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Inter-/intragroup
+density ethnicity</h3>
+<p> </p>
+<p><strong>Intergroup</strong></p>
+<pre class="r test"><code>div_m &lt;-  fhomomat(soc_df$div.ego)
+
+fdensityinter(x=runet_und1, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0</code></pre>
+<pre class="r test"><code>fdensityinter(x=runet_und2, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0</code></pre>
+<pre class="r test"><code>fdensityinter(x=runet_und3, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.0462963</code></pre>
+<p> </p>
+<p><strong>Intragroup</strong></p>
+<pre class="r test"><code>fdensityintra(x=runet_und1, A=div_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.04201681</code></pre>
+<pre class="r test"><code>fdensityintra(x=runet_und2, A=div_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.04761905</code></pre>
+<pre class="r test"><code>fdensityintra(x=runet_und3, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.06442577</code></pre>
+<p> </p>
+<p>The intergroup density shows the density between the two different
+ethnic groups (Dutch or non-Dutch). The intragroup density contains the
+density of scholars from the same ethnic group (Dutch or non-Dutch).
+Both the intergroup and intragroup densities increase over the waves.
+Generally, the intergroup densities are lower than the intragroup
+densities. This means that sociologists from the Radboud University are
+more likely to collaborate with people from the same ethnic background
+(Dutch or non-Dutch) and ethnic segregation might be visible.</p>
+<p> </p>
 </div>
+<div id="inter-intragroup-density-gender" class="section level3"
+number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Inter-/intragroup
+density gender</h3>
+<p> </p>
+<p><strong>Intergroup</strong></p>
+<pre class="r test"><code>gender_m &lt;-  fhomomat(soc_df$gender)
+
+fdensityinter(x=runet_und1, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.0125</code></pre>
+<pre class="r test"><code>fdensityinter(x=runet_und2, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.025</code></pre>
+<pre class="r test"><code>fdensityinter(x=runet_und3, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.05833333</code></pre>
+<p> </p>
+<p><strong>Intragroup</strong></p>
+<pre class="r test"><code>fdensityintra(x=runet_und1, A=gender_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.05333333</code></pre>
+<pre class="r test"><code>fdensityintra(x=runet_und2, A=gender_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.04888889</code></pre>
+<pre class="r test"><code>fdensityintra(x=runet_und3, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.06222222</code></pre>
+<p> </p>
+<p>Whilst the intergroup densities increase over the waves, this is not
+the case for the intragroup densities. Because the intergroup densities
+are lower than the intragroup densities, one could state that there is
+gender segregation: sociologists from Radboud University are more likely
+to collaborate with scholars from the same gender.</p>
+<p> </p>
+</div>
+<div id="transitivity" class="section level3" number="1.2.6">
+<h3><span class="header-section-number">1.2.6</span> Transitivity</h3>
+<pre class="r test"><code>igraph::transitivity(runet1_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.4285714</code></pre>
+<pre class="r test"><code>igraph::transitivity(runet2_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.3191489</code></pre>
+<pre class="r test"><code>igraph::transitivity(runet3_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.3975904</code></pre>
+<p> </p>
+<p>Last, as our network is undirected, the transitivity effects is the
+same as the clustering index: the observed ties between all directed
+neighbours divided by all possible ties between all directed neighbours
+(Tolsma &amp; Hofstra, 2021). In other words, it indicates to what
+extent the scholars cluster together. The transitivity is the highest in
+the first wave and contains 0.429. This means that when scholar A is
+collaborating with scholar B and C, the probability of B and C
+publishing together is 0.429. The transitivity of wave 2 contains 0.319
+and of wave 3 0.397. Although the transitivity changes over the years,
+no linear effect can be found.</p>
+</div>
+</div>
+</div>
+<div id="descriptives-utrecht-university" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Descriptives Utrecht
+University</h1>
+<pre class="r test"><code>#start with clean workspace 
+rm(list=ls())
+getwd()</code></pre>
+<pre class="test2"><code>#&gt; [1] &quot;C:/Users/ninab/OneDrive/Documenten/GitHub/labjournal&quot;</code></pre>
+<p> </p>
+<pre class="r test"><code># construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat &lt;- function(x) {
+    # x is a vector of node-covariate
+    xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt &lt;- t(xmat)
+    xhomo &lt;- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads &lt;- function(x) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 &lt;- function(x, A) {
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    (sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# density: observed relations divided by possible relations
+fdensity &lt;- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) &lt;- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] &lt;- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A == 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A == 1, na.rm = T))
+}
+
+# calculate intergroup density
+fdensityinter &lt;- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) &lt;- NA
+    x[x == 10] &lt;- NA
+    diag(A) &lt;- NA
+    sum(x == 1 &amp; A != 1, na.rm = T)/(sum((x == 1 | x == 0) &amp; A != 1, na.rm = T))
+}</code></pre>
+<div id="descriptives-of-the-variables-1" class="section level2"
+number="2.1">
+<h2><span class="header-section-number">2.1</span> Descriptives of the
+variables</h2>
+<p> </p>
+<div id="ethnicity-egos-1" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Ethnicity egos</h3>
+<pre class="r test"><code>summary(soc_df$div.ego)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.0000  0.0000  1.0000  0.6875  1.0000  1.0000</code></pre>
+<pre class="r test"><code>table(soc_df$div.ego)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt;  0  1 
+#&gt; 10 22</code></pre>
+<pre class="r test"><code># histogram ethnicity egos
+library(ggplot2)
+#install.packages(&quot;plotly&quot;)
+library(plotly)
+
+colnames(soc_df) &lt;- make.unique(names(soc_df))
+
+baretniuu &lt;- ggplot2:::ggplot(soc_df, aes(factor(div.ego), fill = factor(div.ego))) + geom_bar()
+baretniuu &lt;- baretniuu + scale_fill_manual(values=c(&quot;#56B4E9&quot;, &quot;#66ff99&quot;))
+ggplotly(baretniuu + ggtitle(&quot;UU: Ethnicity sociology staff&quot;))</code></pre>
+<div id="htmlwidget-760fa9a5adec438b13b4" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-760fa9a5adec438b13b4">{"x":{"data":[{"orientation":"v","width":0.9,"base":0,"x":[1],"y":[10],"text":"count: 10<br />factor(div.ego): 0<br />factor(div.ego): 0","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(86,180,233,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"0","legendgroup":"0","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[2],"y":[22],"text":"count: 22<br />factor(div.ego): 1<br />factor(div.ego): 1","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(102,255,153,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"UU: Ethnicity sociology staff","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","1"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","1"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"factor(div.ego)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1.1,23.1],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(div.ego)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"441054036791":{"x":{},"fill":{},"type":"bar"}},"cur_data":"441054036791","visdat":{"441054036791":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>When compared to the sociology department of the Radboud University,
+the department of sociology of Utrecht University is way more ethnically
+diverse. 31.25 percent of the ego’s has a non-Dutch last name and 68.75
+percent has a Dutch last name (table 2). For Radboud University the
+percentage of sociologists that were non-Dutch was only 12.90
+percent.</p>
+</div>
+<div id="gender-egos-1" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Gender egos</h3>
+<pre class="r test"><code>table(soc_df$gender)</code></pre>
+<pre class="test2"><code>#&gt; 
+#&gt; female   male 
+#&gt;     13     19</code></pre>
+<pre class="r test"><code># Visualisation of the ethnicitycomposition of the three waves
+
+# histogram of the gendercomposition
+
+bargenderuu &lt;- ggplot2:::ggplot(soc_df, aes(factor(gender), fill = factor(gender))) + geom_bar()
+bargenderuu &lt;- bargenderuu + scale_fill_manual(values=c(&quot;#56B4E9&quot;, &quot;#66ff99&quot;))
+ggplotly(bargenderuu + ggtitle(&quot;UU: Gender sociology staff&quot;)) </code></pre>
+<div id="htmlwidget-0167dc465349ad38bafa" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0167dc465349ad38bafa">{"x":{"data":[{"orientation":"v","width":0.9,"base":0,"x":[1],"y":[13],"text":"count: 13<br />factor(gender): female<br />factor(gender): female","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(86,180,233,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"female","legendgroup":"female","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.9,"base":0,"x":[2],"y":[19],"text":"count: 19<br />factor(gender): male<br />factor(gender): male","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(102,255,153,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"male","legendgroup":"male","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":37.2602739726027},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"UU: Gender sociology staff","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["female","male"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["female","male"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"factor(gender)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.95,19.95],"tickmode":"array","ticktext":["0","5","10","15"],"tickvals":[0,5,10,15],"categoryorder":"array","categoryarray":["0","5","10","15"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(gender)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"4410102f1f34":{"x":{},"fill":{},"type":"bar"}},"cur_data":"4410102f1f34","visdat":{"4410102f1f34":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>The sociology staff of the Radboud University is more diverse
+regarding gender than the sociology staff of Utrecht University. Whilst
+the division at the Radboud University is almost 50/50, only 40.63
+percent of the sociologists at Utrecht University is female (table
+3).</p>
+</div>
+<div id="percentage-non-dutch-collaborators-1" class="section level3"
+number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Percentage
+non-Dutch collaborators</h3>
+<pre class="r test"><code>summary(soc_df$div.net)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;    0.00   23.96   31.89   36.10   44.11  100.00</code></pre>
+<pre class="r test"><code>sd(soc_df$div.net, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 26.66588</code></pre>
+<pre class="r test"><code>hist(soc_df$div.net, col=&quot;lightseagreen&quot;, main=&#39;UU: percentage non-Dutch collaborators&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p> </p>
+<p>On average, sociology staff-members at Utrecht University have 36.10
+percent of non-Dutch collaborators in their egonet (table 1). This means
+that the scholars of sociology department at Utrecht University have a
+higher level of non-Dutch collaborators than scholars of the sociology
+department at Radboud University (12.90). This could indicate that
+Utrecht University is more internationally orientated than Radboud
+University. Furthermore, the histogram is slightly right-skewed,
+although way less than at Radboud University. Most scholars had a
+percentage between the 20 and 40.</p>
+<p> </p>
+</div>
+<div id="year-first-publication-1" class="section level3"
+number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Year first
+publication</h3>
+<pre class="r test"><code>summary(soc_df$pub_first)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;    1976    1997    2010    2006    2016    2022</code></pre>
+<pre class="r test"><code>sd(soc_df$pub_first, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 13.40825</code></pre>
+<pre class="r test"><code>hist(soc_df$pub_first, col=&quot;lightseagreen&quot;, main=&#39;UU: first publication ego&#39;, xlab=&#39;year of first publication&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p> </p>
+<p>On average, sociologists from Utrecht University published their
+first paper in 2006 (table 1). The oldest first publication of an ego
+within the department is from 1976, the newest first publication is from
+2022. The histogram is slightly skewed to the left: most scholars from
+within the department are relatively new and have published their first
+paper somewhere during the last decade.</p>
+<p> </p>
+</div>
+</div>
+<div id="network-descriptives-1" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Network
+descriptives</h2>
+<div id="plots-of-the-network-1" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Plots of the
+network</h3>
+<p>The size of the vertexes is based on the percentage of non-Dutch last
+names in the ego’s network. The higher the vertex, the higher the
+percentage of non-Dutch co-authors. The colour of the vertex label is
+based on the ethnicity of the egos themselves. Black means a Dutch last
+name, red a non-Dutch last name.</p>
+<pre class="r test"><code># PERIOD 2016-2017
+uunet1 &lt;- net_soc_array[ ,, 1]
+diag(uunet1) &lt;- 0
+
+#changing colour based on diversity of network.
+
+soc_df$gcol &lt;- ifelse(soc_df$div.ego == &quot;1&quot;, &quot;black&quot;, &quot;magenta4&quot;)
+
+uunet1_g &lt;- igraph::graph_from_adjacency_matrix(uunet1, mode = c(&quot;undirected&quot;))
+plot(uunet1_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<pre class="r test"><code># PERIOD 2018-2019
+uunet2 &lt;- net_soc_array[ ,, 2]
+diag(uunet2) &lt;- 0
+
+uunet2_g &lt;- igraph::graph_from_adjacency_matrix(uunet2, mode = c(&quot;undirected&quot;))
+plot(uunet2_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+<pre class="r test"><code># PERIOD 2020-2022
+uunet3 &lt;- net_soc_array[ ,, 3]
+diag(uunet3) &lt;- 0
+
+uunet3_g &lt;- igraph::graph_from_adjacency_matrix(uunet3, mode = c(&quot;undirected&quot;))
+plot(uunet3_g, vertex.label = soc_df$lastname, vertex.label.color = soc_df$gcol, vertex.size = soc_df$div.net*0.2, vertex.color = &quot;mediumturquoise&quot;, vertex.label.size = 0.5, vertex.label.cex = 0.6, edge.curved = 0.2, edge.arrow.size = 1.7)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-25-3.png" width="672" /></p>
+<p> </p>
+<p>From the plots we can conclude that the number of collaborations
+within the sociology department of Utrecht University is relatively low
+when compared to the Radboud University. Especially within the first two
+waves, sociologist from Utrecht seem more attracted to finding
+co-authors outside of the department. As we can see in table 1, the lack
+of collaboration within the department cannot be attributed to a low
+number of co-authors: staff of the Utrecht University generally has a
+larger network than staff at the Radboud University (based on number of
+co-authors since 2020). Van der Lippe has the highest number of
+collaborations within the department.</p>
+<p> </p>
+</div>
+<div id="degrees-1" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Degrees</h3>
+<pre class="r test"><code># Degrees
+degree &lt;- rowSums(uunet1)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.0000  0.0000  0.0000  0.5625  1.0000  3.0000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.9482582</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;UU: degree distribution wave 1&#39;, xlab=&#39;number of ties&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p> </p>
+<pre class="r test"><code>degree &lt;- rowSums(uunet2)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   0.000   0.000   0.000   0.625   1.000   3.000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 1.039541</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;UU: degree distribution wave 2&#39;, xlab=&#39;number of ties&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r test"><code># Degrees
+degree &lt;- rowSums(uunet3)
+summary(degree)</code></pre>
+<pre class="test2"><code>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   0.000   0.000   1.000   1.188   2.000   4.000</code></pre>
+<pre class="r test"><code>sd(degree)</code></pre>
+<pre class="test2"><code>#&gt; [1] 1.281066</code></pre>
+<pre class="r test"><code>hist(degree, col=&quot;lightseagreen&quot;, main=&#39;UU: degree distribution wave 3&#39;, xlab=&#39;number of ties&#39;)</code></pre>
+<p><img src="Analysis_descriptives_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p> </p>
+<p>The number of ties within the department of the Utrecht University
+increases over waves, as was also visible in the plots. The average
+number of ties increased from 0.563 ties in 2016-2017, to 0.625 ties in
+2018-2019 and 1.188 ties in 2020-2022. So the increase is largest
+between wave 2 and 3. However, the histogram stays largely skewed to the
+right and scholars generally do not have many ties within the
+department.   The small amount of ties in the sociology department of
+Utrecht University could be due to the fact that their are many new
+scholars and scholars who are originally from other countries or
+universities. Therefore, they might not have had the opportunity to
+publish a lot with their colleagues. Furthermore, Utrecht University
+might be more focused on collaboration with other universities or
+countries than Radboud University. The high number of non-Dutch scholars
+in their collaboration networks might indicate that this is indeed the
+case.</p>
+<p> </p>
+</div>
+<div id="densities-1" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Densities</h3>
+<pre class="r test"><code>uunet_und1 &lt;- uunet1 + t(uunet1)
+uunet_und1[uunet_und1==2] &lt;- 1
+sum(uunet_und1, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 18</code></pre>
+<pre class="r test"><code>fdensity(uunet1)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.01814516</code></pre>
+<pre class="r test"><code>uunet_und1 &lt;- uunet1 + t(uunet1)
+uunet_und1[uunet_und1==2] &lt;- 1
+
+uunet_und2 &lt;- uunet2 + t(uunet2)
+uunet_und2[uunet_und2==2] &lt;- 1
+sum(uunet_und2, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 20</code></pre>
+<pre class="r test"><code>fdensity(uunet2)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02016129</code></pre>
+<pre class="r test"><code>uunet_und2 &lt;- uunet2 + t(uunet2)
+uunet_und2[uunet_und2==2] &lt;- 1
+
+uunet_und3 &lt;- uunet3 + t(uunet3)
+uunet_und3[uunet_und3==2] &lt;- 1
+sum(uunet_und3, na.rm=TRUE)</code></pre>
+<pre class="test2"><code>#&gt; [1] 38</code></pre>
+<pre class="r test"><code>fdensity(uunet3)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.03830645</code></pre>
+<pre class="r test"><code>uunet_und3 &lt;- uunet3 + t(uunet3)
+uunet_und3[uunet_und3==2] &lt;- 1</code></pre>
+<p>Density contains all observed relations divided by all possible
+relations.   The network of wave 1 contains 18 dyads. The number of
+dyads is relatively low if compared to the number of dyads that are
+possible, as the edge density contains 0.018. Wave 2 consists of a
+little bit more dyads: 20. However, the edge density of 0.020 is still
+very low. We see the strongest increase in density in wave 3: there are
+38 dyads and the edge density contains 0.038.   Overall, we can conclude
+that the density and the total number of dyads is way lower for Utrecht
+University than for Radboud University.</p>
+<p> </p>
+</div>
+<div id="inter-intragroup-density-ethnicity-1" class="section level3"
+number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> inter-/intragroup
+density ethnicity</h3>
+<p> </p>
+<p><strong>Intergroup</strong></p>
+<pre class="r test"><code>div_m &lt;-  fhomomat(soc_df$div.ego)
+
+fdensityinter(x=uunet_und1, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.009090909</code></pre>
+<pre class="r test"><code>fdensityinter(x=uunet_und2, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.009090909</code></pre>
+<pre class="r test"><code>fdensityinter(x=uunet_und3, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02272727</code></pre>
+<p> </p>
+<p><strong>Intragroup</strong></p>
+<pre class="r test"><code>fdensityintra(x=uunet_und1, A=div_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02536232</code></pre>
+<pre class="r test"><code>fdensityintra(x=uunet_und2, A=div_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02898551</code></pre>
+<pre class="r test"><code>fdensityintra(x=uunet_und3, A=div_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.05072464</code></pre>
+<p> </p>
+<p>The intergroup density shows the density between the two different
+ethnic groups (Dutch or non-Dutch. The intragroup density contains the
+density of scholars from the same ethnic group (Dutch or non-Dutch). The
+intergroup density increases between wave 2 and 3, from 0.009 to 0.0227.
+The intragroup density increases with every wave (respectively: 0.025,
+0.029 and 0.051), although only a very small change is visible between
+wave 1 and 2.   In accordance with the results of Radboud University,
+the intergroup densities are lower than the intragroup densities. This
+could indicate that sociologists are more likely to collaborate with
+people from the same ethnic background (Dutch or non-Dutch).</p>
+<p> </p>
+</div>
+<div id="inter-intragroup-density-gender-1" class="section level3"
+number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> Inter-/intragroup
+density gender</h3>
+<p> </p>
+<p><strong>Inter-group</strong></p>
+<pre class="r test"><code>gender_m &lt;-  fhomomat(soc_df$gender)
+
+fdensityinter(x=uunet_und1, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.008097166</code></pre>
+<pre class="r test"><code>fdensityinter(x=uunet_und2, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.01214575</code></pre>
+<pre class="r test"><code>fdensityinter(x=uunet_und3, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.03238866</code></pre>
+<p> </p>
+<p><strong>Intragroup</strong></p>
+<pre class="r test"><code>fdensityintra(x=uunet_und1, A=gender_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02811245</code></pre>
+<pre class="r test"><code>fdensityintra(x=uunet_und2, A=gender_m) </code></pre>
+<pre class="test2"><code>#&gt; [1] 0.02811245</code></pre>
+<pre class="r test"><code>fdensityintra(x=uunet_und3, A=gender_m)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.04417671</code></pre>
+<p> </p>
+<p>Whilst the intergroup densities increase over the waves, this is not
+the case for the intragroup densities. Between wave 1 and wave 2, the
+intragroup density remains stable. Comparable to the gender segregation
+at the Radboud University, we see that the intergroup densities are
+again lower than the intragroup densities. This indicates that gender
+segregation is visible: sociologists from Utrecht University are more
+likely to collaborate with scholars from the same gender.</p>
+<p> </p>
+</div>
+<div id="transitivity-1" class="section level3" number="2.2.6">
+<h3><span class="header-section-number">2.2.6</span> Transitivity</h3>
+<pre class="r test"><code>igraph::transitivity(uunet1_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.3</code></pre>
+<pre class="r test"><code>igraph::transitivity(uunet2_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.2307692</code></pre>
+<pre class="r test"><code>igraph::transitivity(uunet3_g)</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.3103448</code></pre>
+<p> </p>
+<p>Last, the transitivity effects show the probability of two co-authors
+of the same person also publishing together. The transitivity is the
+highest in the last wave and contains 0.310. This means that when
+scholar A is collaborating with scholar B and C, the probability of B
+and C publishing together is 0.310. The transitivity of wave 1 contains
+0.3 and of wave 2 0.231. Although the transitivity changes over the
+years, no linear effect can be found. Generally, the transitivity of
+Utrecht University is lower than at Radboud University. Therefore, we
+can conclude that within the department of Utrecht University, scholars
+are less clustered as they are less influenced by who the co-authors of
+co-authors are.</p>
+</div>
+</div>
+</div>
+<div id="descriptives-conclusion" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Descriptives:
+conclusion</h1>
+<p>When comparing the two sociology departments of Radboud and Utrecht
+University, we can see that Utrecht has a higher percentage of non-Dutch
+sociologists than Radboud (31.25 versus 12.90 percent).Moreover, the
+collaboration networks of the staff of UU contain, on average, a higher
+percentage of non-Dutch scholars than the collaboration networks of
+staff of RU. However, the sociology staff of RU is more diverse
+regarding gender as their gender division is almost 50/50.  
+Furthermore, within both departments the number of co-authorships is is
+rather low. Overall the density of the network is lower for UU than for
+RU: generally, sociology staff of the UU collaborate less with scholars
+within their department than RU. This lack of ties within the department
+might be explained by UU being more internationally orientated. Their
+collaboration networks are more diverse and they have more staff who
+originally worked at another university in another country. For both
+departments their might be another reason for the low density: as many
+people are relatively new within the department, they might not have had
+the chance to publish together.   Moreover, the transitivity is lowest
+at the UU, indicating that it is more common for staff at the RU to
+publish with co-authors of co-authors.   Last, we observe within both
+departments ethnic and gender segregation, as the intergroupdensities
+are lower than the intragroup densities.</p>
+</div>
+<div id="tables" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Tables</h1>
+<p><img src="images/tabel1.png" /></p>
+<p><img src="images/tabel2.PNG" /></p>
+<p><img src="images/tabel3.PNG" /> <img src="images/tabel4.PNG" /></p>
 </div>
 
-<div id="rmd-source-code">IyBEZXNjcmlwdGl2ZXMNCiZuYnNwOw0KIVtdKGltYWdlcy90YWJlbDEucG5nKQ0KJm5ic3A7DQoNCiMjIFJhZGJvdWQgVW5pdmVyc2l0eQ0KJm5ic3A7DQoNCioqUGVyaW9kIDIwMTYtMjAxNyoqDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQoNCm5ldDEgPC0gbmV0X3NvY19hcnJheVsgLCwgMV0NCmRpYWcobmV0MSkgPC0gMA0KDQpuZXQxX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MSwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0MV9nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQxKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KDQombmJzcDsNCg0KDQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAxNi0yMDE3LCBlZ2/igJlzIGhhZCAwLjk0IHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgUmFkYm91ZCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIHplcm8sIHRoZSBtYXhpbXVtIG51bWJlciBpcyA3Lg0KDQoNCioqUGVyaW9kIDIwMTgtMjAxOSoqDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KbmV0MiA8LSBuZXRfc29jX2FycmF5WyAsLCAyXQ0KZGlhZyhuZXQyKSA8LSAwDQoNCm5ldDJfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChuZXQyLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdChuZXQyX2cpDQoNCmRlZ3JlZSA8LSByb3dTdW1zKG5ldDIpDQpzdW1tYXJ5KGRlZ3JlZSkNCg0KYGBgDQombmJzcDsNCk9uIGF2ZXJhZ2UsIGluIHBlcmlvZCAyMDE4LTIwMTksIGVnb+KAmXMgaGFkIDEuMDYgdGllcyB3aXRoIG90aGVyIHN0YWZmIG1lbWJlcnMgd2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkgKHNlZSBkZWdyZWVzLCB0YWJsZSAxKS4gVGhlIG1pbmltdW0gbnVtYmVyIG9mIGRlZ3JlZXMgaXMgMCwgdGhlIG1heGltdW0gbnVtYmVyIGlzIDYuDQoNCiZuYnNwOw0KDQoqKlBlcmlvZCAyMDIwLTIwMjIqKg0KDQombmJzcDsNCg0KYGBge3IsIGVjaG89RkFMU0V9DQpuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKG5ldDMpIDwtIDANCg0KbmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDNfZykNCg0KZGVncmVlIDwtIHJvd1N1bXMobmV0MykNCnN1bW1hcnkoZGVncmVlKQ0KDQpgYGANCg0KJm5ic3A7DQpPbiBhdmVyYWdlLCBpbiBwZXJpb2QgMjAyMC0yMDIyLCBlZ2/igJlzIGhhZCAxLjc1IHRpZXMgd2l0aCBvdGhlciBzdGFmZiBtZW1iZXJzIHdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgUmFkYm91ZCBVbml2ZXJzaXR5IChzZWUgZGVncmVlcywgdGFibGUgMSkuIFRoZSBtaW5pbXVtIG51bWJlciBvZiBkZWdyZWVzIGlzIDAsIHRoZSBtYXhpbXVtIG51bWJlciBpcyA2Lg0KDQombmJzcDsNCg0KJm5ic3A7DQoNCiMjIFV0cmVjaHQgVW5pdmVyc2l0eQ0KDQoqKlBlcmlvZCAyMDE2LTIwMTcqKg0KDQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfZGZ2Mi5SRGF0YSIpDQoNCm5ldDEgPC0gbmV0X3NvY19hcnJheVsgLCwgMV0NCmRpYWcobmV0MSkgPC0gMA0KDQpuZXQxX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MSwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0MV9nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQxKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KDQombmJzcDsNCk9uIGF2ZXJhZ2UsIGluIHBlcmlvZCAyMDE2LTIwMTcsIGVnb+KAmXMgaGFkIDAuNTYgdGllcyB3aXRoIG90aGVyIHN0YWZmIG1lbWJlcnMgd2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBVdHJlY2h0IFVuaXZlcnNpdHkgKHNlZSBkZWdyZWVzLCB0YWJsZSAxKS4gVGhlIG1pbmltdW0gbnVtYmVyIG9mIGRlZ3JlZXMgaXMgMCwgdGhlIG1heGltdW0gbnVtYmVyIGlzIDAuOTUuDQoNCiZuYnNwOw0KDQoqKlBlcmlvZCAyMDE4LTIwMTkqKg0KDQpgYGB7ciwgZWNobz1GQUxTRX0NCm5ldDIgPC0gbmV0X3NvY19hcnJheVsgLCwgMl0NCmRpYWcobmV0MikgPC0gMA0KDQpuZXQyX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgobmV0MiwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QobmV0Ml9nKQ0KDQpkZWdyZWUgPC0gcm93U3VtcyhuZXQyKQ0Kc3VtbWFyeShkZWdyZWUpDQoNCmBgYA0KDQombmJzcDsNCk9uIGF2ZXJhZ2UsIGluIHBlcmlvZCAyMDE4LTIwMTksIGVnb+KAmXMgaGFkIDAuNjMgdGllcyB3aXRoIG90aGVyIHN0YWZmIG1lbWJlcnMgd2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBVdHJlY2h0IFVuaXZlcnNpdHkgKHNlZSBkZWdyZWVzLCB0YWJsZSAxKS4gVGhlIG1pbmltdW0gbnVtYmVyIG9mIGRlZ3JlZXMgaXMgMCwgdGhlIG1heGltdW0gMS4wNC4NCg0KJm5ic3A7DQoNCioqUGVyaW9kIDIwMjAtMjAyMioqDQoNCiZuYnNwOw0KYGBge3IsIGVjaG89RkFMU0V9DQpuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKG5ldDMpIDwtIDANCg0KbmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KG5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KG5ldDNfZykNCg0KZGVncmVlIDwtIHJvd1N1bXMobmV0MykNCnN1bW1hcnkoZGVncmVlKQ0KDQpgYGANCiZuYnNwOw0KT24gYXZlcmFnZSwgaW4gcGVyaW9kIDIwMjAtMjAyMiwgZWdv4oCZcyBoYWQgMS4xOSB0aWVzIHdpdGggb3RoZXIgc3RhZmYgbWVtYmVycyB3aXRoaW4gdGhlIFNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSAoc2VlIGRlZ3JlZXMsIHRhYmxlIDEpLiBUaGUgbWluaW11bSBudW1iZXIgb2YgZGVncmVlcyBpcyAwLCB0aGUgbWF4aW11bSBudW1iZXIgaXMgNC4wMC4NCg0KJm5ic3A7DQoNCiMjIENvbmNsdXNpb24NCg0KR2VuZXJhbGx5LCBzdGFmZiBtZW1iZXJzIG9mIFJhZGJvdWQgVW5pdmVyc2l0eSBoYXZlIGEgbG90IG1vcmUgY29sbGFib3JhdGlvbiB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCB0aGFuIHN0YWZmIG1lbWJlcnMgb2YgVXRyZWNodCBVbml2ZXJzaXR5Lg0KDQombmJzcDsNCiZuYnNwOw0KDQojIyBFdGhuaWNpdHkgZWdvcw0KV2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiB0aGUgUmFkYm91ZCBVbml2ZXJzaXR5LCAxNS42MyBwZXJjZW50IG9mIHRoZSBzdGFmZiBtZW1iZXJzIGhhcyBhIG5vbi1EdXRjaCBsYXN0IG5hbWUuIFdpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5LCB0aGlzIHBlcmNlbnRhZ2UgaXMgMzEuMjUuIFRoZSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBpcyBtb3JlIGV0aG5pY2FsbHkgZGl2ZXJzZSB0aGFuIHRoZSBkZXBhcnRtZW50IG9mIFJhZGJvdWQgVW5pdmVyc2l0eS4NCg0KJm5ic3A7DQoNCiFbXShpbWFnZXMvdGFiZWwyLnBuZykNCg0KJm5ic3A7DQoNCiMjIEdlbmRlciBlZ29zDQoNCldpdGhpbiB0aGUgU29jaW9sb2d5IGRlcGFydG1lbnQgb2YgdGhlIFJhZGJvdWQgVW5pdmVyc2l0eSwgNTAgcGVyY2VudCBvZiB0aGUgc3RhZmYgbWVtYmVycyBpcyBmZW1hbGUgYW5kIDUwIHBlcmNlbnQgaXMgbWFsZS4gV2l0aGluIHRoZSBTb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBVdHJlY2h0IFVuaXZlcnNpdHksIDQwLjYzIHBlcmNlbnQgb2YgdGhlIHN0YWZmIG1lbWJlcnMgaXMgZmVtYWxlIGFuZCA1OS4zNyBwZXJjZW50IGlzIG1hbGUuIFRoaXMgbWVhbnMgdGhhdCByZWdhcmRpbmcgdG8gZ2VuZGVyLCB0aGUgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkgaXMgbW9yZSBkaXZlcnNlIHRoYW4gdGhlIGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5Lg0KDQohW10oaW1hZ2VzL3RhYmVsMy5wbmcpDQoNCg0KIyMgRXRobmljIGRpdmVyc2l0eSBlZ29uZXQNCg0KT24gYXZlcmFnZSwgdGhlIGVnb25ldHMgb2Ygc3RhZmYgbWVtYmVycyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBoYWQgYW4gZXRobmljIGRpdmVyc2l0eSBvZiAyMy42MSBwZXJjZW50LiBUaGlzIGlzIGxvd2VyIHRoYW4gdGhlIGV0aG5pYyBkaXZlcnNpdHkgb2YgdGhlIGVnb25ldHMgZnJvbSBVdHJlY2h0IFVuaXZlcnNpdHksIHRoYXQgc2NvcmVkIDM1Ljk5IHBlcmNlbnQgb24gYXZlcmFnZS4gVGhlcmVmb3JlLCB3ZSBjYW4gY29uY2x1ZGUgdGhhdCBzb2Npb2xvZ2lzdCBmcm9tIFV0cmVjaHQgVW5pdmVyc2l0eSBnZW5lcmFsbHkgaGF2ZSBhIG1vcmUgZXRobmljYWxseSBkaXZlcnNlIGNvbGxhYm9yYXRpb24gbmV0d29yayB0aGFuIHNvY2lvbG9naXN0cyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eS4NCg0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIsIG1haW49J1JVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnLCB4bGFiPSdQZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRkaXYubmV0LCBjb2w9ImxpZ2h0Ymx1ZSIsIG1haW49J1VVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnLCB4bGFiPSdQZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KJm5ic3A7DQoNCiMjIFllYXIgZmlyc3QgcHVibGljYXRpb24NCk9uIGF2ZXJhZ2UsIHNvY2lvbG9naXN0cyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgaW4gMjAwNyAoc2VlIHRhYmxlIDEpLiBHZW5lcmFsbHksIHNvY2lvbG9naXN0cyBmcm9tIFV0cmVjaHQgVW5pdmVyc2l0eSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgaW4gMjAwNS4NCg0KJm5ic3A7DQpgYGB7ciwgZWNobz1GQUxTRX0NCiNzdGFydCB3aXRoIGNsZWFuIHdvcmtzcGFjZSANCnJtKGxpc3Q9bHMoKSkNCmdldHdkKCkNCg0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQpoaXN0KHNvY19kZiRwdWJfZmlyc3QsIGNvbD0ibGlnaHRibHVlIiwgbWFpbj0nUlU6IHllYXIgZmlyc3QgcHVibGljYXRpb24nLCB4bGFiPSdZZWFyIGZpcnN0IHB1YmxpY2F0aW9uJykNCmBgYA0KDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KI3N0YXJ0IHdpdGggY2xlYW4gd29ya3NwYWNlIA0Kcm0obGlzdD1scygpKQ0KZ2V0d2QoKQ0KDQpsb2FkKCIuL2RhdGEvZGVzY3JpcHRpdmVzL1VVX25ldF9hcnJheV9zeW0uUkRhdGEiKQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9kZnYyLlJEYXRhIikNCmhpc3Qoc29jX2RmJHB1Yl9maXJzdCwgY29sPSJsaWdodGJsdWUiLCBtYWluPSdVVTogeWVhciBmaXJzdCBwdWJsaWNhdGlvbicsIHhsYWI9J1llYXIgZmlyc3QgcHVibGljYXRpb24nKQ0KYGBgDQoNCiZuYnNwOw0KDQojIyBEZW5zaXRpZXMNCkRlbnNpdHkgY29udGFpbnMgYWxsIG9ic2VydmVkIHJlbGF0aW9ucyBkaXZpZGVkIGJ5IGFsbCBwb3NzaWJsZSByZWxhdGlvbnMuDQombmJzcDsNCkZvciBSYWRib3VkIFVuaXZlcnNpdHksIHRoZSBkZW5zaXR5IG9mIG5ldCAxIGNvbnRhaW5zIDAuMDMwLCB0aGUgZGVuc2l0eSBvZiBuZXQgMiAwLjAzNCBhbmQgdGhlIGRlbnNpdHkgb2YgbmV0IDMgMC4wNTYuDQombmJzcDsNCkZvciBVdHJlY2h0IFVuaXZlcnNpdHksIHRoZSBkZW5pc3R5IG9mIG5ldCAxIGlzIDAuMDE4LCBvZiBuZXQgMiAwLjAyMCBhbmQgb2YgbmV0IDMgMC4wMzguDQombmJzcDsNCkZvciBib3RoIHVuaXZlcnNpdGllcywgdGhlIGRlbnNpdHkgb2YgdGhlIGNvbGxhYm9yYXRpb24gbmV0d29ya3Mgd2l0aGluIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudHMgaGFzIGluY3JlYXNlZC4gR2VuZXJhbGx5LCB0aGUgbmV0d29yayB3aXRoaW4gdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBpcyBtb3JlIGRlbnNlIHRoYW4gdGhlIG5ldHdvcmsgd2l0aGluIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiBSYWRib3VkIFVuaXZlcnNpdHkuDQoNCiZuYnNwOw0KDQojIyBJbnRyYS0vaW50ZXJncm91cCBkZW5zaXR5OiBldGhuaWNpdHkNClRvIHN0dWR5IHNlZ3JlZ2F0aW9uIHdpdGhpbiB0aGUgbmV0d29ya3MgYnkgZXRobmljaXR5IG9mIHRoZSBzdGFmZiBtZW1iZXJzLCB0aGUgaW50cmFncm91cCBhbmQgaW50ZXJncm91cCBkZW5zaXRpZXMgYXJlIGNvbXBhcmVkLiANCiZuYnNwOw0KRm9yIGJvdGggUmFkYm91ZCBhbmQgVXRyZWNodCBVbml2ZXJzaXR5LCBwZW9wbGUgd2l0aCB0aGUgc2FtZSBldGhuaWNpdHkgKER1dGNoIG9yIG5vbi1EdXRjaCkgc2VlbSB0byBiZSB3b3JraW5nIHRvZ2V0aGVyIG1vcmUgb2Z0ZW4uIFNlZ3JlZ2F0aW9uIGluIGNvbGxhYm9yYXRpb24gdGllcyBmb3IgZ2VuZGVyIGlzIG9ubHkgcHJlc2VudCBmb3IgVXRyZWNodCBVbml2ZXJzaXR5Lg0KDQohW10oaW1hZ2VzL3RhYmVsNC5wbmcpDQoNCg0KDQoNCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkFuYWx5c2lzIC0gZGVzY3JpcHRpdmVzIg0KYXV0aG9yOiAiYnk6IE5pbmEgQnJhbnRlbiINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCi0tLQ0KDQpgYGB7ciwgaW5zdGFsbCByZW1vdGVseSwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnLCBldmFsPUZBTFNFfQ0KaW5zdGFsbC5wYWNrYWdlcygicmVtb3RlcyIpDQpyZW1vdGVzOjppbnN0YWxsX2dpdGh1Yigicmxlc3VyL2tsaXBweSIpDQpgYGAgDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRSwgcmVzdWx0cz0naGlkZSd9DQpsaWJyYXJ5KGtuaXRyKQ0KbGlicmFyeShyZ2wpDQoNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KI3N0YXJ0IHdpdGggY2xlYW4gd29ya3NwYWNlIA0Kcm0obGlzdD1scygpKQ0KZ2V0d2QoKQ0KYGBgDQombmJzcDsNCg0KIyBEZXNjcmlwdGl2ZXMgUmFkYm91ZCBVbml2ZXJzaXR5DQoNCmBgYHtyfQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9SVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvUlVfZGZ2Mi5SRGF0YSIpDQpgYGANCg0KYGBge3J9DQojIGNvbnN0cnVjdCBkeWFkY2hhcmFjdGVyaXN0aWMgd2hldGhlciBub2RlcyBhcmUgc2ltaWxhci9ob21vZ2Vub3VzDQpmaG9tb21hdCA8LSBmdW5jdGlvbih4KSB7DQogICAgIyB4IGlzIGEgdmVjdG9yIG9mIG5vZGUtY292YXJpYXRlDQogICAgeG1hdCA8LSBtYXRyaXgoeCwgbnJvdyA9IGxlbmd0aCh4KSwgbmNvbCA9IGxlbmd0aCh4KSkNCiAgICB4bWF0dCA8LSB0KHhtYXQpDQogICAgeGhvbW8gPC0geG1hdCA9PSB4bWF0dA0KICAgIHJldHVybih4aG9tbykNCn0NCg0KIyBhIGZ1bmN0aW9uIHRvIGNhbGN1bGF0ZSBhbGwgdmFsaWQgZHlhZHMuDQpmbmR5YWRzIDwtIGZ1bmN0aW9uKHgpIHsNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIChzdW0oKHggPT0gMSB8IHggPT0gMCksIG5hLnJtID0gVCkpDQp9DQoNCiMgYSBmdW5jdGlvbiB0byBjYWxjdWxhdGUgYWxsIHZhbGlkIGludHJhZ3JvdXBkeWFkcy4NCmZuZHlhZHMyIDwtIGZ1bmN0aW9uKHgsIEEpIHsNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIGRpYWcoQSkgPC0gTkENCiAgICAoc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSA9PSAxLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGRlbnNpdHk6IG9ic2VydmVkIHJlbGF0aW9ucyBkaXZpZGVkIGJ5IHBvc3NpYmxlIHJlbGF0aW9ucw0KZmRlbnNpdHkgPC0gZnVuY3Rpb24oeCkgew0KICAgICMgeCBpcyB5b3VyIG5vbWluYXRpb24gbmV0d29yayBtYWtlIHN1cmUgZGlhZ29uYWwgY2VsbHMgYXJlIE5BDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgICMgdGFrZSBjYXJlIG9mIFJTaWVuYSBzdHJ1Y3R1cmFsIHplcm9zLCBzZXQgYXMgbWlzc2luZy4NCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgc3VtKHggPT0gMSwgbmEucm0gPSBUKS8oc3VtKHggPT0gMSB8IHggPT0gMCwgbmEucm0gPSBUKSkNCn0NCg0KIyBjYWxjdWxhdGUgaW50cmFncm91cCBkZW5zaXR5DQpmZGVuc2l0eWludHJhIDwtIGZ1bmN0aW9uKHgsIEEpIHsNCiAgICAjIEEgaXMgbWF0cml4IGluZGljYXRpbmcgd2hldGhlciBub2RlcyBpbiBkeWFkIGhhdmUgc2FtZSBub2RlIGF0dHJpYnV0ZXMNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIGRpYWcoQSkgPC0gTkENCiAgICBzdW0oeCA9PSAxICYgQSA9PSAxLCBuYS5ybSA9IFQpLyhzdW0oKHggPT0gMSB8IHggPT0gMCkgJiBBID09IDEsIG5hLnJtID0gVCkpDQp9DQoNCiMgY2FsY3VsYXRlIGludGVyZ3JvdXAgZGVuc2l0eQ0KZmRlbnNpdHlpbnRlciA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgIyBBIGlzIG1hdHJpeCBpbmRpY2F0aW5nIHdoZXRoZXIgbm9kZXMgaW4gZHlhZCBoYXZlIHNhbWUgbm9kZSBhdHRyaWJ1dGVzDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgc3VtKHggPT0gMSAmIEEgIT0gMSwgbmEucm0gPSBUKS8oc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSAhPSAxLCBuYS5ybSA9IFQpKQ0KfQ0KYGBgDQoNCiMjIERlc2NyaXB0aXZlcyBvZiB0aGUgdmFyaWFibGVzDQoNCiZuYnNwOw0KDQojIyMgRXRobmljaXR5IGVnb3MNCmBgYHtyfQ0Kc3VtbWFyeShzb2NfZGYkZGl2LmVnbykNCnRhYmxlKHNvY19kZiRkaXYuZWdvKQ0KDQojIGhpc3RvZ3JhbSBldGhuaWNpdHkgZWdvcw0KbGlicmFyeShnZ3Bsb3QyKQ0KI2luc3RhbGwucGFja2FnZXMoInBsb3RseSIpDQpsaWJyYXJ5KHBsb3RseSkNCg0KY29sbmFtZXMoc29jX2RmKSA8LSBtYWtlLnVuaXF1ZShuYW1lcyhzb2NfZGYpKQ0KDQpiYXJldG5pcnUgPC0gZ2dwbG90Mjo6OmdncGxvdChzb2NfZGYsIGFlcyhmYWN0b3IoZGl2LmVnbyksIGZpbGwgPSBmYWN0b3IoZGl2LmVnbykpKSArIGdlb21fYmFyKCkNCmJhcmV0bmlydSA8LSBiYXJldG5pcnUgKyBzY2FsZV9maWxsX21hbnVhbCh2YWx1ZXM9YygiIzU2QjRFOSIsICIjNjZmZjk5IikpDQpnZ3Bsb3RseShiYXJldG5pcnUgKyBnZ3RpdGxlKCJSVTogZ2VuZGVyIHNvY2lvbG9neSBzdGFmZiIpKQ0KYGBgDQpXaXRoaW4gdGhlIGRlcGFydG1lbnQgb2YgU29jaW9sb2d5IGF0IHRoZSBSYWRib3VkIFVuaXZlcnNpdHksIDEyLjkwIHBlcmNlbnQgb2YgdGhlIGVnbydzIGhhcyBhIG5vbi1EdXRjaCBsYXN0IG5hbWUgYW5kIDg3LjEwIHBlcmNlbnQgaGFzIGEgRHV0Y2ggbGFzdCBuYW1lICh0YWJsZSAyKS4NCg0KIyMjIEdlbmRlciBlZ29zDQpgYGB7cn0NCnRhYmxlKHNvY19kZiRnZW5kZXIpDQojIFZpc3VhbGlzYXRpb24gb2YgdGhlIGV0aG5pY2l0eWNvbXBvc2l0aW9uIG9mIHRoZSB0aHJlZSB3YXZlcw0KDQojIGhpc3RvZ3JhbSBvZiB0aGUgZ2VuZGVyY29tcG9zaXRpb24NCg0KYmFyZ2VuZGVycnUgPC0gZ2dwbG90Mjo6OmdncGxvdChzb2NfZGYsIGFlcyhmYWN0b3IoZ2VuZGVyKSwgZmlsbCA9IGZhY3RvcihnZW5kZXIpKSkgKyBnZW9tX2JhcigpDQpiYXJnZW5kZXJydSA8LSBiYXJnZW5kZXJydSArIHNjYWxlX2ZpbGxfbWFudWFsKHZhbHVlcz1jKCIjNTZCNEU5IiwgIiM2NmZmOTkiKSkNCmdncGxvdGx5KGJhcmdlbmRlcnJ1ICsgZ2d0aXRsZSgiUlU6IEdlbmRlciBzb2Npb2xvZ3kgc3RhZmYiKSkgDQoNCg0KYGBgDQpUaGUgZ2VuZGVyIG9mIHNvY2lvbG9naXN0cyB3b3JraW5nIGF0IHRoZSBSYWRib3VkIFVuaXZlcnNpdHkgaXMgbXVjaCBtb3JlIGVxdWFsLiA0OC4zOSBwZXJjZW50IGlzIGZlbWFsZSBhbmQgNTEuNjEgcGVyY2VudCBpcyBtYWxlICh0YWJsZSAzKS4NCg0KIyMjIFBlcmNlbnRhZ2Ugbm9uLUR1dGNoIGNvbGxhYm9yYXRvcnMNCg0KYGBge3J9DQpzdW1tYXJ5KHNvY19kZiRkaXYubmV0KQ0Kc2Qoc29jX2RmJGRpdi5uZXQsIG5hLnJtPVRSVUUpDQoNCmhpc3Qoc29jX2RmJGRpdi5uZXQsIGNvbD0ibGlnaHRzZWFncmVlbiIsIG1haW49J1JVOiBldGhuaWMgZGl2ZXJzaXR5IGVnb25ldHMnKQ0KYGBgDQoNCiZuYnNwOw0KDQpPbiBhdmVyYWdlLCBzb2Npb2xvZ3kgc3RhZmYgbWVtYmVycyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBoYWQgMjIuODUgcGVyY2VudCBvZiBub24tRHV0Y2ggY29sbGFib3JhdG9ycyBpbiB0aGVpciBlZ29uZXQgKHRhYmxlIDEpLiBGdXJ0aGVybW9yZSwgdGhlIGhpc3RvZ3JhbSBpcyByaWdodC1za2V3ZWQ6IG1vc3Qgc2Nob2xhcnMgaGFkIGEgcGVyY2VudGFnZSBiZXR3ZWVuIHRoZSAwIGFuZCAyMC4NCg0KIyMjIFllYXIgZmlyc3QgcHVibGljYXRpb24NCg0KYGBge3J9DQpzdW1tYXJ5KHNvY19kZiRwdWJfZmlyc3QpDQpzZChzb2NfZGYkcHViX2ZpcnN0LCBuYS5ybT1UUlVFKQ0KaGlzdChzb2NfZGYkcHViX2ZpcnN0LCBjb2w9ImxpZ2h0c2VhZ3JlZW4iLCBtYWluPSdSVTogZmlyc3QgcHVibGljYXRpb24gZWdvJywgeGxhYj0neWVhciBvZiBmaXJzdCBwdWJsaWNhdGlvbicpDQpgYGANCg0KJm5ic3A7DQoNCk9uIGF2ZXJhZ2UsIHNvY2lvbG9naXN0cyBmcm9tIFJhZGJvdWQgVW5pdmVyc2l0eSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgaW4gMjAwNyAodGFibGUgMSkuIFRoZSBvbGRlc3QgZmlyc3QgcHVibGljYXRpb24gb2YgYW4gZWdvIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCBpcyBmcm9tIDE5NzAsIHRoZSBuZXdlc3QgZmlyc3QgcHVibGljYXRpb24gaXMgZnJvbSAyMDE5LiBUaGUgaGlzdG9ncmFtIGlzIHNrZXdlZCB0byB0aGUgbGVmdDogbW9zdCBzY2hvbGFycyBmcm9tIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCBhcmUgcmVsYXRpdmVseSBuZXcgYW5kIGhhdmUgcHVibGlzaGVkIHRoZWlyIGZpcnN0IHBhcGVyIHNvbWV3aGVyZSBkdXJpbmcgdGhlIGxhc3QgZGVjYWRlLg0KDQombmJzcDsNCg0KIyMgTmV0d29yayBkZXNjcmlwdGl2ZXMNCiMjIyBQbG90cyBvZiB0aGUgbmV0d29yaw0KVGhlIHNpemUgb2YgdGhlIHZlcnRleGVzIGlzIGJhc2VkIG9uIHRoZSBwZXJjZW50YWdlIG9mIG5vbi1EdXRjaCBsYXN0IG5hbWVzIGluIHRoZSBlZ28ncyBuZXR3b3JrLiBUaGUgaGlnaGVyIHRoZSB2ZXJ0ZXgsIHRoZSBoaWdoZXIgdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvLWF1dGhvcnMuDQpUaGUgY29sb3VyIG9mIHRoZSB2ZXJ0ZXggbGFiZWwgaXMgYmFzZWQgb24gdGhlIGV0aG5pY2l0eSBvZiB0aGUgZWdvcyB0aGVtc2VsdmVzLiBCbGFjayBtZWFucyBhIER1dGNoIGxhc3QgbmFtZSwgcmVkIGEgbm9uLUR1dGNoIGxhc3QgbmFtZS4NCg0KYGBge3J9DQojIFBFUklPRCAyMDE2LTIwMTcNCnJ1bmV0MSA8LSBuZXRfc29jX2FycmF5WyAsLCAxXQ0KZGlhZyhydW5ldDEpIDwtIDANCg0KI2NoYW5naW5nIGNvbG91ciBiYXNlZCBvbiBkaXZlcnNpdHkgb2YgbmV0d29yay4NCg0Kc29jX2RmJGdjb2wgPC0gaWZlbHNlKHNvY19kZiRkaXYuZWdvID09ICIxIiwgImJsYWNrIiwgIm1hZ2VudGE0IikNCg0KcnVuZXQxX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgocnVuZXQxLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdChydW5ldDFfZywgdmVydGV4LmxhYmVsID0gc29jX2RmJGxhc3RuYW1lLCB2ZXJ0ZXgubGFiZWwuY29sb3IgPSBzb2NfZGYkZ2NvbCwgdmVydGV4LnNpemUgPSBzb2NfZGYkZGl2Lm5ldCowLjIsIHZlcnRleC5jb2xvciA9ICJtZWRpdW10dXJxdW9pc2UiLCB2ZXJ0ZXgubGFiZWwuc2l6ZSA9IDAuNSwgdmVydGV4LmxhYmVsLmNleCA9IDAuNiwgZWRnZS5jdXJ2ZWQgPSAwLjIsIGVkZ2UuYXJyb3cuc2l6ZSA9IDEuNykNCg0KIyBQRVJJT0QgMjAxOC0yMDE5DQpydW5ldDIgPC0gbmV0X3NvY19hcnJheVsgLCwgMl0NCmRpYWcocnVuZXQyKSA8LSAwDQoNCnJ1bmV0Ml9nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KHJ1bmV0MiwgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QocnVuZXQyX2csIHZlcnRleC5sYWJlbCA9IHNvY19kZiRsYXN0bmFtZSwgdmVydGV4LmxhYmVsLmNvbG9yID0gc29jX2RmJGdjb2wsIHZlcnRleC5zaXplID0gc29jX2RmJGRpdi5uZXQqMC4yLCB2ZXJ0ZXguY29sb3IgPSAibWVkaXVtdHVycXVvaXNlIiwgdmVydGV4LmxhYmVsLnNpemUgPSAwLjUsIHZlcnRleC5sYWJlbC5jZXggPSAwLjYsIGVkZ2UuY3VydmVkID0gMC4yLCBlZGdlLmFycm93LnNpemUgPSAxLjcpDQoNCiMgUEVSSU9EIDIwMjAtMjAyMg0KcnVuZXQzIDwtIG5ldF9zb2NfYXJyYXlbICwsIDNdDQpkaWFnKHJ1bmV0MykgPC0gMA0KDQpydW5ldDNfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeChydW5ldDMsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KHJ1bmV0M19nLCB2ZXJ0ZXgubGFiZWwgPSBzb2NfZGYkbGFzdG5hbWUsIHZlcnRleC5sYWJlbC5jb2xvciA9IHNvY19kZiRnY29sLCB2ZXJ0ZXguc2l6ZSA9IHNvY19kZiRkaXYubmV0KjAuMiwgdmVydGV4LmNvbG9yID0gIm1lZGl1bXR1cnF1b2lzZSIsIHZlcnRleC5sYWJlbC5zaXplID0gMC41LCB2ZXJ0ZXgubGFiZWwuY2V4ID0gMC42LCBlZGdlLmN1cnZlZCA9IDAuMiwgZWRnZS5hcnJvdy5zaXplID0gMS43KQ0KDQpgYGANCg0KJm5ic3A7DQoNCkZyb20gdGhlIHBsb3RzIG9mIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiB0aGUgUmFkYm91ZCBVbml2ZXJzaXR5LCB3ZSBjYW4gc2VlIHRoYXQgdGhlIG51bWJlciBvZiBwZW9wbGUgY28tcHVibGlzaGluZyB3aXRoaW4gdGhlIGRlcGFydG1lbnQgaW5jcmVhc2VzIG92ZXIgdGhlIHllYXIuIFRoaXMgY2FuIGJlIGV4cGxhaW5lZCBieSB0aGUgZmFjdCB0aGF0IHlvdW5nZXIgc29jaW9sb2dpc3RzIGRpZCBub3QgeWV0IHdvcmsgYXQgdGhlIHVuaXZlcnNpdHkgaW4gdGhlIGVhcmxpZXIgcGVyaW9kcywgc28gdGhleSBjb3VsZCBhbHNvIG5vdCBoYXZlIHdvcmtlZCB0b2dldGhlci4gS3JhYXlrYW1wIGhhcyB0aGUgaGlnaGVzdCBudW1iZXIgb2YgY28tYXV0aG9yczogdGhpcyBpcyBhIHNjaG9sYXIgd2hvIGhhcyBiZWVuIGFjdGl2ZSBpbiB0aGUgZGVwYXJ0bWVudCBmb3IgYSBsb25nZXIgdGltZSwgZXhwbGFpbmluZyB0aGUgaGlnaGVyIG51bWJlciBvZiBjby1hdXRob3JzLg0KJm5ic3A7DQogDQojIyMgRGVncmVlcw0KDQpgYGB7cn0NCiMgRGVncmVlcw0KZGVncmVlIDwtIHJvd1N1bXMocnVuZXQxKQ0Kc3VtbWFyeShkZWdyZWUpDQpzZChkZWdyZWUpDQpoaXN0KGRlZ3JlZSwgY29sPSJsaWdodHNlYWdyZWVuIiwgbWFpbj0nUlU6IGRlZ3JlZSBkaXN0cmlidXRpb24gd2F2ZSAxJywgeGxhYj0nbnVtYmVyIG9mIHRpZXMnKQ0KYGBgDQoNCiZuYnNwOw0KDQoNCmBgYHtyfQ0KZGVncmVlIDwtIHJvd1N1bXMocnVuZXQyKQ0Kc3VtbWFyeShkZWdyZWUpDQpzZChkZWdyZWUpDQpoaXN0KGRlZ3JlZSwgY29sPSJsaWdodHNlYWdyZWVuIiwgbWFpbj0nUlU6IGRlZ3JlZSBkaXN0cmlidXRpb24gd2F2ZSAyJywgeGxhYj0nbnVtYmVyIG9mIHRpZXMnKQ0KDQpgYGANCg0KDQpgYGB7cn0NCiMgRGVncmVlcw0KZGVncmVlIDwtIHJvd1N1bXMocnVuZXQzKQ0Kc3VtbWFyeShkZWdyZWUpDQpzZChkZWdyZWUpDQpoaXN0KGRlZ3JlZSwgY29sPSJsaWdodHNlYWdyZWVuIiwgbWFpbj0nUlU6IGRlZ3JlZSBkaXN0cmlidXRpb24gd2F2ZSAzJywgeGxhYj0nbnVtYmVyIG9mIHRpZXMnKQ0KDQpgYGANCg0KJm5ic3A7DQoNClRoZSBudW1iZXIgb2YgdGllcyB3aXRoaW4gdGhlIGRlcGFydG1lbnQgb2YgdGhlIFJhZGJvdWQgVW5pdmVyc2l0eSBpbmNyZWFzZXMgb3ZlciB3YXZlcywgYXMgd2FzIGFsc28gdmlzaWJsZSBpbiB0aGUgcGxvdHMuIFRoZSBhdmVyYWdlIG51bWJlciBvZiB0aWVzIGluY3JlYXNlZCBmcm9tIDAuOTcgdGllcyBpbiAyMDE2LTIwMTcsIHRvIDEuMDk3IHRpZXMgaW4gMjAxOC0yMDE5IGFuZCAxLjgwNiB0aWVzIGluIDIwMjAtMjAyMi4gDQombmJzcDsNCkZ1cnRoZXJtb3JlLCB3ZSBzZWUgdGhhdCB0aGUgaGlzdG9ncmFtcyBvZiBkZWdyZWVzIGFyZSByaWdodC1za2V3ZWQ6IG1vc3Qgc2Nob2xhcnMgZG8gbm90IGhhdmUgbWFueSB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudC4gSG93ZXZlciwgdGhlIGRpc3RyaWJ1dGlvbiBiZWNvbWVzIGxlc3Mgc2tld2VkIG92ZXIgdGhlIHdhdmVzLiANCg0KIyMjIERlbnNpdGllcw0KYGBge3J9DQpydW5ldF91bmQxIDwtIHJ1bmV0MSArIHQocnVuZXQxKQ0KcnVuZXRfdW5kMVtydW5ldF91bmQxPT0yXSA8LSAxDQpzdW0ocnVuZXRfdW5kMSwgbmEucm09VFJVRSkNCmZkZW5zaXR5KHJ1bmV0MSkNCnJ1bmV0X3VuZDEgPC0gcnVuZXQxICsgdChydW5ldDEpDQpydW5ldF91bmQxW3J1bmV0X3VuZDE9PTJdIDwtIDENCg0KcnVuZXRfdW5kMiA8LSBydW5ldDIgKyB0KHJ1bmV0MikNCnJ1bmV0X3VuZDJbcnVuZXRfdW5kMj09Ml0gPC0gMQ0Kc3VtKHJ1bmV0X3VuZDIsIG5hLnJtPVRSVUUpDQpmZGVuc2l0eShydW5ldDIpDQpydW5ldF91bmQyIDwtIHJ1bmV0MiArIHQocnVuZXQyKQ0KcnVuZXRfdW5kMltydW5ldF91bmQyPT0yXSA8LSAxDQoNCnJ1bmV0X3VuZDMgPC0gcnVuZXQzICsgdChydW5ldDMpDQpydW5ldF91bmQzW3J1bmV0X3VuZDM9PTJdIDwtIDENCnN1bShydW5ldF91bmQzLCBuYS5ybT1UUlVFKQ0KZmRlbnNpdHkocnVuZXQzKQ0KcnVuZXRfdW5kMyA8LSBydW5ldDMgKyB0KHJ1bmV0MykNCnJ1bmV0X3VuZDNbcnVuZXRfdW5kMz09Ml0gPC0gMQ0KYGBgDQpEZW5zaXR5IGNvbnRhaW5zIGFsbCBvYnNlcnZlZCByZWxhdGlvbnMgZGl2aWRlZCBieSBhbGwgcG9zc2libGUgcmVsYXRpb25zLg0KJm5ic3A7DQpUaGUgbmV0d29yayBvZiB3YXZlIDEgY29udGFpbnMgMzAgZHlhZHMuIFRoZSBudW1iZXIgb2YgZHlhZHMgaXMgcmVsYXRpdmVseSBsb3cgdG8gdGhlIG51bWJlciBvZiBkeWFkcyB3aGljaCBhcmUgcG9zc2libGUsIGFzIHRoZSBlZGdlIGRlbnNpdHkgY29udGFpbnMgMC4wMzIuIFdhdmUgMiBjb25zaXN0cyBvZiBhIGxpdHRsZSBiaXQgbW9yZSBkeWFkczogMzQuIEhvd2V2ZXIsIHRoZSBlZGdlIGRlbnNpdHkgb2YgMC4wMzcgaXMgc3RpbGwgcmVsYXRpdmVseSBsb3cuIFdlIHNlZSBhIHN0cm9uZyBpbmNyZWFzZSBpbiBkZW5zaXR5IGluIHdhdmUgMzogdGhlcmUgYXJlIDU2IGR5YWRzIGFuZCB0aGUgZWRnZSBkZW5zaXR5IGNvbnRhaW5zIDAuMDYwLg0KDQombmJzcDsNCg0KIyMjIEludGVyLS9pbnRyYWdyb3VwIGRlbnNpdHkgZXRobmljaXR5DQoNCiZuYnNwOw0KDQoqKkludGVyZ3JvdXAqKg0KDQpgYGB7cn0NCmRpdl9tIDwtICBmaG9tb21hdChzb2NfZGYkZGl2LmVnbykNCg0KZmRlbnNpdHlpbnRlcih4PXJ1bmV0X3VuZDEsIEE9ZGl2X20pDQpmZGVuc2l0eWludGVyKHg9cnVuZXRfdW5kMiwgQT1kaXZfbSkNCmZkZW5zaXR5aW50ZXIoeD1ydW5ldF91bmQzLCBBPWRpdl9tKQ0KYGBgDQoNCiZuYnNwOw0KDQoqKkludHJhZ3JvdXAqKg0KDQpgYGB7cn0NCmZkZW5zaXR5aW50cmEoeD1ydW5ldF91bmQxLCBBPWRpdl9tKSANCmZkZW5zaXR5aW50cmEoeD1ydW5ldF91bmQyLCBBPWRpdl9tKSANCmZkZW5zaXR5aW50cmEoeD1ydW5ldF91bmQzLCBBPWRpdl9tKQ0KYGBgDQoNCiZuYnNwOw0KDQpUaGUgaW50ZXJncm91cCBkZW5zaXR5IHNob3dzIHRoZSBkZW5zaXR5IGJldHdlZW4gdGhlIHR3byBkaWZmZXJlbnQgZXRobmljIGdyb3VwcyAoRHV0Y2ggb3Igbm9uLUR1dGNoKS4gVGhlIGludHJhZ3JvdXAgZGVuc2l0eSBjb250YWlucyB0aGUgZGVuc2l0eSBvZiBzY2hvbGFycyBmcm9tIHRoZSBzYW1lIGV0aG5pYyBncm91cCAoRHV0Y2ggb3Igbm9uLUR1dGNoKS4gQm90aCB0aGUgaW50ZXJncm91cCBhbmQgaW50cmFncm91cCBkZW5zaXRpZXMgaW5jcmVhc2Ugb3ZlciB0aGUgd2F2ZXMuIEdlbmVyYWxseSwgdGhlIGludGVyZ3JvdXAgZGVuc2l0aWVzIGFyZSBsb3dlciB0aGFuIHRoZSBpbnRyYWdyb3VwIGRlbnNpdGllcy4gVGhpcyBtZWFucyB0aGF0IHNvY2lvbG9naXN0cyBmcm9tIHRoZSBSYWRib3VkIFVuaXZlcnNpdHkgYXJlIG1vcmUgbGlrZWx5IHRvIGNvbGxhYm9yYXRlIHdpdGggcGVvcGxlIGZyb20gdGhlIHNhbWUgZXRobmljIGJhY2tncm91bmQgKER1dGNoIG9yIG5vbi1EdXRjaCkgYW5kIGV0aG5pYyBzZWdyZWdhdGlvbiBtaWdodCBiZSB2aXNpYmxlLg0KDQombmJzcDsNCg0KIyMjIEludGVyLS9pbnRyYWdyb3VwIGRlbnNpdHkgZ2VuZGVyDQoNCiZuYnNwOw0KDQoqKkludGVyZ3JvdXAqKg0KDQpgYGB7cn0NCmdlbmRlcl9tIDwtICBmaG9tb21hdChzb2NfZGYkZ2VuZGVyKQ0KDQpmZGVuc2l0eWludGVyKHg9cnVuZXRfdW5kMSwgQT1nZW5kZXJfbSkNCmZkZW5zaXR5aW50ZXIoeD1ydW5ldF91bmQyLCBBPWdlbmRlcl9tKQ0KZmRlbnNpdHlpbnRlcih4PXJ1bmV0X3VuZDMsIEE9Z2VuZGVyX20pDQpgYGANCg0KJm5ic3A7DQoNCioqSW50cmFncm91cCoqDQoNCmBgYHtyfQ0KZmRlbnNpdHlpbnRyYSh4PXJ1bmV0X3VuZDEsIEE9Z2VuZGVyX20pIA0KZmRlbnNpdHlpbnRyYSh4PXJ1bmV0X3VuZDIsIEE9Z2VuZGVyX20pIA0KZmRlbnNpdHlpbnRyYSh4PXJ1bmV0X3VuZDMsIEE9Z2VuZGVyX20pDQpgYGANCg0KJm5ic3A7DQoNCldoaWxzdCB0aGUgaW50ZXJncm91cCBkZW5zaXRpZXMgaW5jcmVhc2Ugb3ZlciB0aGUgd2F2ZXMsIHRoaXMgaXMgbm90IHRoZSBjYXNlIGZvciB0aGUgaW50cmFncm91cCBkZW5zaXRpZXMuIEJlY2F1c2UgdGhlIGludGVyZ3JvdXAgZGVuc2l0aWVzIGFyZSBsb3dlciB0aGFuIHRoZSBpbnRyYWdyb3VwIGRlbnNpdGllcywgb25lIGNvdWxkIHN0YXRlIHRoYXQgdGhlcmUgaXMgZ2VuZGVyIHNlZ3JlZ2F0aW9uOiBzb2Npb2xvZ2lzdHMgZnJvbSBSYWRib3VkIFVuaXZlcnNpdHkgYXJlIG1vcmUgbGlrZWx5IHRvIGNvbGxhYm9yYXRlIHdpdGggc2Nob2xhcnMgZnJvbSB0aGUgc2FtZSBnZW5kZXIuDQoNCiZuYnNwOw0KDQojIyMgVHJhbnNpdGl2aXR5DQpgYGB7cn0NCmlncmFwaDo6dHJhbnNpdGl2aXR5KHJ1bmV0MV9nKQ0KaWdyYXBoOjp0cmFuc2l0aXZpdHkocnVuZXQyX2cpDQppZ3JhcGg6OnRyYW5zaXRpdml0eShydW5ldDNfZykNCmBgYA0KDQombmJzcDsNCg0KTGFzdCwgYXMgb3VyIG5ldHdvcmsgaXMgdW5kaXJlY3RlZCwgdGhlIHRyYW5zaXRpdml0eSBlZmZlY3RzIGlzIHRoZSBzYW1lIGFzIHRoZSBjbHVzdGVyaW5nIGluZGV4OiB0aGUgb2JzZXJ2ZWQgdGllcyBiZXR3ZWVuIGFsbCBkaXJlY3RlZCBuZWlnaGJvdXJzIGRpdmlkZWQgYnkgYWxsIHBvc3NpYmxlIHRpZXMgYmV0d2VlbiBhbGwgZGlyZWN0ZWQgbmVpZ2hib3VycyAoVG9sc21hICYgSG9mc3RyYSwgMjAyMSkuIEluIG90aGVyIHdvcmRzLCBpdCBpbmRpY2F0ZXMgdG8gd2hhdCBleHRlbnQgdGhlIHNjaG9sYXJzIGNsdXN0ZXIgdG9nZXRoZXIuIFRoZSB0cmFuc2l0aXZpdHkgaXMgdGhlIGhpZ2hlc3QgaW4gdGhlIGZpcnN0IHdhdmUgYW5kIGNvbnRhaW5zIDAuNDI5LiBUaGlzIG1lYW5zIHRoYXQgd2hlbiBzY2hvbGFyIEEgaXMgY29sbGFib3JhdGluZyB3aXRoIHNjaG9sYXIgQiBhbmQgQywgdGhlIHByb2JhYmlsaXR5IG9mIEIgYW5kIEMgcHVibGlzaGluZyB0b2dldGhlciBpcyAwLjQyOS4gVGhlIHRyYW5zaXRpdml0eSBvZiB3YXZlIDIgY29udGFpbnMgMC4zMTkgYW5kIG9mIHdhdmUgMyAwLjM5Ny4NCkFsdGhvdWdoIHRoZSB0cmFuc2l0aXZpdHkgY2hhbmdlcyBvdmVyIHRoZSB5ZWFycywgbm8gbGluZWFyIGVmZmVjdCBjYW4gYmUgZm91bmQuIA0KDQoNCg0KIyBEZXNjcmlwdGl2ZXMgVXRyZWNodCBVbml2ZXJzaXR5DQoNCmBgYHtyfQ0KI3N0YXJ0IHdpdGggY2xlYW4gd29ya3NwYWNlIA0Kcm0obGlzdD1scygpKQ0KZ2V0d2QoKQ0KYGBgDQoNCg0KJm5ic3A7DQoNCmBgYHtyLCBlY2hvPUZBTFNFfQ0KbG9hZCgiLi9kYXRhL2Rlc2NyaXB0aXZlcy9VVV9uZXRfYXJyYXlfc3ltLlJEYXRhIikNCmxvYWQoIi4vZGF0YS9kZXNjcmlwdGl2ZXMvVVVfZGZ2Mi5SRGF0YSIpDQpgYGANCg0KYGBge3J9DQojIGNvbnN0cnVjdCBkeWFkY2hhcmFjdGVyaXN0aWMgd2hldGhlciBub2RlcyBhcmUgc2ltaWxhci9ob21vZ2Vub3VzDQpmaG9tb21hdCA8LSBmdW5jdGlvbih4KSB7DQogICAgIyB4IGlzIGEgdmVjdG9yIG9mIG5vZGUtY292YXJpYXRlDQogICAgeG1hdCA8LSBtYXRyaXgoeCwgbnJvdyA9IGxlbmd0aCh4KSwgbmNvbCA9IGxlbmd0aCh4KSkNCiAgICB4bWF0dCA8LSB0KHhtYXQpDQogICAgeGhvbW8gPC0geG1hdCA9PSB4bWF0dA0KICAgIHJldHVybih4aG9tbykNCn0NCg0KIyBhIGZ1bmN0aW9uIHRvIGNhbGN1bGF0ZSBhbGwgdmFsaWQgZHlhZHMuDQpmbmR5YWRzIDwtIGZ1bmN0aW9uKHgpIHsNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIChzdW0oKHggPT0gMSB8IHggPT0gMCksIG5hLnJtID0gVCkpDQp9DQoNCiMgYSBmdW5jdGlvbiB0byBjYWxjdWxhdGUgYWxsIHZhbGlkIGludHJhZ3JvdXBkeWFkcy4NCmZuZHlhZHMyIDwtIGZ1bmN0aW9uKHgsIEEpIHsNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIGRpYWcoQSkgPC0gTkENCiAgICAoc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSA9PSAxLCBuYS5ybSA9IFQpKQ0KfQ0KDQojIGRlbnNpdHk6IG9ic2VydmVkIHJlbGF0aW9ucyBkaXZpZGVkIGJ5IHBvc3NpYmxlIHJlbGF0aW9ucw0KZmRlbnNpdHkgPC0gZnVuY3Rpb24oeCkgew0KICAgICMgeCBpcyB5b3VyIG5vbWluYXRpb24gbmV0d29yayBtYWtlIHN1cmUgZGlhZ29uYWwgY2VsbHMgYXJlIE5BDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgICMgdGFrZSBjYXJlIG9mIFJTaWVuYSBzdHJ1Y3R1cmFsIHplcm9zLCBzZXQgYXMgbWlzc2luZy4NCiAgICB4W3ggPT0gMTBdIDwtIE5BDQogICAgc3VtKHggPT0gMSwgbmEucm0gPSBUKS8oc3VtKHggPT0gMSB8IHggPT0gMCwgbmEucm0gPSBUKSkNCn0NCg0KIyBjYWxjdWxhdGUgaW50cmFncm91cCBkZW5zaXR5DQpmZGVuc2l0eWludHJhIDwtIGZ1bmN0aW9uKHgsIEEpIHsNCiAgICAjIEEgaXMgbWF0cml4IGluZGljYXRpbmcgd2hldGhlciBub2RlcyBpbiBkeWFkIGhhdmUgc2FtZSBub2RlIGF0dHJpYnV0ZXMNCiAgICBkaWFnKHgpIDwtIE5BDQogICAgeFt4ID09IDEwXSA8LSBOQQ0KICAgIGRpYWcoQSkgPC0gTkENCiAgICBzdW0oeCA9PSAxICYgQSA9PSAxLCBuYS5ybSA9IFQpLyhzdW0oKHggPT0gMSB8IHggPT0gMCkgJiBBID09IDEsIG5hLnJtID0gVCkpDQp9DQoNCiMgY2FsY3VsYXRlIGludGVyZ3JvdXAgZGVuc2l0eQ0KZmRlbnNpdHlpbnRlciA8LSBmdW5jdGlvbih4LCBBKSB7DQogICAgIyBBIGlzIG1hdHJpeCBpbmRpY2F0aW5nIHdoZXRoZXIgbm9kZXMgaW4gZHlhZCBoYXZlIHNhbWUgbm9kZSBhdHRyaWJ1dGVzDQogICAgZGlhZyh4KSA8LSBOQQ0KICAgIHhbeCA9PSAxMF0gPC0gTkENCiAgICBkaWFnKEEpIDwtIE5BDQogICAgc3VtKHggPT0gMSAmIEEgIT0gMSwgbmEucm0gPSBUKS8oc3VtKCh4ID09IDEgfCB4ID09IDApICYgQSAhPSAxLCBuYS5ybSA9IFQpKQ0KfQ0KYGBgDQoNCiMjIERlc2NyaXB0aXZlcyBvZiB0aGUgdmFyaWFibGVzDQoNCiZuYnNwOw0KDQojIyMgRXRobmljaXR5IGVnb3MNCmBgYHtyfQ0Kc3VtbWFyeShzb2NfZGYkZGl2LmVnbykNCnRhYmxlKHNvY19kZiRkaXYuZWdvKQ0KDQojIGhpc3RvZ3JhbSBldGhuaWNpdHkgZWdvcw0KbGlicmFyeShnZ3Bsb3QyKQ0KI2luc3RhbGwucGFja2FnZXMoInBsb3RseSIpDQpsaWJyYXJ5KHBsb3RseSkNCg0KY29sbmFtZXMoc29jX2RmKSA8LSBtYWtlLnVuaXF1ZShuYW1lcyhzb2NfZGYpKQ0KDQpiYXJldG5pdXUgPC0gZ2dwbG90Mjo6OmdncGxvdChzb2NfZGYsIGFlcyhmYWN0b3IoZGl2LmVnbyksIGZpbGwgPSBmYWN0b3IoZGl2LmVnbykpKSArIGdlb21fYmFyKCkNCmJhcmV0bml1dSA8LSBiYXJldG5pdXUgKyBzY2FsZV9maWxsX21hbnVhbCh2YWx1ZXM9YygiIzU2QjRFOSIsICIjNjZmZjk5IikpDQpnZ3Bsb3RseShiYXJldG5pdXUgKyBnZ3RpdGxlKCJVVTogRXRobmljaXR5IHNvY2lvbG9neSBzdGFmZiIpKQ0KYGBgDQpXaGVuIGNvbXBhcmVkIHRvIHRoZSBzb2Npb2xvZ3kgZGVwYXJ0bWVudCBvZiB0aGUgUmFkYm91ZCBVbml2ZXJzaXR5LCB0aGUgZGVwYXJ0bWVudCBvZiBzb2Npb2xvZ3kgb2YgVXRyZWNodCBVbml2ZXJzaXR5IGlzIHdheSBtb3JlIGV0aG5pY2FsbHkgZGl2ZXJzZS4gMzEuMjUgcGVyY2VudCBvZiB0aGUgZWdvJ3MgaGFzIGEgbm9uLUR1dGNoIGxhc3QgbmFtZSBhbmQgNjguNzUgcGVyY2VudCBoYXMgYSBEdXRjaCBsYXN0IG5hbWUgKHRhYmxlIDIpLiBGb3IgUmFkYm91ZCBVbml2ZXJzaXR5IHRoZSBwZXJjZW50YWdlIG9mIHNvY2lvbG9naXN0cyB0aGF0IHdlcmUgbm9uLUR1dGNoIHdhcyBvbmx5IDEyLjkwIHBlcmNlbnQuIA0KDQojIyMgR2VuZGVyIGVnb3MNCmBgYHtyfQ0KdGFibGUoc29jX2RmJGdlbmRlcikNCiMgVmlzdWFsaXNhdGlvbiBvZiB0aGUgZXRobmljaXR5Y29tcG9zaXRpb24gb2YgdGhlIHRocmVlIHdhdmVzDQoNCiMgaGlzdG9ncmFtIG9mIHRoZSBnZW5kZXJjb21wb3NpdGlvbg0KDQpiYXJnZW5kZXJ1dSA8LSBnZ3Bsb3QyOjo6Z2dwbG90KHNvY19kZiwgYWVzKGZhY3RvcihnZW5kZXIpLCBmaWxsID0gZmFjdG9yKGdlbmRlcikpKSArIGdlb21fYmFyKCkNCmJhcmdlbmRlcnV1IDwtIGJhcmdlbmRlcnV1ICsgc2NhbGVfZmlsbF9tYW51YWwodmFsdWVzPWMoIiM1NkI0RTkiLCAiIzY2ZmY5OSIpKQ0KZ2dwbG90bHkoYmFyZ2VuZGVydXUgKyBnZ3RpdGxlKCJVVTogR2VuZGVyIHNvY2lvbG9neSBzdGFmZiIpKSANCg0KDQpgYGANClRoZSBzb2Npb2xvZ3kgc3RhZmYgb2YgdGhlIFJhZGJvdWQgVW5pdmVyc2l0eSBpcyBtb3JlIGRpdmVyc2UgcmVnYXJkaW5nIGdlbmRlciB0aGFuIHRoZSBzb2Npb2xvZ3kgc3RhZmYgb2YgVXRyZWNodCBVbml2ZXJzaXR5LiBXaGlsc3QgdGhlIGRpdmlzaW9uIGF0IHRoZSBSYWRib3VkIFVuaXZlcnNpdHkgaXMgYWxtb3N0IDUwLzUwLCBvbmx5IDQwLjYzIHBlcmNlbnQgb2YgdGhlIHNvY2lvbG9naXN0cyBhdCBVdHJlY2h0IFVuaXZlcnNpdHkgaXMgZmVtYWxlICh0YWJsZSAzKS4NCg0KIyMjIFBlcmNlbnRhZ2Ugbm9uLUR1dGNoIGNvbGxhYm9yYXRvcnMNCg0KYGBge3J9DQpzdW1tYXJ5KHNvY19kZiRkaXYubmV0KQ0Kc2Qoc29jX2RmJGRpdi5uZXQsIG5hLnJtPVRSVUUpDQoNCmhpc3Qoc29jX2RmJGRpdi5uZXQsIGNvbD0ibGlnaHRzZWFncmVlbiIsIG1haW49J1VVOiBwZXJjZW50YWdlIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzJykNCmBgYA0KDQombmJzcDsNCg0KT24gYXZlcmFnZSwgc29jaW9sb2d5IHN0YWZmLW1lbWJlcnMgYXQgVXRyZWNodCBVbml2ZXJzaXR5IGhhdmUgMzYuMTAgcGVyY2VudCBvZiBub24tRHV0Y2ggY29sbGFib3JhdG9ycyBpbiB0aGVpciBlZ29uZXQgKHRhYmxlIDEpLiBUaGlzIG1lYW5zIHRoYXQgdGhlIHNjaG9sYXJzIG9mIHNvY2lvbG9neSBkZXBhcnRtZW50IGF0IFV0cmVjaHQgVW5pdmVyc2l0eSBoYXZlIGEgaGlnaGVyIGxldmVsIG9mIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzIHRoYW4gc2Nob2xhcnMgb2YgdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IGF0IFJhZGJvdWQgVW5pdmVyc2l0eSAoMTIuOTApLiBUaGlzIGNvdWxkIGluZGljYXRlIHRoYXQgVXRyZWNodCBVbml2ZXJzaXR5IGlzIG1vcmUgaW50ZXJuYXRpb25hbGx5IG9yaWVudGF0ZWQgdGhhbiBSYWRib3VkIFVuaXZlcnNpdHkuIEZ1cnRoZXJtb3JlLCB0aGUgaGlzdG9ncmFtIGlzIHNsaWdodGx5IHJpZ2h0LXNrZXdlZCwgYWx0aG91Z2ggd2F5IGxlc3MgdGhhbiBhdCBSYWRib3VkIFVuaXZlcnNpdHkuIE1vc3Qgc2Nob2xhcnMgaGFkIGEgcGVyY2VudGFnZSBiZXR3ZWVuIHRoZSAyMCBhbmQgNDAuDQoNCiZuYnNwOw0KDQojIyMgWWVhciBmaXJzdCBwdWJsaWNhdGlvbg0KDQpgYGB7cn0NCnN1bW1hcnkoc29jX2RmJHB1Yl9maXJzdCkNCnNkKHNvY19kZiRwdWJfZmlyc3QsIG5hLnJtPVRSVUUpDQpoaXN0KHNvY19kZiRwdWJfZmlyc3QsIGNvbD0ibGlnaHRzZWFncmVlbiIsIG1haW49J1VVOiBmaXJzdCBwdWJsaWNhdGlvbiBlZ28nLCB4bGFiPSd5ZWFyIG9mIGZpcnN0IHB1YmxpY2F0aW9uJykNCmBgYA0KDQombmJzcDsNCg0KT24gYXZlcmFnZSwgc29jaW9sb2dpc3RzIGZyb20gVXRyZWNodCBVbml2ZXJzaXR5IHB1Ymxpc2hlZCB0aGVpciBmaXJzdCBwYXBlciBpbiAyMDA2ICh0YWJsZSAxKS4gVGhlIG9sZGVzdCBmaXJzdCBwdWJsaWNhdGlvbiBvZiBhbiBlZ28gd2l0aGluIHRoZSBkZXBhcnRtZW50IGlzIGZyb20gMTk3NiwgdGhlIG5ld2VzdCBmaXJzdCBwdWJsaWNhdGlvbiBpcyBmcm9tIDIwMjIuIFRoZSBoaXN0b2dyYW0gaXMgc2xpZ2h0bHkgc2tld2VkIHRvIHRoZSBsZWZ0OiBtb3N0IHNjaG9sYXJzIGZyb20gd2l0aGluIHRoZSBkZXBhcnRtZW50IGFyZSByZWxhdGl2ZWx5IG5ldyBhbmQgaGF2ZSBwdWJsaXNoZWQgdGhlaXIgZmlyc3QgcGFwZXIgc29tZXdoZXJlIGR1cmluZyB0aGUgbGFzdCBkZWNhZGUuDQoNCiZuYnNwOw0KDQojIyBOZXR3b3JrIGRlc2NyaXB0aXZlcw0KIyMjIFBsb3RzIG9mIHRoZSBuZXR3b3JrDQpUaGUgc2l6ZSBvZiB0aGUgdmVydGV4ZXMgaXMgYmFzZWQgb24gdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGxhc3QgbmFtZXMgaW4gdGhlIGVnbydzIG5ldHdvcmsuIFRoZSBoaWdoZXIgdGhlIHZlcnRleCwgdGhlIGhpZ2hlciB0aGUgcGVyY2VudGFnZSBvZiBub24tRHV0Y2ggY28tYXV0aG9ycy4NClRoZSBjb2xvdXIgb2YgdGhlIHZlcnRleCBsYWJlbCBpcyBiYXNlZCBvbiB0aGUgZXRobmljaXR5IG9mIHRoZSBlZ29zIHRoZW1zZWx2ZXMuIEJsYWNrIG1lYW5zIGEgRHV0Y2ggbGFzdCBuYW1lLCByZWQgYSBub24tRHV0Y2ggbGFzdCBuYW1lLg0KDQpgYGB7cn0NCiMgUEVSSU9EIDIwMTYtMjAxNw0KdXVuZXQxIDwtIG5ldF9zb2NfYXJyYXlbICwsIDFdDQpkaWFnKHV1bmV0MSkgPC0gMA0KDQojY2hhbmdpbmcgY29sb3VyIGJhc2VkIG9uIGRpdmVyc2l0eSBvZiBuZXR3b3JrLg0KDQpzb2NfZGYkZ2NvbCA8LSBpZmVsc2Uoc29jX2RmJGRpdi5lZ28gPT0gIjEiLCAiYmxhY2siLCAibWFnZW50YTQiKQ0KDQp1dW5ldDFfZyA8LSBpZ3JhcGg6OmdyYXBoX2Zyb21fYWRqYWNlbmN5X21hdHJpeCh1dW5ldDEsIG1vZGUgPSBjKCJ1bmRpcmVjdGVkIikpDQpwbG90KHV1bmV0MV9nLCB2ZXJ0ZXgubGFiZWwgPSBzb2NfZGYkbGFzdG5hbWUsIHZlcnRleC5sYWJlbC5jb2xvciA9IHNvY19kZiRnY29sLCB2ZXJ0ZXguc2l6ZSA9IHNvY19kZiRkaXYubmV0KjAuMiwgdmVydGV4LmNvbG9yID0gIm1lZGl1bXR1cnF1b2lzZSIsIHZlcnRleC5sYWJlbC5zaXplID0gMC41LCB2ZXJ0ZXgubGFiZWwuY2V4ID0gMC42LCBlZGdlLmN1cnZlZCA9IDAuMiwgZWRnZS5hcnJvdy5zaXplID0gMS43KQ0KDQojIFBFUklPRCAyMDE4LTIwMTkNCnV1bmV0MiA8LSBuZXRfc29jX2FycmF5WyAsLCAyXQ0KZGlhZyh1dW5ldDIpIDwtIDANCg0KdXVuZXQyX2cgPC0gaWdyYXBoOjpncmFwaF9mcm9tX2FkamFjZW5jeV9tYXRyaXgodXVuZXQyLCBtb2RlID0gYygidW5kaXJlY3RlZCIpKQ0KcGxvdCh1dW5ldDJfZywgdmVydGV4LmxhYmVsID0gc29jX2RmJGxhc3RuYW1lLCB2ZXJ0ZXgubGFiZWwuY29sb3IgPSBzb2NfZGYkZ2NvbCwgdmVydGV4LnNpemUgPSBzb2NfZGYkZGl2Lm5ldCowLjIsIHZlcnRleC5jb2xvciA9ICJtZWRpdW10dXJxdW9pc2UiLCB2ZXJ0ZXgubGFiZWwuc2l6ZSA9IDAuNSwgdmVydGV4LmxhYmVsLmNleCA9IDAuNiwgZWRnZS5jdXJ2ZWQgPSAwLjIsIGVkZ2UuYXJyb3cuc2l6ZSA9IDEuNykNCg0KIyBQRVJJT0QgMjAyMC0yMDIyDQp1dW5ldDMgPC0gbmV0X3NvY19hcnJheVsgLCwgM10NCmRpYWcodXVuZXQzKSA8LSAwDQoNCnV1bmV0M19nIDwtIGlncmFwaDo6Z3JhcGhfZnJvbV9hZGphY2VuY3lfbWF0cml4KHV1bmV0MywgbW9kZSA9IGMoInVuZGlyZWN0ZWQiKSkNCnBsb3QodXVuZXQzX2csIHZlcnRleC5sYWJlbCA9IHNvY19kZiRsYXN0bmFtZSwgdmVydGV4LmxhYmVsLmNvbG9yID0gc29jX2RmJGdjb2wsIHZlcnRleC5zaXplID0gc29jX2RmJGRpdi5uZXQqMC4yLCB2ZXJ0ZXguY29sb3IgPSAibWVkaXVtdHVycXVvaXNlIiwgdmVydGV4LmxhYmVsLnNpemUgPSAwLjUsIHZlcnRleC5sYWJlbC5jZXggPSAwLjYsIGVkZ2UuY3VydmVkID0gMC4yLCBlZGdlLmFycm93LnNpemUgPSAxLjcpDQoNCmBgYA0KDQombmJzcDsNCg0KRnJvbSB0aGUgcGxvdHMgd2UgY2FuIGNvbmNsdWRlIHRoYXQgdGhlIG51bWJlciBvZiBjb2xsYWJvcmF0aW9ucyB3aXRoaW4gdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSBpcyByZWxhdGl2ZWx5IGxvdyB3aGVuIGNvbXBhcmVkIHRvIHRoZSBSYWRib3VkIFVuaXZlcnNpdHkuIEVzcGVjaWFsbHkgd2l0aGluIHRoZSBmaXJzdCB0d28gd2F2ZXMsIHNvY2lvbG9naXN0IGZyb20gVXRyZWNodCBzZWVtIG1vcmUgYXR0cmFjdGVkIHRvIGZpbmRpbmcgY28tYXV0aG9ycyBvdXRzaWRlIG9mIHRoZSBkZXBhcnRtZW50LiBBcyB3ZSBjYW4gc2VlIGluIHRhYmxlIDEsIHRoZSBsYWNrIG9mIGNvbGxhYm9yYXRpb24gd2l0aGluIHRoZSBkZXBhcnRtZW50IGNhbm5vdCBiZSBhdHRyaWJ1dGVkIHRvIGEgbG93IG51bWJlciBvZiBjby1hdXRob3JzOiBzdGFmZiBvZiB0aGUgVXRyZWNodCBVbml2ZXJzaXR5IGdlbmVyYWxseSBoYXMgYSBsYXJnZXIgbmV0d29yayB0aGFuIHN0YWZmIGF0IHRoZSBSYWRib3VkIFVuaXZlcnNpdHkgKGJhc2VkIG9uIG51bWJlciBvZiBjby1hdXRob3JzIHNpbmNlIDIwMjApLiBWYW4gZGVyIExpcHBlIGhhcyB0aGUgaGlnaGVzdCBudW1iZXIgb2YgY29sbGFib3JhdGlvbnMgd2l0aGluIHRoZSBkZXBhcnRtZW50Lg0KDQombmJzcDsNCiANCiMjIyBEZWdyZWVzDQoNCmBgYHtyfQ0KIyBEZWdyZWVzDQpkZWdyZWUgPC0gcm93U3Vtcyh1dW5ldDEpDQpzdW1tYXJ5KGRlZ3JlZSkNCnNkKGRlZ3JlZSkNCmhpc3QoZGVncmVlLCBjb2w9ImxpZ2h0c2VhZ3JlZW4iLCBtYWluPSdVVTogZGVncmVlIGRpc3RyaWJ1dGlvbiB3YXZlIDEnLCB4bGFiPSdudW1iZXIgb2YgdGllcycpDQpgYGANCg0KJm5ic3A7DQoNCg0KYGBge3J9DQpkZWdyZWUgPC0gcm93U3Vtcyh1dW5ldDIpDQpzdW1tYXJ5KGRlZ3JlZSkNCnNkKGRlZ3JlZSkNCmhpc3QoZGVncmVlLCBjb2w9ImxpZ2h0c2VhZ3JlZW4iLCBtYWluPSdVVTogZGVncmVlIGRpc3RyaWJ1dGlvbiB3YXZlIDInLCB4bGFiPSdudW1iZXIgb2YgdGllcycpDQoNCmBgYA0KDQoNCmBgYHtyfQ0KIyBEZWdyZWVzDQpkZWdyZWUgPC0gcm93U3Vtcyh1dW5ldDMpDQpzdW1tYXJ5KGRlZ3JlZSkNCnNkKGRlZ3JlZSkNCmhpc3QoZGVncmVlLCBjb2w9ImxpZ2h0c2VhZ3JlZW4iLCBtYWluPSdVVTogZGVncmVlIGRpc3RyaWJ1dGlvbiB3YXZlIDMnLCB4bGFiPSdudW1iZXIgb2YgdGllcycpDQoNCmBgYA0KDQombmJzcDsNCg0KVGhlIG51bWJlciBvZiB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCBvZiB0aGUgVXRyZWNodCBVbml2ZXJzaXR5IGluY3JlYXNlcyBvdmVyIHdhdmVzLCBhcyB3YXMgYWxzbyB2aXNpYmxlIGluIHRoZSBwbG90cy4gVGhlIGF2ZXJhZ2UgbnVtYmVyIG9mIHRpZXMgaW5jcmVhc2VkIGZyb20gMC41NjMgdGllcyBpbiAyMDE2LTIwMTcsIHRvIDAuNjI1IHRpZXMgaW4gMjAxOC0yMDE5IGFuZCAxLjE4OCB0aWVzIGluIDIwMjAtMjAyMi4gU28gdGhlIGluY3JlYXNlIGlzIGxhcmdlc3QgYmV0d2VlbiB3YXZlIDIgYW5kIDMuIEhvd2V2ZXIsIHRoZSBoaXN0b2dyYW0gc3RheXMgbGFyZ2VseSBza2V3ZWQgdG8gdGhlIHJpZ2h0IGFuZCBzY2hvbGFycyBnZW5lcmFsbHkgZG8gbm90IGhhdmUgbWFueSB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudC4gDQombmJzcDsNClRoZSBzbWFsbCBhbW91bnQgb2YgdGllcyBpbiB0aGUgc29jaW9sb2d5IGRlcGFydG1lbnQgb2YgVXRyZWNodCBVbml2ZXJzaXR5IGNvdWxkIGJlIGR1ZSB0byB0aGUgZmFjdCB0aGF0IHRoZWlyIGFyZSBtYW55IG5ldyBzY2hvbGFycyBhbmQgc2Nob2xhcnMgd2hvIGFyZSBvcmlnaW5hbGx5IGZyb20gb3RoZXIgY291bnRyaWVzIG9yIHVuaXZlcnNpdGllcy4gVGhlcmVmb3JlLCB0aGV5IG1pZ2h0IG5vdCBoYXZlIGhhZCB0aGUgb3Bwb3J0dW5pdHkgdG8gcHVibGlzaCBhIGxvdCB3aXRoIHRoZWlyIGNvbGxlYWd1ZXMuIEZ1cnRoZXJtb3JlLCBVdHJlY2h0IFVuaXZlcnNpdHkgbWlnaHQgYmUgbW9yZSBmb2N1c2VkIG9uIGNvbGxhYm9yYXRpb24gd2l0aCBvdGhlciB1bml2ZXJzaXRpZXMgb3IgY291bnRyaWVzIHRoYW4gUmFkYm91ZCBVbml2ZXJzaXR5LiBUaGUgaGlnaCBudW1iZXIgb2Ygbm9uLUR1dGNoIHNjaG9sYXJzIGluIHRoZWlyIGNvbGxhYm9yYXRpb24gbmV0d29ya3MgbWlnaHQgaW5kaWNhdGUgdGhhdCB0aGlzIGlzIGluZGVlZCB0aGUgY2FzZS4NCg0KJm5ic3A7DQoNCiMjIyBEZW5zaXRpZXMNCmBgYHtyfQ0KdXVuZXRfdW5kMSA8LSB1dW5ldDEgKyB0KHV1bmV0MSkNCnV1bmV0X3VuZDFbdXVuZXRfdW5kMT09Ml0gPC0gMQ0Kc3VtKHV1bmV0X3VuZDEsIG5hLnJtPVRSVUUpDQpmZGVuc2l0eSh1dW5ldDEpDQp1dW5ldF91bmQxIDwtIHV1bmV0MSArIHQodXVuZXQxKQ0KdXVuZXRfdW5kMVt1dW5ldF91bmQxPT0yXSA8LSAxDQoNCnV1bmV0X3VuZDIgPC0gdXVuZXQyICsgdCh1dW5ldDIpDQp1dW5ldF91bmQyW3V1bmV0X3VuZDI9PTJdIDwtIDENCnN1bSh1dW5ldF91bmQyLCBuYS5ybT1UUlVFKQ0KZmRlbnNpdHkodXVuZXQyKQ0KdXVuZXRfdW5kMiA8LSB1dW5ldDIgKyB0KHV1bmV0MikNCnV1bmV0X3VuZDJbdXVuZXRfdW5kMj09Ml0gPC0gMQ0KDQp1dW5ldF91bmQzIDwtIHV1bmV0MyArIHQodXVuZXQzKQ0KdXVuZXRfdW5kM1t1dW5ldF91bmQzPT0yXSA8LSAxDQpzdW0odXVuZXRfdW5kMywgbmEucm09VFJVRSkNCmZkZW5zaXR5KHV1bmV0MykNCnV1bmV0X3VuZDMgPC0gdXVuZXQzICsgdCh1dW5ldDMpDQp1dW5ldF91bmQzW3V1bmV0X3VuZDM9PTJdIDwtIDENCmBgYA0KRGVuc2l0eSBjb250YWlucyBhbGwgb2JzZXJ2ZWQgcmVsYXRpb25zIGRpdmlkZWQgYnkgYWxsIHBvc3NpYmxlIHJlbGF0aW9ucy4NCiZuYnNwOw0KVGhlIG5ldHdvcmsgb2Ygd2F2ZSAxIGNvbnRhaW5zIDE4IGR5YWRzLiBUaGUgbnVtYmVyIG9mIGR5YWRzIGlzIHJlbGF0aXZlbHkgbG93IGlmIGNvbXBhcmVkIHRvIHRoZSBudW1iZXIgb2YgZHlhZHMgdGhhdCBhcmUgcG9zc2libGUsIGFzIHRoZSBlZGdlIGRlbnNpdHkgY29udGFpbnMgMC4wMTguIFdhdmUgMiBjb25zaXN0cyBvZiBhIGxpdHRsZSBiaXQgbW9yZSBkeWFkczogMjAuIEhvd2V2ZXIsIHRoZSBlZGdlIGRlbnNpdHkgb2YgMC4wMjAgaXMgc3RpbGwgdmVyeSBsb3cuIFdlIHNlZSB0aGUgc3Ryb25nZXN0IGluY3JlYXNlIGluIGRlbnNpdHkgaW4gd2F2ZSAzOiB0aGVyZSBhcmUgMzggZHlhZHMgYW5kIHRoZSBlZGdlIGRlbnNpdHkgY29udGFpbnMgMC4wMzguDQombmJzcDsNCk92ZXJhbGwsIHdlIGNhbiBjb25jbHVkZSB0aGF0IHRoZSBkZW5zaXR5IGFuZCB0aGUgdG90YWwgbnVtYmVyIG9mIGR5YWRzIGlzIHdheSBsb3dlciBmb3IgVXRyZWNodCBVbml2ZXJzaXR5IHRoYW4gZm9yIFJhZGJvdWQgVW5pdmVyc2l0eS4NCg0KJm5ic3A7DQoNCiMjIyBpbnRlci0vaW50cmFncm91cCBkZW5zaXR5IGV0aG5pY2l0eQ0KDQombmJzcDsNCg0KKipJbnRlcmdyb3VwKioNCg0KYGBge3J9DQpkaXZfbSA8LSAgZmhvbW9tYXQoc29jX2RmJGRpdi5lZ28pDQoNCmZkZW5zaXR5aW50ZXIoeD11dW5ldF91bmQxLCBBPWRpdl9tKQ0KZmRlbnNpdHlpbnRlcih4PXV1bmV0X3VuZDIsIEE9ZGl2X20pDQpmZGVuc2l0eWludGVyKHg9dXVuZXRfdW5kMywgQT1kaXZfbSkNCmBgYA0KDQombmJzcDsNCg0KKipJbnRyYWdyb3VwKioNCg0KYGBge3J9DQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMSwgQT1kaXZfbSkgDQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMiwgQT1kaXZfbSkgDQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMywgQT1kaXZfbSkNCmBgYA0KDQombmJzcDsNCg0KVGhlIGludGVyZ3JvdXAgZGVuc2l0eSBzaG93cyB0aGUgZGVuc2l0eSBiZXR3ZWVuIHRoZSB0d28gZGlmZmVyZW50IGV0aG5pYyBncm91cHMgKER1dGNoIG9yIG5vbi1EdXRjaC4gVGhlIGludHJhZ3JvdXAgZGVuc2l0eSBjb250YWlucyB0aGUgZGVuc2l0eSBvZiBzY2hvbGFycyBmcm9tIHRoZSBzYW1lIGV0aG5pYyBncm91cCAoRHV0Y2ggb3Igbm9uLUR1dGNoKS4gVGhlIGludGVyZ3JvdXAgZGVuc2l0eSBpbmNyZWFzZXMgYmV0d2VlbiB3YXZlIDIgYW5kIDMsIGZyb20gMC4wMDkgdG8gMC4wMjI3LiBUaGUgaW50cmFncm91cCBkZW5zaXR5IGluY3JlYXNlcyB3aXRoIGV2ZXJ5IHdhdmUgKHJlc3BlY3RpdmVseTogMC4wMjUsIDAuMDI5IGFuZCAwLjA1MSksIGFsdGhvdWdoIG9ubHkgYSB2ZXJ5IHNtYWxsIGNoYW5nZSBpcyB2aXNpYmxlIGJldHdlZW4gd2F2ZSAxIGFuZCAyLiANCiZuYnNwOw0KSW4gYWNjb3JkYW5jZSB3aXRoIHRoZSByZXN1bHRzIG9mIFJhZGJvdWQgVW5pdmVyc2l0eSwgdGhlIGludGVyZ3JvdXAgZGVuc2l0aWVzIGFyZSBsb3dlciB0aGFuIHRoZSBpbnRyYWdyb3VwIGRlbnNpdGllcy4gVGhpcyBjb3VsZCBpbmRpY2F0ZSB0aGF0IHNvY2lvbG9naXN0cyBhcmUgbW9yZSBsaWtlbHkgdG8gY29sbGFib3JhdGUgd2l0aCBwZW9wbGUgZnJvbSB0aGUgc2FtZSBldGhuaWMgYmFja2dyb3VuZCAoRHV0Y2ggb3Igbm9uLUR1dGNoKS4NCg0KJm5ic3A7DQoNCiMjIyBJbnRlci0vaW50cmFncm91cCBkZW5zaXR5IGdlbmRlcg0KDQombmJzcDsNCg0KKipJbnRlci1ncm91cCoqDQoNCmBgYHtyfQ0KZ2VuZGVyX20gPC0gIGZob21vbWF0KHNvY19kZiRnZW5kZXIpDQoNCmZkZW5zaXR5aW50ZXIoeD11dW5ldF91bmQxLCBBPWdlbmRlcl9tKQ0KZmRlbnNpdHlpbnRlcih4PXV1bmV0X3VuZDIsIEE9Z2VuZGVyX20pDQpmZGVuc2l0eWludGVyKHg9dXVuZXRfdW5kMywgQT1nZW5kZXJfbSkNCmBgYA0KDQombmJzcDsNCg0KKipJbnRyYWdyb3VwKioNCg0KYGBge3J9DQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMSwgQT1nZW5kZXJfbSkgDQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMiwgQT1nZW5kZXJfbSkgDQpmZGVuc2l0eWludHJhKHg9dXVuZXRfdW5kMywgQT1nZW5kZXJfbSkNCmBgYA0KDQombmJzcDsNCg0KV2hpbHN0IHRoZSBpbnRlcmdyb3VwIGRlbnNpdGllcyBpbmNyZWFzZSBvdmVyIHRoZSB3YXZlcywgdGhpcyBpcyBub3QgdGhlIGNhc2UgZm9yIHRoZSBpbnRyYWdyb3VwIGRlbnNpdGllcy4gQmV0d2VlbiB3YXZlIDEgYW5kIHdhdmUgMiwgdGhlIGludHJhZ3JvdXAgZGVuc2l0eSByZW1haW5zIHN0YWJsZS4gQ29tcGFyYWJsZSB0byB0aGUgZ2VuZGVyIHNlZ3JlZ2F0aW9uIGF0IHRoZSBSYWRib3VkIFVuaXZlcnNpdHksIHdlIHNlZSB0aGF0IHRoZSBpbnRlcmdyb3VwIGRlbnNpdGllcyBhcmUgYWdhaW4gbG93ZXIgdGhhbiB0aGUgaW50cmFncm91cCBkZW5zaXRpZXMuIFRoaXMgaW5kaWNhdGVzIHRoYXQgZ2VuZGVyIHNlZ3JlZ2F0aW9uIGlzIHZpc2libGU6IHNvY2lvbG9naXN0cyBmcm9tIFV0cmVjaHQgVW5pdmVyc2l0eSBhcmUgbW9yZSBsaWtlbHkgdG8gY29sbGFib3JhdGUgd2l0aCBzY2hvbGFycyBmcm9tIHRoZSBzYW1lIGdlbmRlci4NCg0KJm5ic3A7DQoNCiMjIyBUcmFuc2l0aXZpdHkNCmBgYHtyfQ0KaWdyYXBoOjp0cmFuc2l0aXZpdHkodXVuZXQxX2cpDQppZ3JhcGg6OnRyYW5zaXRpdml0eSh1dW5ldDJfZykNCmlncmFwaDo6dHJhbnNpdGl2aXR5KHV1bmV0M19nKQ0KYGBgDQoNCiZuYnNwOw0KDQpMYXN0LCB0aGUgdHJhbnNpdGl2aXR5IGVmZmVjdHMgc2hvdyB0aGUgcHJvYmFiaWxpdHkgb2YgdHdvIGNvLWF1dGhvcnMgb2YgdGhlIHNhbWUgcGVyc29uIGFsc28gcHVibGlzaGluZyB0b2dldGhlci4gVGhlIHRyYW5zaXRpdml0eSBpcyB0aGUgaGlnaGVzdCBpbiB0aGUgbGFzdCB3YXZlIGFuZCBjb250YWlucyAwLjMxMC4gVGhpcyBtZWFucyB0aGF0IHdoZW4gc2Nob2xhciBBIGlzIGNvbGxhYm9yYXRpbmcgd2l0aCBzY2hvbGFyIEIgYW5kIEMsIHRoZSBwcm9iYWJpbGl0eSBvZiBCIGFuZCBDIHB1Ymxpc2hpbmcgdG9nZXRoZXIgaXMgMC4zMTAuIFRoZSB0cmFuc2l0aXZpdHkgb2Ygd2F2ZSAxIGNvbnRhaW5zIDAuMyBhbmQgb2Ygd2F2ZSAyIDAuMjMxLg0KQWx0aG91Z2ggdGhlIHRyYW5zaXRpdml0eSBjaGFuZ2VzIG92ZXIgdGhlIHllYXJzLCBubyBsaW5lYXIgZWZmZWN0IGNhbiBiZSBmb3VuZC4NCkdlbmVyYWxseSwgdGhlIHRyYW5zaXRpdml0eSBvZiBVdHJlY2h0IFVuaXZlcnNpdHkgaXMgbG93ZXIgdGhhbiBhdCBSYWRib3VkIFVuaXZlcnNpdHkuIFRoZXJlZm9yZSwgd2UgY2FuIGNvbmNsdWRlIHRoYXQgd2l0aGluIHRoZSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eSwgc2Nob2xhcnMgYXJlIGxlc3MgY2x1c3RlcmVkIGFzIHRoZXkgYXJlIGxlc3MgaW5mbHVlbmNlZCBieSB3aG8gdGhlIGNvLWF1dGhvcnMgb2YgY28tYXV0aG9ycyBhcmUuDQoNCiMgRGVzY3JpcHRpdmVzOiBjb25jbHVzaW9uDQoNCldoZW4gY29tcGFyaW5nIHRoZSB0d28gc29jaW9sb2d5IGRlcGFydG1lbnRzIG9mIFJhZGJvdWQgYW5kIFV0cmVjaHQgVW5pdmVyc2l0eSwgd2UgY2FuIHNlZSB0aGF0IFV0cmVjaHQgaGFzIGEgaGlnaGVyIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIHNvY2lvbG9naXN0cyB0aGFuIFJhZGJvdWQgKDMxLjI1IHZlcnN1cyAxMi45MCBwZXJjZW50KS5Nb3Jlb3ZlciwgdGhlIGNvbGxhYm9yYXRpb24gbmV0d29ya3Mgb2YgdGhlIHN0YWZmIG9mIFVVIGNvbnRhaW4sIG9uIGF2ZXJhZ2UsIGEgaGlnaGVyIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIHNjaG9sYXJzIHRoYW4gdGhlIGNvbGxhYm9yYXRpb24gbmV0d29ya3Mgb2Ygc3RhZmYgb2YgUlUuIEhvd2V2ZXIsIHRoZSBzb2Npb2xvZ3kgc3RhZmYgb2YgUlUgaXMgbW9yZSBkaXZlcnNlIHJlZ2FyZGluZyBnZW5kZXIgYXMgdGhlaXIgZ2VuZGVyIGRpdmlzaW9uIGlzIGFsbW9zdCA1MC81MC4gDQombmJzcDsNCkZ1cnRoZXJtb3JlLCB3aXRoaW4gYm90aCBkZXBhcnRtZW50cyB0aGUgbnVtYmVyIG9mIGNvLWF1dGhvcnNoaXBzIGlzIGlzIHJhdGhlciBsb3cuIE92ZXJhbGwgdGhlIGRlbnNpdHkgb2YgdGhlIG5ldHdvcmsgaXMgbG93ZXIgZm9yIFVVIHRoYW4gZm9yIFJVOiBnZW5lcmFsbHksIHNvY2lvbG9neSBzdGFmZiBvZiB0aGUgVVUgY29sbGFib3JhdGUgbGVzcyB3aXRoIHNjaG9sYXJzIHdpdGhpbiB0aGVpciBkZXBhcnRtZW50IHRoYW4gUlUuIFRoaXMgbGFjayBvZiB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudCBtaWdodCBiZSBleHBsYWluZWQgYnkgVVUgYmVpbmcgbW9yZSBpbnRlcm5hdGlvbmFsbHkgb3JpZW50YXRlZC4gVGhlaXIgY29sbGFib3JhdGlvbiBuZXR3b3JrcyBhcmUgbW9yZSBkaXZlcnNlIGFuZCB0aGV5IGhhdmUgbW9yZSBzdGFmZiB3aG8gb3JpZ2luYWxseSB3b3JrZWQgYXQgYW5vdGhlciB1bml2ZXJzaXR5IGluIGFub3RoZXIgY291bnRyeS4gRm9yIGJvdGggZGVwYXJ0bWVudHMgdGhlaXIgbWlnaHQgYmUgYW5vdGhlciByZWFzb24gZm9yIHRoZSBsb3cgZGVuc2l0eTogYXMgbWFueSBwZW9wbGUgYXJlIHJlbGF0aXZlbHkgbmV3IHdpdGhpbiB0aGUgZGVwYXJ0bWVudCwgdGhleSBtaWdodCBub3QgaGF2ZSBoYWQgdGhlIGNoYW5jZSB0byBwdWJsaXNoIHRvZ2V0aGVyLg0KJm5ic3A7DQpNb3Jlb3ZlciwgdGhlIHRyYW5zaXRpdml0eSBpcyBsb3dlc3QgYXQgdGhlIFVVLCBpbmRpY2F0aW5nIHRoYXQgaXQgaXMgbW9yZSBjb21tb24gZm9yIHN0YWZmIGF0IHRoZSBSVSB0byBwdWJsaXNoIHdpdGggY28tYXV0aG9ycyBvZiBjby1hdXRob3JzLg0KJm5ic3A7DQpMYXN0LCB3ZSBvYnNlcnZlIHdpdGhpbiBib3RoIGRlcGFydG1lbnRzIGV0aG5pYyBhbmQgZ2VuZGVyIHNlZ3JlZ2F0aW9uLCBhcyB0aGUgaW50ZXJncm91cGRlbnNpdGllcyBhcmUgbG93ZXIgdGhhbiB0aGUgaW50cmFncm91cCBkZW5zaXRpZXMuDQoNCg0KIyBUYWJsZXMNCiFbXShpbWFnZXMvdGFiZWwxLnBuZykNCg0KDQohW10oaW1hZ2VzL3RhYmVsMi5wbmcpDQoNCiFbXShpbWFnZXMvdGFiZWwzLnBuZykNCiFbXShpbWFnZXMvdGFiZWw0LnBuZykNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg==</div>
 
 
 </div>
