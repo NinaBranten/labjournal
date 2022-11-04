@@ -42,39 +42,52 @@ klippy::klippy(position = c('top', 'right'))
 &nbsp;
 
 ### Staff members sociology
-The current study focusses on the collaboration networks of staff members working at the  sociology department of the Radboud University (N = 31) and Utrecht University (N = 32). Full names of all the staff members were webscraped from the websites of the university using the RVest package for the website of the Radboud University and the RSelenium package for the javascript tables of the website of Utrecht University.
+The current study focusses on the collaboration networks of staff members working at the  sociology department of the Radboud University (N = 31) and Utrecht University (N = 32). Full names of all the staff members were webscraped from the websites of the university using the RVest package for the website of the Radboud University and the RSelenium package for the javascript tables of the website of Utrecht University ([see 1. names](https://ninabranten.github.io/labjournal/1.names.html)).
 
 &nbsp;
 
 ### Collaboration network
-Data on the publications and citations of the staff members were webscraped from Google Scholar, using the Scholar package in R and the staff members' full names. Staff members without a google scholar id or members who had gotten a wrong google scholar id as a result from the webscraping with the Scholar package were deleted from the analysis. For RU these were four scholars and for UU ten scholars (see my journal paragraph 5).
-For the RSiena analysis, collaborations between staff-members within the sociology departments themselves is operationalized using names of co-authors on the publications of the staff members within the period 2016-2022.
-Furthermore, to decide the percentage of non-Dutch collaborators within the collaborator egonets, I also gathered information on co-author relationships outside the department. This was done by looking at all the ego's unique collaborators, using the names of co-authors on the publications of staffmembers since 2019. Because we only use information on the publications since 2019, we assume that the diversity of scholar’s network is relatively stable over time.
+Data on the publications and citations of the staff members were webscraped from Google Scholar, using the Scholar package in R and the staff members' full names ([see 4. Scholar](https://ninabranten.github.io/labjournal/4.scholar.html). Staff members without a google scholar id or members who had gotten a wrong google scholar id as a result from the webscraping with the Scholar package were deleted from the analysis. For RU these were four scholars and for UU ten scholars ([see 5. RU ethnicity & age](https://ninabranten.github.io/labjournal/5.RU_etni_age.html) and [see 5. UU ethnicity & age](https://ninabranten.github.io/labjournal/5.UU_etni_age.html)).
+For the RSiena analysis, collaborations between staff-members within the sociology departments themselves is operationalized using names of co-authors on the publications of the staff members within the period 2016-2022 ([see 6. RU array](https://ninabranten.github.io/labjournal/6.RU_Array.html) and [see 6. UU array](https://ninabranten.github.io/labjournal/6.UU_Array.html).
+Furthermore, to decide the percentage of non-Dutch collaborators within the collaborator egonets, I also gathered information on co-author relationships outside the department. This was done by looking at all the ego's unique collaborators, using the names of co-authors on the publications of staff members since 2019. Because we only use information on the publications since 2019, we assume that the diversity of scholar’s network is relatively stable over time.
 
 &nbsp;
 
-### Ethnic diversity
-Ethnicity of the scholars is decided looking at their last name. Scholars are divided into two groups: (0) a non-Dutch last name, and (1) a Dutch last name. When in doubt about the origin of a last name, the CBG family name database was used, containing information on the geographical distribution and origin of last names.
-The ethnic diversity of the egonet is operationalized as the percentage of ego’s co-authors since 2019 with non-Dutch last names.
+### Ethnicity
+Ethnicity of the staff members is gathered by hand using excel, looking at their last name. Scholars are divided into two groups: (0) a non-Dutch last name, and (1) a Dutch last name. When in doubt about the origin of a last name, the CBG family name database was used, containing information on the geographical distribution and origin of last names.
+&nbsp;
+
+The prevalence of non-Dutch staff members within the collaborator egonets of the staff members is operationalized as the percentage of ego’s unique co-authors with a non-Dutch last name within ego's collaborator network since 2019. This was also done by hand in excel, by first counting the amount of unique collaborators within one's network and then counting the amount of unique collaborators with a non-Dutch last name. Last, the percentage of Non-Dutch collaborators was calculated and the excel dataframe was added to R ([see 5. RU ethnicity & age](https://ninabranten.github.io/labjournal/5.RU_etni_age.html) and [see 5. UU ethnicity & age](https://ninabranten.github.io/labjournal/5.UU_etni_age.html)).
 
 &nbsp;
 
 ### Gender
-Gender of the staff members is decided by looking at their first name, using the Meertens Voornamenbank. This a database contains information on the gender, popularity, geographical distribution and origin of all first names in The Netherlands.
+Gender of the staff members is decided by looking at their first name, using the Meertens Voornamenbank. This database contains information on the gender, popularity, geographical distribution and origin of all first names in The Netherlands ([see 2.gender](https://ninabranten.github.io/labjournal/2.gender.html)).
 
 &nbsp;
 
 ### Age
-As data on the age of scholars was not easily available on the internet, we operationalized age as the period in which the scholar has been active in the academic world. Therefore age is seen as the year of the first publication of the staff member. 
+As data on the age of scholars was not easily available on the internet, we operationalized age as the period in which the scholar has been active in the academic world. Therefore age is seen as the year of the first publication of the staff member, based on te publication list retrieved from google scholar ([see 5. RU ethnicity & age](https://ninabranten.github.io/labjournal/5.RU_etni_age.html) and [see 5. UU ethnicity & age](https://ninabranten.github.io/labjournal/5.UU_etni_age.html)). 
 
 &nbsp;
 
 ## Methods
-First, several descriptive statistics of the networks are presented. A visual representation of the collaboration networks within the departments is made. Furthermore, several descriptive and frequency statistics are calculated regarding the ethnicity, age and gender of the ego’s, the ethnic diversity of the egonets and the degrees of the networks. Moreover, to look into the segregation of the networks, we compared intra- and intergroup densities of both gender and ethnicity.
+First, several descriptive statistics of the networks are presented. A visual representation of the collaboration networks within the departments is made. Furthermore, several descriptive and frequency statistics are calculated regarding the ethnicity, age and gender of the ego’s, the ethnic diversity of the egonets and the degrees and transitivity of the networks. Moreover, to look into the segregation of the networks, we compared intra- and intergroup densities of both gender and ethnicity.
 &nbsp;
 
-Second, we try to explain differences in ethnic diversity of the collaboration egonets by characteristics of the egos themselves; ethnicity, gender and age. Therefore, two linear regression models were conducted.
+Second, we try to explain differences in ethnic diversity of the collaboration egonets by characteristics of the egos themselves; ethnicity, gender and age. Therefore, four linear regression models were conducted for each department.
 &nbsp;
 
 Last, to find further explanations for segregation in network layers we need to examine how and why collaboration ties within the departments are formed and how this is influenced by covariate effects and/or structural network effects. This is done using SIENA (Simulation Investigation for Empirical Network Analysis) in R with the package RSiena. Our data contains information on collaboration ties between staff-members within the department of three time-frames (2016-2017, 2018-2019 and 2020-2022).
-RSiena models tie changes as the results of actions by actors. It is assumed that each time only one actor is allowed to make changes, and this actor is only able to change one tie at a time. The actor who is allowed to make changes evaluates the networks structures on its attractiveness. This is determined by the evaluation function. The actor is most likely to make changes resulting in a network with the highest level of attractiveness. 
+&nbsp;
+
+RSiena models tie changes as the results of actions by actors (Ripley et al. 2022). It is assumed that each time only one actor is allowed to make changes, and this actor is only able to change one tie at a time. The actor who is allowed to make changes evaluates the networks structures on its attractiveness. This is determined by the evaluation function. The actor is most likely to make changes resulting in a network with the highest level of attractiveness. 
+&nbsp;
+
+For the RSiena analysis, three models will be estimated for each department. The first model contains only the percentage of non-Dutch collaborators within the network. 
+&nbsp;
+
+Second, we will add the structural effects to this model. As our network is undirected, we only include the density effect, the transitive triads effect and the activity and popularity effect. The density effect can be seen as an intercept. The transitive triads effect can be interpreted as the extent to which scholars want to co-publish with a co-author of a co-author. Furthermore, the activity and popularity effects shows if scholars prefer to co-publish with someone who has co-published with many others before.
+&nbsp;
+
+Last, a model with all individual characteristics and structural effects will be estimated.
