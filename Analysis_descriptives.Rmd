@@ -117,7 +117,7 @@ baretniru <- ggplot2:::ggplot(soc_df, aes(factor(div.ego), fill = factor(div.ego
 baretniru <- baretniru + scale_fill_manual(values=c("#56B4E9", "#66ff99"))
 ggplotly(baretniru + ggtitle("RU: gender sociology staff"))
 ```
-Within the department of Sociology at the Radboud University, 12.90 percent of the ego's has a non-Dutch last name and 87.10 percent has a Dutch last name (table 2).
+Within the department of Sociology at the Radboud University, 12.90 percent of the ego's has a non-Dutch last name and 87.10 percent has a Dutch last name (table 2). This is lower than the 26.2 percent of Dutch people in the Netherlands with a migration background (CBS, 2022).
 
 ### Gender egos
 ```{r}
@@ -164,7 +164,7 @@ On average, sociologists from Radboud University published their first paper in 
 ## Network descriptives
 ### Plots of the network
 The size of the vertexes is based on the percentage of non-Dutch last names in the ego's network. The higher the vertex, the higher the percentage of non-Dutch co-authors.
-The colour of the vertex label is based on the ethnicity of the egos themselves. Black means a Dutch last name, red a non-Dutch last name.
+The colour of the vertex label is based on the ethnicity of the egos themselves. Black means a Dutch last name, purple a non-Dutch last name.
 
 ```{r}
 # PERIOD 2016-2017
@@ -428,7 +428,7 @@ baretniuu <- ggplot2:::ggplot(soc_df, aes(factor(div.ego), fill = factor(div.ego
 baretniuu <- baretniuu + scale_fill_manual(values=c("#56B4E9", "#66ff99"))
 ggplotly(baretniuu + ggtitle("UU: Ethnicity sociology staff"))
 ```
-When compared to the sociology department of the Radboud University, the department of sociology of Utrecht University is way more ethnically diverse. 31.25 percent of the ego's has a non-Dutch last name and 68.75 percent has a Dutch last name (table 2). For Radboud University the percentage of sociologists that were non-Dutch was only 12.90 percent. 
+When compared to the sociology department of the Radboud University, the department of sociology of Utrecht University is way more ethnically diverse. 31.25 percent of the ego's has a non-Dutch last name and 68.75 percent has a Dutch last name (table 2). For Radboud University the percentage of sociologists that were non-Dutch was only 12.90 percent. Generally, we could state that the staff of UU contains of higher percentage of people with a migration background than the 26.2 percent that is present within Dutch society (CBS, 2022). 
 
 ### Gender egos
 ```{r}
@@ -477,7 +477,7 @@ On average, sociologists from Utrecht University published their first paper in 
 ## Network descriptives
 ### Plots of the network
 The size of the vertexes is based on the percentage of non-Dutch last names in the ego's network. The higher the vertex, the higher the percentage of non-Dutch co-authors.
-The colour of the vertex label is based on the ethnicity of the egos themselves. Black means a Dutch last name, red a non-Dutch last name.
+The colour of the vertex label is based on the ethnicity of the egos themselves. Black means a Dutch last name, purple a non-Dutch last name.
 
 ```{r}
 # PERIOD 2016-2017
@@ -660,7 +660,8 @@ Generally, the transitivity of Utrecht University is lower than at Radboud Unive
 
 # Conclusion
 
-When comparing the two sociology departments of Radboud and Utrecht University, we can see that Utrecht has a higher percentage of non-Dutch sociologists than Radboud (31.25 versus 12.90 percent).Moreover, the collaboration networks of the staff of UU contain, on average, a higher percentage of non-Dutch scholars than the collaboration networks of staff of RU. However, the sociology staff of RU is more diverse regarding gender as their gender division is almost 50/50. 
+When comparing the two sociology departments of Radboud and Utrecht University, we can see that Utrecht has a higher percentage of non-Dutch sociologists than Radboud (31.25 versus 12.90 percent).This is in line with hypothesis 1a. Surprisingly, the percentage of non-Dutch scholars within the UU department is higher than the percentage of people with a migration background within the Netherlands (CBS, 2022). However, the department does contain many people with a Western migration background, for instance from Germany or the United States. Therefore, they might not experience the same obstacles within the academic world as people from non-western backgrounds experience.
+Moreover, in line with our expectations, the collaboration networks of the staff of UU contain, on average, a higher percentage of non-Dutch scholars than the collaboration networks of staff of RU. However, the sociology staff of RU is more diverse regarding gender as their gender division is almost 50/50. 
 &nbsp;
 Furthermore, within both departments the number of co-authorships is is rather low. Overall the density of the network is lower for UU than for RU: generally, sociology staff of the UU collaborate less with scholars within their department than RU. This lack of ties within the department might be explained by UU being more internationally orientated. Their collaboration networks are more diverse and they have more staff who originally worked at another university in another country. For both departments their might be another reason for the low density: as many people are relatively new within the department, they might not have had the chance to publish together.
 &nbsp;

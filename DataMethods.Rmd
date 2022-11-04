@@ -42,14 +42,14 @@ klippy::klippy(position = c('top', 'right'))
 &nbsp;
 
 ### Staff members sociology
-The current study focusses on the collaboration networks of staff members working at the  sociology department of the Radboud University and Utrecht University. Names of the staff members are webscraped from the websites of the university, using the RSelenium package for the javascript tables of the website of Utrecht University.
+The current study focusses on the collaboration networks of staff members working at the  sociology department of the Radboud University (N = 31) and Utrecht University (N = 32). Full names of all the staff members were webscraped from the websites of the university using the RVest package for the website of the Radboud University and the RSelenium package for the javascript tables of the website of Utrecht University.
 
 &nbsp;
 
 ### Collaboration network
-Data on the publications and citations of the staff members were webscraped from Google Scholar, using the Scholar package in R.
+Data on the publications and citations of the staff members were webscraped from Google Scholar, using the Scholar package in R and the staff members' full names. Staff members without a google scholar id or members who had gotten a wrong google scholar id as a result from the webscraping with the Scholar package were deleted from the analysis. For RU these were four scholars and for UU ten scholars (see my journal paragraph 5).
 For the RSiena analysis, collaborations between staff-members within the sociology departments themselves is operationalized using names of co-authors on the publications of the staff members within the period 2016-2022.
-Furthermore, to decide the level of ethnic diversity of the collaborator egonets, I also gathered information on co-author relationships outside the department is also needed. This network is operationalized using the names of co-authors on the publications of staffmembers since 2019. Because we only use information on the publications since 2019, we assume that the diversity of scholar’s network is relatively stable over time.
+Furthermore, to decide the percentage of non-Dutch collaborators within the collaborator egonets, I also gathered information on co-author relationships outside the department. This was done by looking at all the ego's unique collaborators, using the names of co-authors on the publications of staffmembers since 2019. Because we only use information on the publications since 2019, we assume that the diversity of scholar’s network is relatively stable over time.
 
 &nbsp;
 

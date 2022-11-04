@@ -62,6 +62,8 @@ navbar:
       menu:
       - text: "Introduction"
         href: Introduction.html
+      - text: "Theory"
+        href: Theory.html
       - text: "Data & Methods"
         href: DataMethods.html
       - text: "Analysis: descriptives"

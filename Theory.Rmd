@@ -1,0 +1,94 @@
+
+---
+title: "Theory"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+---
+
+
+
+# Theory
+First, this paper will perform a descriptive analysis and comparison of the co-authorship networks within the sociology departments of Radboud University and Utrecht University. We are mainly interested in the differences between the two departments regarding the ethnicity of the sociologists themselves and the percentage of non-Dutch co-authors within their collaborator networks.
+&nbsp;
+
+In Nijmegen 26.5 percent of the inhabitants has a migration background, of whom 12.1 percent Western and 14.4 percent non-Western (CBS, 2022). For Utrecht, this 36.1 percent (12.2 percent Western and 23.9 percent non-Western). As the population of Utrecht is more ethnically diverse than the population of Nijmegen, I expect this will also influence the level of ethnic diversity of their staff members and of the co-authorship networks present for multiple reasons. First, because Utrecht is a more ethnically diverse city than Nijmegen and a university is an important part of a city, I expect UU to also be more ethnically diverse than RU. Following the homophily theory, people want to associate with people who have similar characteristics (Lazersfeld & Merton, 1954; McPherson, Smith-Lovin & Cook, 2001). Studies indeed show that scientific collaboration networks are clustered by ethnicity, as people prefer to co-publish with people from similar ethnic background (Freeman & Huang, 2014; Kumar & Ratnavelu, 2015). Therefore, as UU has a higher percentage of non-Dutch sociologists than RU, I expect this multiculturality to also be visible within the collaboration networks of the scholars.
+&nbsp;
+
+Second, large cities are generally more internationally orientated than smaller cities (Wood, 2001), which could result in Utrecht University hiring more staff from non-Dutch origin than Radboud University and being more open for co-publishing with people from ethnic minority groups. This can be the result of bigger cities multicultural character, which does not only result in the presence of more ethnic minorities with an international worldview, but also in ethnic majority inhabitants coming into contact with many people from ethnic minority groups. Following the contact theory, this will lead to less negative prejudices regarding outgroups (Pettigrew, 1998), hence explaining their more internationally orientated nature. Another explanation for the international nature of bigger cities, is the larger presence of big companies who need to have international ties to keep up with competition (Wood, 2001). Therefore, we formulate the following hypotheses:
+&nbsp;
+
+**Hypothesis 1a:** *Utrecht University has a higher percentage of non-Dutch sociology staff members than Radboud University.*
+&nbsp;
+
+**Hypothesis 1b:** *The collaborator egonets of sociology staff members from Utrecht University will contain a higher percentage of non-Dutch co-authors than the collaborator egonets of sociology staff members from Radboud University.*
+&nbsp;
+
+Furthermore, I expect that a scholar’s ethnic background, age and gender will influence the percentage of non-Dutch co-authors present within their collaboration network.
+&nbsp;
+
+First, as explained before, the homophily theory states that individuals want to form relationships with people who have similar traits and values (Horta, Feng & Santos, 2022; Lazersfeld & Merton, 1954; McPherson, Smith-Lovin & Cook, 2001). Race and ethnicity play a mayor role in the division of social networks within society (McPherson, Smith-Lovin & Cook, 2001). Studies indeed show that scholars of the same ethnicity are more likely to collaborate together (Freeman & Huang, 2014; Kumar & Ratnavelu, 2015). Therefore we expect:
+&nbsp;
+
+**Hypothesis 2a:** *Non-Dutch sociology staff members will have a higher percentage of non-Dutch co-authors within their collaborator egonets than Dutch sociology staff members.*
+&nbsp;
+
+Furthermore, age seems to be of influence on people’s perceptions on ethnic minorities. Studies show that persons of older age are less tolerant towards ethnic minority groups, especially Muslims (Dunn, 2003). This can be explained by cohort replacement: attitudes are formed during the socialization in someone’s formative years and this is resistant to changes in their later life (Alwinn & Scott, 1996; Glenn, 1977). Each cohort has unique social-political orientations, as their circumstances differed during their socialization period. As people of colour were portrayed more negatively in the distant past, older people are more likely to have negative prejudices regarding ethnic minorities (Gonsalkorale, Sherman & Klauer, 2009). Therefore, I expect that older scholars will be less open to collaborate with people with a migration background than younger scholars. This leads us to the following hypothesis:
+&nbsp;
+
+**Hypothesis 2b:** *Younger sociology staff members will have a higher percentage of non-Dutch co-authors within their collaborator egonets than older sociology staff members.*
+&nbsp;
+
+The last demographic characteristic included in the study is gender. Gender stereotypes can be of influence on racial prejudices (Ford, 2008; Leong & Ward, 2006). Females are generally encouraged to behave according to gender norms that value warmth, compassion, nurturance and interpersonal orientation. These values are related to more tolerant view towards ethnic minorities. In contrast, men are socialized with ideas of masculinity that encourage competitiveness, dominance and achievement, which could lead to more hostile views towards outgroups. Therefore, I expect that female scholars will be more likely to collaborate with ethnic minority scholars than male scholars.
+&nbsp;
+
+**Hypothesis 2c:** *Female sociology staff members will have a higher percentage of non-Dutch co-authors within their collaborator egonets than male sociology staff members.*
+&nbsp;
+
+Last, this paper will examine to what extent the percentage of non-Dutch co-authors present within the collaborator egonets will influence whether staff within the department work together.
+&nbsp;
+
+The diversity-innovation paradox shows that a higher level of diversity within a co-publishing group can lead to more innovative ideas (Hofstra et al., 2020). People from minority groups have experiences that have often been neglected within science. However, studies show that papers published by members of (ethnic) minority groups are taken up less by other scholars than papers published by members of (ethnic) majority groups, as is visible in the number of publications and citations (Hofstra et al. 2020;  Ginther et al. 2018). Because of the negative effect of being part of an ethnic minority group on your academical success, it can be expected that scholars will be more attracted to form ties with colleagues with a homogeneous Dutch collaboration network than with colleagues who have a network with a higher percentage of non-Dutch scholars. Therefore, we could formulate the following hypothesis: 
+&nbsp;
+
+**Hypothesis 3a** *Sociology staff members prefer to co-publish with scholars that have a low percentage of non-Dutch co-authors within their collaboration egonet.*
+&nbsp;
+
+In contrast, other studies show that papers from international collaborations have a greater scientific impact than those from domestic papers (Velez-Estevez, García-Sánchez, Moral-Munoz & Cobo, 2022). Following this logic, it might be more attractive for staff members to collaborate with colleagues who many international scholars within their collaboration network, who are often persons with a non-Dutch last name. Therefore one could also expect:
+&nbsp;
+
+**Hypothesis 3b** *Sociology staff members prefer to co-publish with scholars that have a high percentage of non-Dutch co-authors within their collaboration egonet.*
+&nbsp;
+
+Last, when following the homophily principle, people are more likely to form ties with persons that have similar characteristics (Horta, Feng & Santos, 2022; Lazersfeld & Merton, 1954; McPherson, Smith-Lovin & Cook, 2001). One could therefore also hypothesize that scholars with a similar amount of ethnic diversity within their co-authorship network are more likely to co-publish together, as they might have attitudes and values that are more alike. Based on the homophily principle, we formulate our last hypothesis:
+&nbsp;
+
+**Hypothesis 3c** *Sociology staff members prefer to co-publish with scholars that have a similar percentage of non-Dutch co-authors within their collaboration egonet.*

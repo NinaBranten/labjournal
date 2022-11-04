@@ -33,10 +33,52 @@ klippy::klippy(position = c('top', 'right'))
 #klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
 ```
 ---
-# Research questions
 
-**Question 1:** *To what exent do the collaborator egonets of sociology staff members from Radboud University and Utrecht University differ in their level of ethnic diversity?*
+# Introduction
 
-**Question 2:** *To what extent can we explain these differences in the ethnic diversity of the collaborator egonets by age and ethnic background of these faculty members?*
+Due to rising globalization, the academic world is increasing in its level of ethnic diversity (Freeman & Huang, 2014).  However, the pace of this shift is slow and primarily contains an increase in Asian people obtaining higher education and entering the academic world (Hofstra et al., 2022). Most ethnic minority groups are still strongly underrepresented: in the United States in 2018, 10.6 percent of the scholars had an Asian background and only 7.8 percent was from another ethnic minority group (NCES 1995, 2003, 2014, 2019). This lack of diversity is also visible at universities in the Netherlands, especially regarding their staff members (Bettache, 2019). From all students that obtained their master’s degree in 2018, 15.34 had a non-Western migration background (Ministry of Education, Culture and Science, 2020). This is comparable with the 14.7 percent of the Dutch society with a non-Western migration background (CBS, 2022). However, less is known about the ethnic composition of the staff members at Dutch universities as it is illegal to register the ethnicity of employees (Ministry of Education, Culture and Science, 2020). A study shows that approximately 25 percent of the research assistants at the University of Groningen has a non-Western migration background (White, 2016). However, only 12 of the 469 professors have a non-Western background. This suggests that a leaky pipeline might be present (Hofstra et a;., 2020): the number of persons with a migration background obtaining a master’s degree is relatively high, but this does not translate into ethnic minorities obtaining a career in the field of science. 
+&nbsp;
 
-**Question 3:** *To what extent does the ethnic diversity of the collaborator egonets influence whether staff within the department works together?*
+One possible explanation for the lack of ethnic diversity within science, could be the existence of biases and discrimination (Beasley & Fischer, 2011).  Within science especially white middle-aged men are seen as scientifically competent, which is detrimental for aspiring scientists of minority groups (Moss-Racusin et al., 2014). Indeed, studies find that people from minority groups often do not feel included within academia and therefore choose to not maintain their careers within the scientific world (Beasley & Fischer, 2012).  Furthermore, studies suggest that ethnic discrimination is visible in the hiring of academic employees, but also within their promotion (Abelson et al., 2018), the funding of awards and grants and the number of publications and citations (Ginther et al. 2018). 
+&nbsp;
+
+Many studies have looked at the effect of gender in the formation of scientific collaboration, but the role ethnicity plays within these networks remains understudied (Bertolero et al., 2020). A study on the ethnic imbalance in reference lists of neuroscience found many similarities with research on gender inequality within academia (Bertolero et al., 2020). Just like female scholars whose under-citation was mostly driven by men (McLaughlin, Lange & Brus, 2013), ethnic minority scholars were cited less and this was largely caused by the ethnic majority. 
+&nbsp;
+
+Moreover, research on ethnic discrimination in the formation of co-authorship networks is scarce as most studies are focused on reference lists and citation scores (Horta, Feng & Santos, 2022). This is remarkable, as co-authorship on scientific papers is most evident and furthermore most well suited for quantification of scientific activities (Beaver & Rosen, 1978 & Nagtegaal & de Bruin, 1994). 
+&nbsp;
+
+Furthermore, especially little research is done on the role of ethnicity in the formation of co-authorship within the social sciences (Horta, Feng & Santos, 2022). It is of great importance to examine the level of ethnic diversity of social science departments and their collaboration networks, as their research often includes topics like ethnic discrimination. Scholars from minority groups have unique experiences that are different from the white and western perspectives of the majority groups that have been dominant within science, which could lead to more scientific innovation (Hofstra et al., 2020). Therefore, the voices of ethnic minorities should be included in conducting social science studies, especially as they have experienced the discriminatory practices that we study.
+&nbsp;
+
+Moreover, research on scientific collaboration networks is mostly focused on large social networks, neglecting the microlevel factors that could be of influence on the formation of co-authorship ties (Pepe & Rodriguez, 2009). This study will examine and compare the collaboration networks of two Dutch sociology departments, one at Radboud University and one at Utrecht University, allowing us to closely observe the characteristics that play a significant role in the formation of co-authorship networks. We obtain our own dataframe by webscraping information about the scholars and their publications and citations from the university’s websites and google scholar. 
+&nbsp;
+
+First, the social networks of the departments will be compared descriptively regarding the ethnicities present: both looking at the ethnicity of the staff members and the ethnicities within the collaboration networks of these staff members. These universities were chosen, because one is located in a relatively small city (Nijmegen) and the other in a relatively large city (Utrecht), who differ strongly in their percentage of inhabitants having a migration background (CBS, 2022). We are therefore interested to what extent (the networks of) these two departments differ regarding their level of ethnic diversity.* This leads us to the following research questions:
+&nbsp;
+
+**Question 1a:** *To what extent do the sociology departments from Radboud University and Utrecht University differ in their percentage of non-Dutch staff members?*
+&nbsp;
+
+**Question 1b:** *To what extent do the collaborator egonets of sociology staff members from Radboud University and Utrecht University differ in their percentage of non-Dutch co-authors?*
+&nbsp;
+
+Second, this paper examine to what extent different demographic characteristics can explain the level of ethnic diversity within scholars co-authorship networks. First, we observe that race and ethnicity are of big influence in the formation of social relationships (McPherson, Smith-Lovin & Cook, 2001) as people often feel connected to people that are similar to themselves (Lazersfeld & Merton, 1954). This might also be the case in the formation of ties within the sociology departments, as studies show that scholars of the same ethnicity are more likely to collaborate with each other (Freeman & Huang, 2014; Kumar & Ratnavelu, 2015).
+Another factor that could be associated to the prevalence of ethnic minorities within one’s collaboration network, is age. Generally, people of older age are less tolerant towards ethnic minority groups, especially Muslims (Dunn, 2003; Gonsalkorale, Sherman & Klauer, 2009). 
+Furthermore, the gender of the scholar could also be of influence on the level of non-Dutch collaborators present in their co-authorship network. Studies show that masculinity is related to more negative attitudes towards ethnic minorities and multiculturalism (Dunn, 2003; Leon & Ward, 2006), what might be of influence on the formation of co-authorship ties within academia. 
+Therefore, this paper aims to answer the following research question: 
+&nbsp;
+
+**Question 2:** *To what extent can we explain these differences in the percentage of non-Dutch co-authors within the collaborator egonets by ethnic background, age and gender of these faculty members?*
+&nbsp;
+
+Last, studies show that a higher level of ethnic diversity within a collaboration network can lead to more scientific novelty, as people from minority groups bring experiences and perspectives to the table that have generally been neglected within science (Hofstra et al., 2020). At the same time, these innovative papers published by more ethnically diverse scholars are taken up less by other scholars than papers published by members of the ethnic majority. We are therefore interested in how the percentage of non-Dutch co-authors within a scholar’s network influences to what extent their colleagues want to collaborate with them. 
+&nbsp;
+
+This last question will be answered using Stochastic Actor-Orientated Modelling (SOAM) of RSiena (Ripley et al., 2022), studying the influence of the percentage of non-Dutch co-authors within ones collaborator network on scholar’s decisions to form co-authorship ties with other within the department. SOAM-analysis is unique because it allows us to examine this influence whilst at the same time controlling for structural network effects and other factors that could be of influence. It is of great importance to control for structural network effects, as studies have shown that they are of significant influence on the formation of co-authorship networks (Barabási et al., 2002; Newman, 2001). Generally, scholars are more likely to collaborate when they have a co-author in common and prefer to collaborate with scholars with many collaboration ties. Furthermore, research shows that homophily is visible within scientific collaboration networks, resulting in the clustering of scholars that have similar characteristisc (Wang, Zhen-Zhen & Zhu, 2014). However, this is the first study to date to examine the influence of the level of ethnic diversity of collaborator networks for scholars' choices whether or not to co-publish. This leads us to our last research question:
+&nbsp;
+
+**Question 3:** *To what extent does the percentage of non-Dutch co-authors within the collaborator egonets influence whether staff within the department work together?*
+
+* Disclaimer: the ethnicity of the scholars is operationalized by looking at the last name of the scholar, classifying them as Dutch or non-Dutch for ease of interpretation. This does of course not mean that a scholar who is classified as non-Dutch cannot have a Dutch nationality.
+ 
