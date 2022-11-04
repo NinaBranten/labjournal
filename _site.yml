@@ -72,7 +72,10 @@ navbar:
         href: Regression.html
       - text: "Analysis: RSiena"
         href: RSiena.html
-       
+      - text: "Conclusion & discussion"
+        href: Conclusion_discussion.html
+      - text: "References"
+        href: References.html
 
   right:
   - icon: fab fa-github

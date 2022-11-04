@@ -660,14 +660,19 @@ Generally, the transitivity of Utrecht University is lower than at Radboud Unive
 
 # Conclusion
 
-When comparing the two sociology departments of Radboud and Utrecht University, we can see that Utrecht has a higher percentage of non-Dutch sociologists than Radboud (31.25 versus 12.90 percent).This is in line with hypothesis 1a. Surprisingly, the percentage of non-Dutch scholars within the UU department is higher than the percentage of people with a migration background within the Netherlands (CBS, 2022). However, the department does contain many people with a Western migration background, for instance from Germany or the United States. Therefore, they might not experience the same obstacles within the academic world as people from non-western backgrounds experience.
+When comparing the two sociology departments of Radboud and Utrecht University, we can see that Utrecht has a higher percentage of non-Dutch sociologists than Radboud (31.25 versus 12.90 percent). This is in line with hypothesis 1a. Surprisingly, the percentage of non-Dutch scholars within the UU department is higher than the percentage of people with a migration background within the Netherlands (CBS, 2022). However, the department does contain many people with a Western migration background, for instance from Germany or the United States. Therefore, they might not experience the same obstacles within the academic world as people from non-western backgrounds experience.
+&nbsp;
+
 Moreover, in line with our expectations, the collaboration networks of the staff of UU contain, on average, a higher percentage of non-Dutch scholars than the collaboration networks of staff of RU. However, the sociology staff of RU is more diverse regarding gender as their gender division is almost 50/50. 
 &nbsp;
+
 Furthermore, within both departments the number of co-authorships is is rather low. Overall the density of the network is lower for UU than for RU: generally, sociology staff of the UU collaborate less with scholars within their department than RU. This lack of ties within the department might be explained by UU being more internationally orientated. Their collaboration networks are more diverse and they have more staff who originally worked at another university in another country. For both departments their might be another reason for the low density: as many people are relatively new within the department, they might not have had the chance to publish together.
 &nbsp;
+
 Moreover, the transitivity is lowest at the UU, indicating that it is more common for staff at the RU to publish with co-authors of co-authors.
 &nbsp;
-Last, we observe within both departments ethnic and gender segregation, as the intergroupdensities are lower than the intragroup densities.
+
+Last, we observe within both departments ethnic and gender segregation, as the intergroup densities are lower than the intragroup densities.
 
 
 # Tables

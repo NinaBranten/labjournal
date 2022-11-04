@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="by: Nina Branten" />
+
+
+<title>Data &amp; Methods</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    My journal
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="week-2-plotting.html">Week 2</a>
+    </li>
+    <li>
+      <a href="RU_lab.html">Week 3/4 - RU</a>
+    </li>
+    <li>
+      <a href="RSiena_tutorial.html">Week 4 - RSiena tutorial</a>
+    </li>
+    <li>
+      <a href="1.names.html">1. Names</a>
+    </li>
+    <li>
+      <a href="2.gender.html">2. Gender</a>
+    </li>
+    <li>
+      <a href="3.origin.html">3. Origin</a>
+    </li>
+    <li>
+      <a href="4.scholar.html">4. Scholar</a>
+    </li>
+    <li>
+      <a href="5.RU_etni_age.html">5. RU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="5.UU_etni_age.html">5. UU ethnicity &amp; age</a>
+    </li>
+    <li>
+      <a href="6.RU_Array.html">6. RU array</a>
+    </li>
+    <li>
+      <a href="6.UU_Array.html">6. UU array</a>
+    </li>
+    <li>
+      <a href="7.RU_descriptives.html">7. RU descriptives</a>
+    </li>
+    <li>
+      <a href="7.UU_descriptives.html">7. UU descriptives</a>
+    </li>
+    <li>
+      <a href="8.RU_regression.html">8. RU regression</a>
+    </li>
+    <li>
+      <a href="8.UU_regression.html">8. UU regression</a>
+    </li>
+    <li>
+      <a href="9.RU_RSiena.html">9. RU RSiena</a>
+    </li>
+    <li>
+      <a href="9.UU_RSiena.html">9. UU RSiena</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research Question
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RQ1.html">first attempt</a>
+    </li>
+    <li>
+      <a href="RQ2.html">second attempt</a>
+    </li>
+    <li>
+      <a href="RQ3.html">third attempt</a>
+    </li>
+    <li>
+      <a href="RQ4.html">fourth attempt</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Final report
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="Theory.html">Theory</a>
+    </li>
+    <li>
+      <a href="DataMethods.html">Data &amp; Methods</a>
+    </li>
+    <li>
+      <a href="Analysis_descriptives.html">Analysis: descriptives</a>
+    </li>
+    <li>
+      <a href="Regression.html">Analysis: regression</a>
+    </li>
+    <li>
+      <a href="RSiena.html">Analysis: RSiena</a>
+    </li>
+    <li>
+      <a href="Conclusion_discussion.html">Conclusion &amp; discussion</a>
+    </li>
+    <li>
+      <a href="References.html">References</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/JochemTolsma/labjournal">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data &amp; Methods</h1>
+<h4 class="author">by: Nina Branten</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<div id="conclusion" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Conclusion</h1>
+<p> </p>
+<p>People from ethnic minority groups are still strongly
+underrepresented within the academic world (Hofstra et al., 2022).
+However, only little research is done on how ethnicity precisely plays a
+role in the formation of co-authorship networks within science (Horta,
+Feng &amp; Santos, 2022). Most studies on co-authorship networks are
+very large scaled, neglecting the micro-level characteristics that could
+be of influence (Pepe &amp; Rodriguez, 2009) and do not study the social
+sciences (Horta, Feng &amp; Santos, 2022).This study is the first to
+examine in detail the formation of co-authorship ties within a
+department, looking at the influence of the percentage of non-Dutch
+co-authors in one’s collaboration network. The analysis was performed on
+the sociology department of Radboud University and the sociology
+department of Utrecht University.  </p>
+<p>First, the study aimed to compare the sociology departments in their
+share of non-Dutch staff members and their percentage of non-Dutch
+co-authors within the staff members collaboration networks. Ethnicity
+was operationalized as Dutch or non-Dutch, based on the last name of the
+scholar. As expected, Utrecht University was more ethnically diverse
+than Radboud University: the department contained both more staff
+members with a non-Dutch last name and had a higher percentage of
+non-Dutch co-authors in the collaborator networks of the staff members.
+This might be explained by the fact that Utrecht is a bigger city and
+has a higher percentage of inhabitants with a migration background.
+ </p>
+<p>Second, the paper tried to explain the percentage of non-Dutch
+co-authors present within one’s collaboration network by performing
+regression analyses. We were interested in several demographic
+characteristics: ethnicity, age and gender. The influence of the
+characteristics differed between the two universities. For Radboud
+University only the academical age of a staff member was of significant
+influence: the younger the scholar, the higher the percentage of
+non-Dutch co-authors within their collaboration network. For Utrecht
+University, only the ethnicity of the ego had a significant effect:
+non-Dutch staff members were more likely to have a higher percentage of
+non-Dutch co-authors in their collaboration network.  </p>
+<p>Third, with the use of RSiena we could estimate the influence of the
+percentage of non-Dutch co-authors within one’s collaboration network on
+the formation of ties within the departments, while controlling for both
+structural effects as other relevant factors. The structural effects
+seem to have more influence in the sociology department of the Radboud
+University than in the department of Utrecht University. Sociologists at
+the RU significantly preferred to co-publish with a co-author of a
+co-author.  </p>
+<p>Furthermore, the control variables did not have a big influence on
+the attractiveness of the formation of a co-authorship tie. For RU,
+scholars preferred to co-publish with someone who was of younger age.
+For UU, none of the control variables had a significant effect.
+Apparently, these individual level characteristics were not important in
+the scholars decision with whom to co-publish. However, these findings
+should be treated with caution as the density within both departments
+was very low, especially for UU.  </p>
+<p>Most importantly, we saw that the percentage of non-Dutch co-authors
+was indeed of influence in scholars’ choice to co-publish or not.
+Generally, the RSiena results indicate that sociologists prefer to
+co-publish with someone who has a similar percentage of non-Dutch
+co-authors in their network. However, this effect became slightly
+insignificant for UU when all the variables were added in the last
+model. However, generally our findings are in line with our expectations
+based on the homophily principle: people are more likely to associate
+with people who are similar to them (Lazersfeld &amp; Merton, 1954;
+McPherson, Smith-Lovin &amp; Cook, 2001). For instance, people with
+similar shares of non-Dutch collaborators might have certain attitudes
+or values in common that could lead them to co-publish together.  </p>
+</div>
+<div id="limitations-and-future-research" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Limitations and future
+research</h1>
+<p>  Whilst this paper adds to the scientific literature because it is
+the first to study this research question, some limitations have to be
+mentioned. First, several remarks can be made about the
+operationalization of our variables. Ethnicity is operationalized by
+looking at the last name of the scholar. Whilst I tried to do this very
+precisely, this method is sensitive to mistakes as not all last names
+give away someones ethnical background. Therefore, it could be possible
+that some of the scholars were classified in the wrong group.
+Furthermore, dividing ethnicity into Dutch/non-Dutch is over-simplified
+and possibly problematic. Studies show that people with a non-Western
+migration background are victim of discrimination much more often than
+people with a western migration background (SCP, 2020). In this study,
+scholars from German origin were for instance also labeled as non-Dutch,
+whilst they might not have experienced any adverse consequences of their
+ethnicity. This might have influenced our findings, resulting in a
+stronger effect of the percentage of non-Dutch collaboration within
+one’s network than is actually present. Therefore I highly encourage
+future research to examine if our results are still true using a more
+reliable and precise method of deciding one’s ethnicity.  </p>
+<p>Furthermore, because of a lack of time we solely looked at ego’s
+collaborators since 2019 in deciding the percentage of non-Dutch
+collaborators in one’s network. In contrast, the RSiena analysis is
+focused on collaboration ties in the period 2016-2022. Therefore, we
+implicitly assume that the percentage of non-Dutch collaborators within
+one’s network is relatively stable over time. However, as someone will
+probably change their co-author ship ties during their academical
+career, this assumption might be false. Therefore, future research
+should decide the level of ethnic diversity of collaborator networks
+using a broader period of time.  </p>
+<p>Second, also the structure of our chosen network could have
+influenced the results of our study. The densitity of both the networks
+was relatively low, especially the density of network of Utrecht
+University. This might have skewed our results, as only little
+co-authorship ties were made within the department. This could explain
+why the control variables in the RSiena analysis were of non-significant
+influence.  </p>
+<p>Furthermore, our network is undirected as google scholar only
+contains information on collaborations on papers, but not who initiated
+this relationship. If future research could study the formation of
+co-authorship ties within a directed network, then more could be said
+about the motivations of scholars who co-publish with each other: who
+initiated the relationship and why?  </p>
+<p>An important point of reflection is the ethical issues that arised
+while conducting this research. First, names and information of the
+scholars were webscraped from the universities’ websites and google
+scholar, without permission. During this process, we often got a “rate
+limit” error from google, which we had to ignore by changing our code.
+Future research could webscrape more ethnically, by introducing
+themselves politely to the server every time. However, for our short
+project this was too time-consuming. Second, the scholars never gave
+permission to be included in the research. However, they did voluntary
+put their names and information openly on google scholar and the
+universities’ websites. Last, we divided the scholars in groups based on
+their ethnicity, which we decided ourselves based on their last name.
+This is of course a sensitive topic: especially because we made this
+very over-simplified categorization of Dutch and non-Dutch. This could
+be considered as non-ethical: it is based on a very Western perspective,
+putting all other ethnicities than “Dutch” under the same umbrella.
+Furthermore, having a non-Dutch last name or having a non-Dutch
+ethnicity does of course not mean that this person is not Dutch. Making
+this distinction can lead to the idea that Dutch people with a migration
+background are not really Dutch, which of course is not the case.</p>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhdGEgJiBNZXRob2RzIg0KYXV0aG9yOiAiYnk6IE5pbmEgQnJhbnRlbiINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCi0tLQ0KDQoNCg0KYGBge3IsIGluc3RhbGwgcmVtb3RlbHksIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJywgZXZhbD1GQUxTRX0NCmluc3RhbGwucGFja2FnZXMoInJlbW90ZXMiKQ0KcmVtb3Rlczo6aW5zdGFsbF9naXRodWIoInJsZXN1ci9rbGlwcHkiKQ0KYGBgIA0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCmxpYnJhcnkocmdsKQ0KDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpvcHRzX2NodW5rJHNldCh0aWR5Lm9wdHM9bGlzdCh3aWR0aC5jdXRvZmY9MTAwKSx0aWR5PVRSVUUsIHdhcm5pbmcgPSBGQUxTRSwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQoNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQotLS0NCg0KIyBDb25jbHVzaW9uDQombmJzcDsNCg0KUGVvcGxlIGZyb20gZXRobmljIG1pbm9yaXR5IGdyb3VwcyBhcmUgc3RpbGwgc3Ryb25nbHkgdW5kZXJyZXByZXNlbnRlZCB3aXRoaW4gdGhlIGFjYWRlbWljIHdvcmxkIChIb2ZzdHJhIGV0IGFsLiwgMjAyMikuIEhvd2V2ZXIsIG9ubHkgbGl0dGxlIHJlc2VhcmNoIGlzIGRvbmUgb24gaG93IGV0aG5pY2l0eSBwcmVjaXNlbHkgcGxheXMgYSByb2xlIGluIHRoZSBmb3JtYXRpb24gb2YgY28tYXV0aG9yc2hpcCBuZXR3b3JrcyB3aXRoaW4gc2NpZW5jZSAoSG9ydGEsIEZlbmcgJiBTYW50b3MsIDIwMjIpLiBNb3N0IHN0dWRpZXMgb24gY28tYXV0aG9yc2hpcCBuZXR3b3JrcyBhcmUgdmVyeSBsYXJnZSBzY2FsZWQsIG5lZ2xlY3RpbmcgdGhlIG1pY3JvLWxldmVsIGNoYXJhY3RlcmlzdGljcyB0aGF0IGNvdWxkIGJlIG9mIGluZmx1ZW5jZSAoUGVwZSAmIFJvZHJpZ3VleiwgMjAwOSkgYW5kIGRvIG5vdCBzdHVkeSB0aGUgc29jaWFsIHNjaWVuY2VzIChIb3J0YSwgRmVuZyAmIFNhbnRvcywgMjAyMikuVGhpcyBzdHVkeSBpcyB0aGUgZmlyc3QgdG8gZXhhbWluZSBpbiBkZXRhaWwgdGhlIGZvcm1hdGlvbiBvZiBjby1hdXRob3JzaGlwIHRpZXMgd2l0aGluIGEgZGVwYXJ0bWVudCwgbG9va2luZyBhdCB0aGUgaW5mbHVlbmNlIG9mIHRoZSBwZXJjZW50YWdlIG9mIG5vbi1EdXRjaCBjby1hdXRob3JzIGluIG9uZSdzIGNvbGxhYm9yYXRpb24gbmV0d29yay4gVGhlIGFuYWx5c2lzIHdhcyBwZXJmb3JtZWQgb24gdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFJhZGJvdWQgVW5pdmVyc2l0eSBhbmQgdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eS4NCiZuYnNwOw0KDQpGaXJzdCwgdGhlIHN0dWR5IGFpbWVkIHRvIGNvbXBhcmUgdGhlIHNvY2lvbG9neSBkZXBhcnRtZW50cyBpbiB0aGVpciBzaGFyZSBvZiBub24tRHV0Y2ggc3RhZmYgbWVtYmVycyBhbmQgdGhlaXIgcGVyY2VudGFnZSBvZiBub24tRHV0Y2ggY28tYXV0aG9ycyB3aXRoaW4gdGhlIHN0YWZmIG1lbWJlcnMgY29sbGFib3JhdGlvbiBuZXR3b3Jrcy4gRXRobmljaXR5IHdhcyBvcGVyYXRpb25hbGl6ZWQgYXMgRHV0Y2ggb3Igbm9uLUR1dGNoLCBiYXNlZCBvbiB0aGUgbGFzdCBuYW1lIG9mIHRoZSBzY2hvbGFyLiBBcyBleHBlY3RlZCwgVXRyZWNodCBVbml2ZXJzaXR5IHdhcyBtb3JlIGV0aG5pY2FsbHkgZGl2ZXJzZSB0aGFuIFJhZGJvdWQgVW5pdmVyc2l0eTogdGhlIGRlcGFydG1lbnQgY29udGFpbmVkIGJvdGggbW9yZSBzdGFmZiBtZW1iZXJzIHdpdGggYSBub24tRHV0Y2ggbGFzdCBuYW1lIGFuZCBoYWQgYSBoaWdoZXIgcGVyY2VudGFnZSBvZiBub24tRHV0Y2ggY28tYXV0aG9ycyBpbiB0aGUgY29sbGFib3JhdG9yIG5ldHdvcmtzIG9mIHRoZSBzdGFmZiBtZW1iZXJzLiBUaGlzIG1pZ2h0IGJlIGV4cGxhaW5lZCBieSB0aGUgZmFjdCB0aGF0IFV0cmVjaHQgaXMgYSBiaWdnZXIgY2l0eSBhbmQgaGFzIGEgaGlnaGVyIHBlcmNlbnRhZ2Ugb2YgaW5oYWJpdGFudHMgd2l0aCBhIG1pZ3JhdGlvbiBiYWNrZ3JvdW5kLg0KJm5ic3A7DQoNClNlY29uZCwgdGhlIHBhcGVyIHRyaWVkIHRvIGV4cGxhaW4gdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvLWF1dGhvcnMgcHJlc2VudCB3aXRoaW4gb25lJ3MgY29sbGFib3JhdGlvbiBuZXR3b3JrIGJ5IHBlcmZvcm1pbmcgcmVncmVzc2lvbiBhbmFseXNlcy4gV2Ugd2VyZSBpbnRlcmVzdGVkIGluIHNldmVyYWwgZGVtb2dyYXBoaWMgY2hhcmFjdGVyaXN0aWNzOiBldGhuaWNpdHksIGFnZSBhbmQgZ2VuZGVyLiBUaGUgaW5mbHVlbmNlIG9mIHRoZSBjaGFyYWN0ZXJpc3RpY3MgZGlmZmVyZWQgYmV0d2VlbiB0aGUgdHdvIHVuaXZlcnNpdGllcy4gRm9yIFJhZGJvdWQgVW5pdmVyc2l0eSBvbmx5IHRoZSBhY2FkZW1pY2FsIGFnZSBvZiBhIHN0YWZmIG1lbWJlciB3YXMgb2Ygc2lnbmlmaWNhbnQgaW5mbHVlbmNlOiB0aGUgeW91bmdlciB0aGUgc2Nob2xhciwgdGhlIGhpZ2hlciB0aGUgcGVyY2VudGFnZSBvZiBub24tRHV0Y2ggY28tYXV0aG9ycyB3aXRoaW4gdGhlaXIgY29sbGFib3JhdGlvbiBuZXR3b3JrLiBGb3IgVXRyZWNodCBVbml2ZXJzaXR5LCBvbmx5IHRoZSBldGhuaWNpdHkgb2YgdGhlIGVnbyBoYWQgYSBzaWduaWZpY2FudCBlZmZlY3Q6IG5vbi1EdXRjaCBzdGFmZiBtZW1iZXJzIHdlcmUgbW9yZSBsaWtlbHkgdG8gaGF2ZSBhIGhpZ2hlciBwZXJjZW50YWdlIG9mIG5vbi1EdXRjaCBjby1hdXRob3JzIGluIHRoZWlyIGNvbGxhYm9yYXRpb24gbmV0d29yay4NCiZuYnNwOw0KDQpUaGlyZCwgd2l0aCB0aGUgdXNlIG9mIFJTaWVuYSB3ZSBjb3VsZCBlc3RpbWF0ZSB0aGUgaW5mbHVlbmNlIG9mIHRoZSBwZXJjZW50YWdlIG9mIG5vbi1EdXRjaCBjby1hdXRob3JzIHdpdGhpbiBvbmUncyBjb2xsYWJvcmF0aW9uIG5ldHdvcmsgb24gdGhlIGZvcm1hdGlvbiBvZiB0aWVzIHdpdGhpbiB0aGUgZGVwYXJ0bWVudHMsIHdoaWxlIGNvbnRyb2xsaW5nIGZvciBib3RoIHN0cnVjdHVyYWwgZWZmZWN0cyBhcyBvdGhlciByZWxldmFudCBmYWN0b3JzLiBUaGUgc3RydWN0dXJhbCBlZmZlY3RzIHNlZW0gdG8gaGF2ZSBtb3JlIGluZmx1ZW5jZSBpbiB0aGUgc29jaW9sb2d5IGRlcGFydG1lbnQgb2YgdGhlIFJhZGJvdWQgVW5pdmVyc2l0eSB0aGFuIGluIHRoZSBkZXBhcnRtZW50IG9mIFV0cmVjaHQgVW5pdmVyc2l0eS4gU29jaW9sb2dpc3RzIGF0IHRoZSBSVSBzaWduaWZpY2FudGx5IHByZWZlcnJlZCB0byBjby1wdWJsaXNoIHdpdGggYSBjby1hdXRob3Igb2YgYSBjby1hdXRob3IuIA0KJm5ic3A7DQoNCkZ1cnRoZXJtb3JlLCB0aGUgY29udHJvbCB2YXJpYWJsZXMgZGlkIG5vdCBoYXZlIGEgYmlnIGluZmx1ZW5jZSBvbiB0aGUgYXR0cmFjdGl2ZW5lc3Mgb2YgdGhlIGZvcm1hdGlvbiBvZiBhIGNvLWF1dGhvcnNoaXAgdGllLiBGb3IgUlUsIHNjaG9sYXJzIHByZWZlcnJlZCB0byBjby1wdWJsaXNoIHdpdGggc29tZW9uZSB3aG8gd2FzIG9mIHlvdW5nZXIgYWdlLiBGb3IgVVUsIG5vbmUgb2YgdGhlIGNvbnRyb2wgdmFyaWFibGVzIGhhZCBhIHNpZ25pZmljYW50IGVmZmVjdC4gQXBwYXJlbnRseSwgdGhlc2UgaW5kaXZpZHVhbCBsZXZlbCBjaGFyYWN0ZXJpc3RpY3Mgd2VyZSBub3QgaW1wb3J0YW50IGluIHRoZSBzY2hvbGFycyBkZWNpc2lvbiB3aXRoIHdob20gdG8gY28tcHVibGlzaC4gSG93ZXZlciwgdGhlc2UgZmluZGluZ3Mgc2hvdWxkIGJlIHRyZWF0ZWQgd2l0aCBjYXV0aW9uIGFzIHRoZSBkZW5zaXR5IHdpdGhpbiBib3RoIGRlcGFydG1lbnRzIHdhcyB2ZXJ5IGxvdywgZXNwZWNpYWxseSBmb3IgVVUuDQombmJzcDsNCg0KTW9zdCBpbXBvcnRhbnRseSwgd2Ugc2F3IHRoYXQgdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvLWF1dGhvcnMgd2FzIGluZGVlZCBvZiBpbmZsdWVuY2UgaW4gc2Nob2xhcnMnIGNob2ljZSB0byBjby1wdWJsaXNoIG9yIG5vdC4gR2VuZXJhbGx5LCB0aGUgUlNpZW5hIHJlc3VsdHMgaW5kaWNhdGUgdGhhdCBzb2Npb2xvZ2lzdHMgcHJlZmVyIHRvIGNvLXB1Ymxpc2ggd2l0aCBzb21lb25lIHdobyBoYXMgYSBzaW1pbGFyIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvLWF1dGhvcnMgaW4gdGhlaXIgbmV0d29yay4gSG93ZXZlciwgdGhpcyBlZmZlY3QgYmVjYW1lIHNsaWdodGx5IGluc2lnbmlmaWNhbnQgZm9yIFVVIHdoZW4gYWxsIHRoZSB2YXJpYWJsZXMgd2VyZSBhZGRlZCBpbiB0aGUgbGFzdCBtb2RlbC4NCkhvd2V2ZXIsIGdlbmVyYWxseSBvdXIgZmluZGluZ3MgYXJlIGluIGxpbmUgd2l0aCBvdXIgZXhwZWN0YXRpb25zIGJhc2VkIG9uIHRoZSBob21vcGhpbHkgcHJpbmNpcGxlOiBwZW9wbGUgYXJlIG1vcmUgbGlrZWx5IHRvIGFzc29jaWF0ZSB3aXRoIHBlb3BsZSB3aG8gYXJlIHNpbWlsYXIgdG8gdGhlbSAoTGF6ZXJzZmVsZCAmIE1lcnRvbiwgMTk1NDsgTWNQaGVyc29uLCBTbWl0aC1Mb3ZpbiAmIENvb2ssIDIwMDEpLiBGb3IgaW5zdGFuY2UsIHBlb3BsZSB3aXRoIHNpbWlsYXIgc2hhcmVzIG9mIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzIG1pZ2h0IGhhdmUgY2VydGFpbiBhdHRpdHVkZXMgb3IgdmFsdWVzIGluIGNvbW1vbiB0aGF0IGNvdWxkIGxlYWQgdGhlbSB0byBjby1wdWJsaXNoIHRvZ2V0aGVyLg0KJm5ic3A7DQoNCiMgTGltaXRhdGlvbnMgYW5kIGZ1dHVyZSByZXNlYXJjaA0KJm5ic3A7DQpXaGlsc3QgdGhpcyBwYXBlciBhZGRzIHRvIHRoZSBzY2llbnRpZmljIGxpdGVyYXR1cmUgYmVjYXVzZSBpdCBpcyB0aGUgZmlyc3QgdG8gc3R1ZHkgdGhpcyByZXNlYXJjaCBxdWVzdGlvbiwgc29tZSBsaW1pdGF0aW9ucyBoYXZlIHRvIGJlIG1lbnRpb25lZC4gRmlyc3QsIHNldmVyYWwgcmVtYXJrcyBjYW4gYmUgbWFkZSBhYm91dCB0aGUgb3BlcmF0aW9uYWxpemF0aW9uIG9mIG91ciB2YXJpYWJsZXMuIEV0aG5pY2l0eSBpcyBvcGVyYXRpb25hbGl6ZWQgYnkgbG9va2luZyBhdCB0aGUgbGFzdCBuYW1lIG9mIHRoZSBzY2hvbGFyLiBXaGlsc3QgSSB0cmllZCB0byBkbyB0aGlzIHZlcnkgcHJlY2lzZWx5LCB0aGlzIG1ldGhvZCBpcyBzZW5zaXRpdmUgdG8gbWlzdGFrZXMgYXMgbm90IGFsbCBsYXN0IG5hbWVzIGdpdmUgYXdheSBzb21lb25lcyBldGhuaWNhbCBiYWNrZ3JvdW5kLiBUaGVyZWZvcmUsIGl0IGNvdWxkIGJlIHBvc3NpYmxlIHRoYXQgc29tZSBvZiB0aGUgc2Nob2xhcnMgd2VyZSBjbGFzc2lmaWVkIGluIHRoZSB3cm9uZyBncm91cC4gRnVydGhlcm1vcmUsIGRpdmlkaW5nIGV0aG5pY2l0eSBpbnRvIER1dGNoL25vbi1EdXRjaCBpcyBvdmVyLXNpbXBsaWZpZWQgYW5kIHBvc3NpYmx5IHByb2JsZW1hdGljLiBTdHVkaWVzIHNob3cgdGhhdCBwZW9wbGUgd2l0aCBhIG5vbi1XZXN0ZXJuIG1pZ3JhdGlvbiBiYWNrZ3JvdW5kIGFyZSB2aWN0aW0gb2YgZGlzY3JpbWluYXRpb24gbXVjaCBtb3JlIG9mdGVuIHRoYW4gcGVvcGxlIHdpdGggYSB3ZXN0ZXJuIG1pZ3JhdGlvbiBiYWNrZ3JvdW5kIChTQ1AsIDIwMjApLiBJbiB0aGlzIHN0dWR5LCBzY2hvbGFycyBmcm9tIEdlcm1hbiBvcmlnaW4gd2VyZSBmb3IgaW5zdGFuY2UgYWxzbyBsYWJlbGVkIGFzIG5vbi1EdXRjaCwgd2hpbHN0IHRoZXkgbWlnaHQgbm90IGhhdmUgZXhwZXJpZW5jZWQgYW55IGFkdmVyc2UgY29uc2VxdWVuY2VzIG9mIHRoZWlyIGV0aG5pY2l0eS4gVGhpcyBtaWdodCBoYXZlIGluZmx1ZW5jZWQgb3VyIGZpbmRpbmdzLCByZXN1bHRpbmcgaW4gYSBzdHJvbmdlciBlZmZlY3Qgb2YgdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvbGxhYm9yYXRpb24gd2l0aGluIG9uZSdzIG5ldHdvcmsgdGhhbiBpcyBhY3R1YWxseSBwcmVzZW50LiBUaGVyZWZvcmUgSSBoaWdobHkgZW5jb3VyYWdlIGZ1dHVyZSByZXNlYXJjaCB0byBleGFtaW5lIGlmIG91ciByZXN1bHRzIGFyZSBzdGlsbCB0cnVlIHVzaW5nIGEgbW9yZSByZWxpYWJsZSBhbmQgcHJlY2lzZSBtZXRob2Qgb2YgZGVjaWRpbmcgb25lJ3MgZXRobmljaXR5Lg0KJm5ic3A7DQoNCkZ1cnRoZXJtb3JlLCBiZWNhdXNlIG9mIGEgbGFjayBvZiB0aW1lIHdlIHNvbGVseSBsb29rZWQgYXQgZWdvJ3MgY29sbGFib3JhdG9ycyBzaW5jZSAyMDE5IGluIGRlY2lkaW5nIHRoZSBwZXJjZW50YWdlIG9mIG5vbi1EdXRjaCBjb2xsYWJvcmF0b3JzIGluIG9uZSdzIG5ldHdvcmsuIEluIGNvbnRyYXN0LCB0aGUgUlNpZW5hIGFuYWx5c2lzIGlzIGZvY3VzZWQgb24gY29sbGFib3JhdGlvbiB0aWVzIGluIHRoZSBwZXJpb2QgMjAxNi0yMDIyLiBUaGVyZWZvcmUsIHdlIGltcGxpY2l0bHkgYXNzdW1lIHRoYXQgdGhlIHBlcmNlbnRhZ2Ugb2Ygbm9uLUR1dGNoIGNvbGxhYm9yYXRvcnMgd2l0aGluIG9uZSdzIG5ldHdvcmsgaXMgcmVsYXRpdmVseSBzdGFibGUgb3ZlciB0aW1lLiBIb3dldmVyLCBhcyBzb21lb25lIHdpbGwgcHJvYmFibHkgY2hhbmdlIHRoZWlyIGNvLWF1dGhvciBzaGlwIHRpZXMgZHVyaW5nIHRoZWlyIGFjYWRlbWljYWwgY2FyZWVyLCB0aGlzIGFzc3VtcHRpb24gbWlnaHQgYmUgZmFsc2UuIFRoZXJlZm9yZSwgZnV0dXJlIHJlc2VhcmNoIHNob3VsZCBkZWNpZGUgdGhlIGxldmVsIG9mIGV0aG5pYyBkaXZlcnNpdHkgb2YgY29sbGFib3JhdG9yIG5ldHdvcmtzIHVzaW5nIGEgYnJvYWRlciBwZXJpb2Qgb2YgdGltZS4NCiZuYnNwOw0KDQpTZWNvbmQsIGFsc28gdGhlIHN0cnVjdHVyZSBvZiBvdXIgY2hvc2VuIG5ldHdvcmsgY291bGQgaGF2ZSBpbmZsdWVuY2VkIHRoZSByZXN1bHRzIG9mIG91ciBzdHVkeS4gVGhlIGRlbnNpdGl0eSBvZiBib3RoIHRoZSBuZXR3b3JrcyB3YXMgcmVsYXRpdmVseSBsb3csIGVzcGVjaWFsbHkgdGhlIGRlbnNpdHkgb2YgbmV0d29yayBvZiBVdHJlY2h0IFVuaXZlcnNpdHkuIFRoaXMgbWlnaHQgaGF2ZSBza2V3ZWQgb3VyIHJlc3VsdHMsIGFzIG9ubHkgbGl0dGxlIGNvLWF1dGhvcnNoaXAgdGllcyB3ZXJlIG1hZGUgd2l0aGluIHRoZSBkZXBhcnRtZW50LiBUaGlzIGNvdWxkIGV4cGxhaW4gd2h5IHRoZSBjb250cm9sIHZhcmlhYmxlcyBpbiB0aGUgUlNpZW5hIGFuYWx5c2lzIHdlcmUgb2Ygbm9uLXNpZ25pZmljYW50IGluZmx1ZW5jZS4NCiZuYnNwOw0KDQpGdXJ0aGVybW9yZSwgb3VyIG5ldHdvcmsgaXMgdW5kaXJlY3RlZCBhcyBnb29nbGUgc2Nob2xhciBvbmx5IGNvbnRhaW5zIGluZm9ybWF0aW9uIG9uIGNvbGxhYm9yYXRpb25zIG9uIHBhcGVycywgYnV0IG5vdCB3aG8gaW5pdGlhdGVkIHRoaXMgcmVsYXRpb25zaGlwLiBJZiBmdXR1cmUgcmVzZWFyY2ggY291bGQgc3R1ZHkgdGhlIGZvcm1hdGlvbiBvZiBjby1hdXRob3JzaGlwIHRpZXMgd2l0aGluIGEgZGlyZWN0ZWQgbmV0d29yaywgdGhlbiBtb3JlIGNvdWxkIGJlIHNhaWQgYWJvdXQgdGhlIG1vdGl2YXRpb25zIG9mIHNjaG9sYXJzIHdobyBjby1wdWJsaXNoIHdpdGggZWFjaCBvdGhlcjogd2hvIGluaXRpYXRlZCB0aGUgcmVsYXRpb25zaGlwIGFuZCB3aHk/DQombmJzcDsNCg0KQW4gaW1wb3J0YW50IHBvaW50IG9mIHJlZmxlY3Rpb24gaXMgdGhlIGV0aGljYWwgaXNzdWVzIHRoYXQgYXJpc2VkIHdoaWxlIGNvbmR1Y3RpbmcgdGhpcyByZXNlYXJjaC4gRmlyc3QsIG5hbWVzIGFuZCBpbmZvcm1hdGlvbiBvZiB0aGUgc2Nob2xhcnMgd2VyZSB3ZWJzY3JhcGVkIGZyb20gdGhlIHVuaXZlcnNpdGllcycgd2Vic2l0ZXMgYW5kIGdvb2dsZSBzY2hvbGFyLCB3aXRob3V0IHBlcm1pc3Npb24uIER1cmluZyB0aGlzIHByb2Nlc3MsIHdlIG9mdGVuIGdvdCBhICJyYXRlIGxpbWl0IiBlcnJvciBmcm9tIGdvb2dsZSwgd2hpY2ggd2UgaGFkIHRvIGlnbm9yZSBieSBjaGFuZ2luZyBvdXIgY29kZS4gRnV0dXJlIHJlc2VhcmNoIGNvdWxkIHdlYnNjcmFwZSBtb3JlIGV0aG5pY2FsbHksIGJ5IGludHJvZHVjaW5nIHRoZW1zZWx2ZXMgcG9saXRlbHkgdG8gdGhlIHNlcnZlciBldmVyeSB0aW1lLiBIb3dldmVyLCBmb3Igb3VyIHNob3J0IHByb2plY3QgdGhpcyB3YXMgdG9vIHRpbWUtY29uc3VtaW5nLiBTZWNvbmQsIHRoZSBzY2hvbGFycyBuZXZlciBnYXZlIHBlcm1pc3Npb24gdG8gYmUgaW5jbHVkZWQgaW4gdGhlIHJlc2VhcmNoLiBIb3dldmVyLCB0aGV5IGRpZCB2b2x1bnRhcnkgcHV0IHRoZWlyIG5hbWVzIGFuZCBpbmZvcm1hdGlvbiBvcGVubHkgb24gZ29vZ2xlIHNjaG9sYXIgYW5kIHRoZSB1bml2ZXJzaXRpZXMnIHdlYnNpdGVzLiBMYXN0LCB3ZSBkaXZpZGVkIHRoZSBzY2hvbGFycyBpbiBncm91cHMgYmFzZWQgb24gdGhlaXIgZXRobmljaXR5LCB3aGljaCB3ZSBkZWNpZGVkIG91cnNlbHZlcyBiYXNlZCBvbiB0aGVpciBsYXN0IG5hbWUuIFRoaXMgaXMgb2YgY291cnNlIGEgc2Vuc2l0aXZlIHRvcGljOiBlc3BlY2lhbGx5IGJlY2F1c2Ugd2UgbWFkZSB0aGlzIHZlcnkgb3Zlci1zaW1wbGlmaWVkIGNhdGVnb3JpemF0aW9uIG9mIER1dGNoIGFuZCBub24tRHV0Y2guIFRoaXMgY291bGQgYmUgY29uc2lkZXJlZCBhcyBub24tZXRoaWNhbDogaXQgaXMgYmFzZWQgb24gYSB2ZXJ5IFdlc3Rlcm4gcGVyc3BlY3RpdmUsIHB1dHRpbmcgYWxsIG90aGVyIGV0aG5pY2l0aWVzIHRoYW4gIkR1dGNoIiB1bmRlciB0aGUgc2FtZSB1bWJyZWxsYS4gRnVydGhlcm1vcmUsIGhhdmluZyBhIG5vbi1EdXRjaCBsYXN0IG5hbWUgb3IgaGF2aW5nIGEgbm9uLUR1dGNoIGV0aG5pY2l0eSBkb2VzIG9mIGNvdXJzZSBub3QgbWVhbiB0aGF0IHRoaXMgcGVyc29uIGlzIG5vdCBEdXRjaC4gTWFraW5nIHRoaXMgZGlzdGluY3Rpb24gY2FuIGxlYWQgdG8gdGhlIGlkZWEgdGhhdCBEdXRjaCBwZW9wbGUgd2l0aCBhIG1pZ3JhdGlvbiBiYWNrZ3JvdW5kIGFyZSBub3QgcmVhbGx5IER1dGNoLCB3aGljaCBvZiBjb3Vyc2UgaXMgbm90IHRoZSBjYXNlLg0KDQoNCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Conclusion_discussion.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

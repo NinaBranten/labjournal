@@ -1,0 +1,75 @@
+---
+title: "Data & Methods"
+author: "by: Nina Branten"
+bibliography: references.bib
+---
+
+
+
+```{r, install remotely, globalsettings, echo=FALSE, warning=FALSE, results='hide', eval=FALSE}
+install.packages("remotes")
+remotes::install_github("rlesur/klippy")
+``` 
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+library(rgl)
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+---
+
+# Conclusion
+&nbsp;
+
+People from ethnic minority groups are still strongly underrepresented within the academic world (Hofstra et al., 2022). However, only little research is done on how ethnicity precisely plays a role in the formation of co-authorship networks within science (Horta, Feng & Santos, 2022). Most studies on co-authorship networks are very large scaled, neglecting the micro-level characteristics that could be of influence (Pepe & Rodriguez, 2009) and do not study the social sciences (Horta, Feng & Santos, 2022).This study is the first to examine in detail the formation of co-authorship ties within a department, looking at the influence of the percentage of non-Dutch co-authors in one's collaboration network. The analysis was performed on the sociology department of Radboud University and the sociology department of Utrecht University.
+&nbsp;
+
+First, the study aimed to compare the sociology departments in their share of non-Dutch staff members and their percentage of non-Dutch co-authors within the staff members collaboration networks. Ethnicity was operationalized as Dutch or non-Dutch, based on the last name of the scholar. As expected, Utrecht University was more ethnically diverse than Radboud University: the department contained both more staff members with a non-Dutch last name and had a higher percentage of non-Dutch co-authors in the collaborator networks of the staff members. This might be explained by the fact that Utrecht is a bigger city and has a higher percentage of inhabitants with a migration background.
+&nbsp;
+
+Second, the paper tried to explain the percentage of non-Dutch co-authors present within one's collaboration network by performing regression analyses. We were interested in several demographic characteristics: ethnicity, age and gender. The influence of the characteristics differed between the two universities. For Radboud University only the academical age of a staff member was of significant influence: the younger the scholar, the higher the percentage of non-Dutch co-authors within their collaboration network. For Utrecht University, only the ethnicity of the ego had a significant effect: non-Dutch staff members were more likely to have a higher percentage of non-Dutch co-authors in their collaboration network.
+&nbsp;
+
+Third, with the use of RSiena we could estimate the influence of the percentage of non-Dutch co-authors within one's collaboration network on the formation of ties within the departments, while controlling for both structural effects as other relevant factors. The structural effects seem to have more influence in the sociology department of the Radboud University than in the department of Utrecht University. Sociologists at the RU significantly preferred to co-publish with a co-author of a co-author. 
+&nbsp;
+
+Furthermore, the control variables did not have a big influence on the attractiveness of the formation of a co-authorship tie. For RU, scholars preferred to co-publish with someone who was of younger age. For UU, none of the control variables had a significant effect. Apparently, these individual level characteristics were not important in the scholars decision with whom to co-publish. However, these findings should be treated with caution as the density within both departments was very low, especially for UU.
+&nbsp;
+
+Most importantly, we saw that the percentage of non-Dutch co-authors was indeed of influence in scholars' choice to co-publish or not. Generally, the RSiena results indicate that sociologists prefer to co-publish with someone who has a similar percentage of non-Dutch co-authors in their network. However, this effect became slightly insignificant for UU when all the variables were added in the last model.
+However, generally our findings are in line with our expectations based on the homophily principle: people are more likely to associate with people who are similar to them (Lazersfeld & Merton, 1954; McPherson, Smith-Lovin & Cook, 2001). For instance, people with similar shares of non-Dutch collaborators might have certain attitudes or values in common that could lead them to co-publish together.
+&nbsp;
+
+# Limitations and future research
+&nbsp;
+Whilst this paper adds to the scientific literature because it is the first to study this research question, some limitations have to be mentioned. First, several remarks can be made about the operationalization of our variables. Ethnicity is operationalized by looking at the last name of the scholar. Whilst I tried to do this very precisely, this method is sensitive to mistakes as not all last names give away someones ethnical background. Therefore, it could be possible that some of the scholars were classified in the wrong group. Furthermore, dividing ethnicity into Dutch/non-Dutch is over-simplified and possibly problematic. Studies show that people with a non-Western migration background are victim of discrimination much more often than people with a western migration background (SCP, 2020). In this study, scholars from German origin were for instance also labeled as non-Dutch, whilst they might not have experienced any adverse consequences of their ethnicity. This might have influenced our findings, resulting in a stronger effect of the percentage of non-Dutch collaboration within one's network than is actually present. Therefore I highly encourage future research to examine if our results are still true using a more reliable and precise method of deciding one's ethnicity.
+&nbsp;
+
+Furthermore, because of a lack of time we solely looked at ego's collaborators since 2019 in deciding the percentage of non-Dutch collaborators in one's network. In contrast, the RSiena analysis is focused on collaboration ties in the period 2016-2022. Therefore, we implicitly assume that the percentage of non-Dutch collaborators within one's network is relatively stable over time. However, as someone will probably change their co-author ship ties during their academical career, this assumption might be false. Therefore, future research should decide the level of ethnic diversity of collaborator networks using a broader period of time.
+&nbsp;
+
+Second, also the structure of our chosen network could have influenced the results of our study. The densitity of both the networks was relatively low, especially the density of network of Utrecht University. This might have skewed our results, as only little co-authorship ties were made within the department. This could explain why the control variables in the RSiena analysis were of non-significant influence.
+&nbsp;
+
+Furthermore, our network is undirected as google scholar only contains information on collaborations on papers, but not who initiated this relationship. If future research could study the formation of co-authorship ties within a directed network, then more could be said about the motivations of scholars who co-publish with each other: who initiated the relationship and why?
+&nbsp;
+
+An important point of reflection is the ethical issues that arised while conducting this research. First, names and information of the scholars were webscraped from the universities' websites and google scholar, without permission. During this process, we often got a "rate limit" error from google, which we had to ignore by changing our code. Future research could webscrape more ethnically, by introducing themselves politely to the server every time. However, for our short project this was too time-consuming. Second, the scholars never gave permission to be included in the research. However, they did voluntary put their names and information openly on google scholar and the universities' websites. Last, we divided the scholars in groups based on their ethnicity, which we decided ourselves based on their last name. This is of course a sensitive topic: especially because we made this very over-simplified categorization of Dutch and non-Dutch. This could be considered as non-ethical: it is based on a very Western perspective, putting all other ethnicities than "Dutch" under the same umbrella. Furthermore, having a non-Dutch last name or having a non-Dutch ethnicity does of course not mean that this person is not Dutch. Making this distinction can lead to the idea that Dutch people with a migration background are not really Dutch, which of course is not the case.
+
+
