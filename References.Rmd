@@ -7,7 +7,7 @@ Alwin, D. F., & Scott, J. (1996). Attitude change: its measurement and interpret
 Barabási, A. L, H Jeong, Z Néda, E Ravasz, A Schubert, and T Vicsek. 2002. “Evolution of the Social Network of Scientific Collaborations.” Physica A: Statistical Mechanics and Its Applications 311 (3): 590–614. https://doi.org/10.1016/S0378-4371(02)00736-7.
 &nbsp;
 
-Beasley, Maya A., and Mary J. Fischer. 2012. “Why They Leave: The Impact of Stereotype Threat on the Attrition of Women and Minorities From Science, Math and Engineering Majors.” Social Psychology of Education 15(4):427–48.
+Beasley, M. A. & Fischer, M. J. (2012). “Why They Leave: The Impact of Stereotype Threat on the Attrition of Women and Minorities From Science, Math and Engineering Majors.” Social Psychology of Education, 15(4), 427–48.
 &nbsp;
 
 Bertolero, M. A., Dworkin, J. D., David, S. U., Lloreda, C. L., Srivastava, P., Stiso, J. … Basseltt, D. S. (2020). Racial and ethnic imbalance in neuroscience reference lists and intersections with gender.
@@ -23,6 +23,12 @@ Dunn, K. M. (2003). Racism in Australia: finding of a survey on racist attitudes
 Ford, R. (2008). Is racial prejudice declining in Britain? The British Journal of Sociology, 59(4), 609-636. https://doi.org/10.1111/j.1468-4446.2008.00212.x
 &nbsp;
 
+Ford, R. (2008). Is racial prejudice declining in Britain? The British Journal of Sociology, 59(4), 609-636. https://doi.org/10.1111/j.1468-4446.2008.00212.x
+&nbsp;
+
+Freeman, R. B. & Huang, W. (2015). Collaborating with people like me: ethnic coathorship within the United States. Journal of Labor Economics, 33(1), 289-318.  https://www.jstor.org/stable/10.1086/678973
+&nbsp;
+
 Ginther, D. K., Basner, J., Jensen, U., Schnell, J., Kington, R. & Schaffer, W. T. (2018). Publications as predictors of racial and ethnic differences in NIH research awards. PLoS One, 13(11), e0205929.
 &nbsp;
 
@@ -32,7 +38,16 @@ Glenn, N. (1977). Cohort analysis. London: Sage.
 Gonsalkorale, K., Sherman, J. W. & Klauer, C. (2009). Aging and prejudice: diminished regulation of automatic race bias among older adults. Journal of Experimental Social Psychology, 45(2), 410-414. https://doi.org/10.1016/j.jesp.2008.11.004
 &nbsp;
 
+Hofstra, B., McFarland, D. A., Smith, S. & Jurgens, D. (2022). Diversifying the professoriate. Socius Sociological Research for a Dynamic Worlds, 8, 1-26. https://doi.org/10.1177/23780231221085118
+&nbsp;
+
+Hofstra, B., Kulkami, V. V., Galvez, S. M., He, B., Jurafsky, D. & McFarland, D. A. (2020). The diversity-innovation paradox in science. PNAS, 117(17), 9284-9291. www.pnas.org/cgi/doi/10.1073/pnas.1915378117 
+&nbsp;
+
 Horta, H. Feng, S. & Santos, J. M. (2022). Homophily in higher education research: a perspective based on co-authorships. Scientometrics, 127, 523-543.https://doi.org/10.1007/s11192-021-04227-z
+&nbsp;
+
+Kumar, S. & Ratnavelu, K. (2016). Perceptions of scholars in the field of economic on co-authorship associations: evidence from an international survey. PloS ONE, 11(6), 1-18. doi:10.1371/journal.pone.0157633.
 &nbsp;
 
 Lazarsfeld, P. F., & Merton, R. K. (1954). Friendship as a social process: A substantive and methodological analysis. In M. Berger, T. Abel, & C. H. Page (Eds.), Freedom and Control in Modern Society (pp. 18–66). Van Nostrand.
@@ -56,6 +71,9 @@ Ministry of Education, Culture and Science (2020). Nationaal actieplan voor meer
 Moss-Racusin, C. A., Toorn, J. van der., Dovidio, J. F., Brescoll, V. L., Graham, M. J. & Handelsman, J. (2014). Scientific Diversity Interventions. Social Science, 343, 615-616. DOI: 10.1126/science.1245936
 &nbsp;
 
+Nagtegaal, L. W. & Bruin, R. E. de. (1994). The French connection and other neo-colonial patterns in the global network of science. Research Evaluation, 4(2), 119-127. DOI: 10.1093/rev/4.2.119
+&nbsp;
+
 NCES (National Center for Education Statistics). 1995. “1995 Tables and Figures: Table 218.” Retrieved September 10, 2021. https://nces.ed.gov/programs/digest/d95/dtab218.asp. 
 &nbsp;
 
@@ -77,10 +95,16 @@ Pepe, A. & Rodriguez, M. A. (2010). Collaboration in sensor network research: an
 Pettigrew, T. F. (1998). Intergroup contact theory. Annual Review Psychology, 49, 65-85. 
 &nbsp;
 
+Ripley, R. M., Snijders, T. A. B., Boda, Z., Vörös, A. & Preciado, P. (2022). Manual for RSiena. Oxford: University of Oxford.
+&nbsp;
+
 Sociaal Cultureel Planbureau (2020) Ruim een kwart van de Nederlanders ervaart nog steeds discriminatie. Retrieved from https://www.scp.nl/actueel/nieuws/2020/03/26/ruim-een-kwart-van-de-inwoners-van-nederland-ervaart-nog-altijd-discriminatie
 &nbsp;
 
 Velez-Estevez, A., García-Sánchez, P., Moral-Munoz, J. A. & Cobo, M. J. (2022). Why do papers from international collaborations get more citations? A bibliometric analysis of library and information science papers. Scientometrics. https://doi.org/10.1007/s11192-022-04486-4
+&nbsp;
+
+Wang, Z. & Zhu, J. J. H. (2014). Homophily versus preferential attachment: evolutionairy mechanisms of scientific collaboration networks. International Journal of Modern Physics, 25(5). DOI: 10.1142/S0129183114400142
 &nbsp;
 
 White, T. (2016). De strijd voor gelijkheid – academische discriminatie. Retrieved from https://ukrant.nl/magazine/academische-discriminatie/
